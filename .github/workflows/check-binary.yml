@@ -1,4 +1,4 @@
-name: Coding-Style-Checker
+name: Check binary
 on:
   workflow_call:
     inputs:
