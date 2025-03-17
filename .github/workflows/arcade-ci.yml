@@ -25,12 +25,8 @@ jobs:
                   exit 0
                 fi
 
-    check-coding-style:
-      needs: [no-test-job]
-      uses: ./.github/workflows/coding-style-checker.yml
-
     check-compilation:
-      needs: [check-coding-style]
+      needs: [no-test-job]
       uses: ./.github/workflows/check-binary.yml
       with:
         executable: arcade

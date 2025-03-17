@@ -21,7 +21,7 @@ jobs:
                   cmake --build .build/.
           - name: Check binary presence
             run: |
-                if [ ! -f ./build/${{ inputs.executable }} ]; then
+                if [ ! -f ./.build/${{ inputs.executable }} ]; then
                     echo "::error title=Binary
                     ERROR::Binary not found"
                     exit 1
