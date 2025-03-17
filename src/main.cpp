@@ -5,7 +5,12 @@
 // main
 //
 
-int main()
+#include "arcade.hpp"
+#include "utils.hpp"
+
+int main(int argc, char **argv)
 {
-    return 0;
+    if (argc != 2 || argv == nullptr || argv[1] == nullptr)
+        return EPITECH_FAILURE;
+    return executeArcade(argv[1]);
 }

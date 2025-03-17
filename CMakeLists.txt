@@ -4,6 +4,7 @@ project(arcade CXX)
 
 set(SOURCE_FILES
     src/main.cpp
+    src/arcade.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
