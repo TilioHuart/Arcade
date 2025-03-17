@@ -1,0 +1,29 @@
+name: Coding-Style-Checker
+on:
+  workflow_call:
+    inputs:
+      executable:
+        required: True
+        type: string
+
+jobs:
+    check-compilation:
+        runs-on: ubuntu-latest
+        steps:
+          - name: Checkout Branch
+            uses: actions/checkout@main
+          - name: Compile Repo
+            run:  |
+                  mkdir .build
+                  cd .build
+                  cmake ..
+                  cd ..
+                  cmake --build .build/.
+          - name: Check binary presence
+            run: |
+                if [ ! -f ./build/${{ inputs.executable }} ]; then
+                    echo "::error title=Binary
+                    ERROR::Binary not found"
+                    exit 1
+                fi
+                exit 0

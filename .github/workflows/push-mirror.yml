@@ -1,0 +1,25 @@
+name: Coding-Style-Checker
+on:
+  workflow_call:
+    inputs:
+      MIRROR_URL:
+        required: true
+        type: string
+    secrets:
+      token:
+        required: true
+
+jobs:
+    push-mirror:
+        runs-on: ubuntu-latest
+        if: github.event_name == 'push'
+        steps:
+            - name: Checkout branch
+              uses: actions/checkout@master
+              with:
+                  fetch-depth: 0
+            - name: Mirror
+              uses: pixta-dev/repository-mirroring-action@v1
+              with:
+                  target_repo_url: ${{ inputs.MIRROR_URL }}
+                  ssh_private_key: ${{ secrets.GIT_SSH_PRIVATE_KEY }}

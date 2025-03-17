@@ -24,59 +24,21 @@ jobs:
                 else
                   exit 0
                 fi
+
     check-coding-style:
-        runs-on: ubuntu-latest
-        needs: [no-test-job]
-        container:
-            image: ghcr.io/epitech/coding-style-checker:latest
-        steps:
-            - name: Checkout GH Repo
-              uses: actions/checkout@master
-            - name: Run coding-style checker
-              run:  check.sh $(pwd) $(pwd)
-            - name: Report Banana result
-              run: |
-                NB_ERRORS=$(cat coding-style-reports.log | wc -l)
-                if [ $NB_ERRORS -ge 1 ]; then
-                  while IFS= read -r line
-                    do
-                      FILE=$(echo $line | cut -d ':' -f1)
-                      FILE=$(realpath --relative-to=$(pwd) $FILE)
-                      LINE=$(echo $line | cut -d ':' -f2)
-                      ERROR=$(echo $line | cut -d ':' -f3-)
-                      ERROR=$(echo $ERROR | cut -d ':' -f1)
-                      CODE=$(echo $line | cut -d ':' -f4-)
-                    echo "::error file=$FILE,line=$LINE,title=$ERROR coding style errors found::$CODE"
-                  done < coding-style-reports.log
-                    exit 1
-                fi
-                  exit 0
+      needs: [no-test-job]
+      uses: ./.github/workflows/coding-style-checker.yml
+
     check-compilation:
-        runs-on: ubuntu-latest
-        needs: [check-coding-style]
-        steps:
-          - name: Checkout Branch
-            uses: actions/checkout@master
-          - name: Compile Repo
-            run:  make
-          - name: Check binary presence
-            run: |
-                if [ ! -f ./${{ env.EXECUTABLES }} ]; then
-                    echo "::error title=Binary
-                    ERROR::Binary not found"
-                    exit 1
-                fi
-                exit 0
+      needs: [check-coding-style]
+      uses: ./.github/workflows/check-binary.yml
+      with:
+        executable: arcade
+
     push-mirror:
-        runs-on: ubuntu-latest
-        if: github.event_name == 'push'
-        steps:
-            - name: Checkout branch
-              uses: actions/checkout@master
-              with:
-                  fetch-depth: 0
-            - name: Mirror
-              uses: pixta-dev/repository-mirroring-action@v1
-              with:
-                  target_repo_url: ${{ env.MIRROR_URL }}
-                  ssh_private_key: ${{ secrets.GIT_SSH_PRIVATE_KEY }}
+      needs: [check-compilation]
+      uses: ./.github/workflows/push-mirror.yml
+      with:
+        MIRROR_URL: git@github.com:EpitechPromo2028/B-OOP-400-BDX-4-1-arcade-lucas.ludovic.git
+      secrets:
+        token: ${{ secrets.GIT_SSH_PRIVATE_KEY }}
