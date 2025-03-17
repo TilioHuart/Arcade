@@ -37,4 +37,4 @@ jobs:
       with:
         MIRROR_URL: git@github.com:EpitechPromo2028/B-OOP-400-BDX-4-1-arcade-lucas.ludovic.git
       secrets:
-        token: ${{ secrets.GIT_SSH_PRIVATE_KEY }}
+        GIT_SSH_PRIVATE_KEY: ${{ secrets.GIT_SSH_PRIVATE_KEY }}
