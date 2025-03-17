@@ -30,6 +30,7 @@ jobs:
         executable: arcade
 
     push-mirror:
+      if: github.ref == 'refs/heads/main'
       needs: [check-compilation]
       uses: ./.github/workflows/push-mirror.yml
       with:
