@@ -7,6 +7,7 @@
 
 #include "arcade.hpp"
 #include "utils.hpp"
+#include "IModule.hpp"
 
 int executeArcade(const char *lib_path)
 {
