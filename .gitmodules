@@ -1,0 +1,3 @@
+[submodule "modules/anal"]
+	path = modules/anal
+	url = git@github.com:dawpitech/anal.git
