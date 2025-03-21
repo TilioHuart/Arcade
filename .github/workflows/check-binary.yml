@@ -5,6 +5,9 @@ on:
       executable:
         required: True
         type: string
+    secrets:
+      GIT_SSH_PRIVATE_KEY:
+        required: true
 
 jobs:
     check-compilation:
@@ -12,6 +15,15 @@ jobs:
         steps:
           - name: Checkout Branch
             uses: actions/checkout@main
+          - name: Set up SSH key
+            run:  |
+                  mkdir -p ~/.ssh
+                  echo "${{ secrets.GIT_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+                  chmod 600 ~/.ssh/id_rsa
+                  ssh-keyscan github.com >> ~/.ssh/known_hosts
+          - name: Update submodules
+            run: |
+                  git submodule update --init --recursive
           - name: Compile Repo
             run:  |
                   mkdir .build
