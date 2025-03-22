@@ -13,9 +13,9 @@
 namespace game {
     class AGame : public ANAL::IGame {
        public:
-        virtual void processEvents(const std::vector<ANAL::Event> &) = 0;
-        virtual void compute() = 0;
-        virtual void render() override;
+        void processEvents(const std::vector<ANAL::Event> &) override = 0;
+        void compute() override = 0;
+        void render() override = 0;
        protected:
     };
 
