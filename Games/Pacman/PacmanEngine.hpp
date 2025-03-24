@@ -7,14 +7,16 @@
 
 #pragma once
 
-#include "src/Games/AGame.hpp"
+#include "AGame.hpp"
+#include "IRenderer.hpp"
 
 namespace game {
     class PacmanEngine : public game::AGame {
        public:
-        void processEvents(const std::vector<ANAL::Event> &) override;
+        PacmanEngine();
+        void processEvents(const std::vector<ANAL::Event> &event) override;
         void compute() override;
-        void render() override;
+        void render(ANAL::IRenderer& renderer) override;
 
        private:
     };
