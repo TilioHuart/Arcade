@@ -11,29 +11,24 @@
 #include "IGame.hpp"
 #include "IRenderer.hpp"
 #include "ISprite.hpp"
-#include <list>
 #include <memory>
+#include <vector>
 
 namespace game {
     class AGame : public ANAL::IGame {
        public:
         void processEvents(const std::vector<ANAL::Event> &event) override = 0;
         void compute() override = 0;
-        void render(ANAL::IRenderer& renderer) override = 0;
+        void render(ANAL::IRenderer &renderer) override = 0;
 
        protected:
-        void setSprite(ANAL::ISprite &sprite)
-        {
-            this->_sprites.push_back(std::make_shared<ANAL::ISprite>(sprite));
-        }
+        virtual void setSprite(ANAL::ISprite &sprite);
 
-        std::list<std::shared_ptr<ANAL::ISprite>> getSprite() const
-        {
-            return this->_sprites;
-        }
+        [[nodiscard]] std::vector<std::shared_ptr<ANAL::ISprite>>
+        getSprite() const;
 
        private:
-        std::list<std::shared_ptr<ANAL::ISprite>> _sprites;
+        std::vector<std::shared_ptr<ANAL::ISprite>> _sprites;
     };
 
 }  // namespace game

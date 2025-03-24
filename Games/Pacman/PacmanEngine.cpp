@@ -17,3 +17,8 @@ void game::PacmanEngine::render(ANAL::IRenderer& renderer)
 {
 
 }
+
+void game::PacmanEngine::compute()
+{
+
+}

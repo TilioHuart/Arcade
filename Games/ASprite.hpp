@@ -28,7 +28,7 @@ namespace sprite {
 
        private:
         ANAL::Vector2<int> _pos;
-        std::shared_ptr<ANAL::IAsset> _asset;
+        std::shared_ptr<ANAL::IAsset> _asset = nullptr;
     };
 
 }  // namespace sprite
