@@ -14,7 +14,7 @@
 #include <memory>
 #include <vector>
 
-namespace game {
+namespace ANAL {
     class AGame : public ANAL::IGame {
        public:
         void processEvents(const std::vector<ANAL::Event> &event) override = 0;
@@ -31,4 +31,4 @@ namespace game {
         std::vector<std::shared_ptr<ANAL::ISprite>> _sprites;
     };
 
-}  // namespace game
+}  // namespace ANAL
