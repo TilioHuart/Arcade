@@ -8,6 +8,8 @@ on:
     secrets:
       GIT_SSH_PRIVATE_KEY:
         required: true
+      MIRROR_REPO:
+        required: true
 
 jobs:
     push-mirror:
@@ -18,8 +20,28 @@ jobs:
               uses: actions/checkout@master
               with:
                   fetch-depth: 0
-            - name: Mirror
-              uses: pixta-dev/repository-mirroring-action@v1
-              with:
-                  target_repo_url: ${{ inputs.MIRROR_URL }}
-                  ssh_private_key: ${{ secrets.GIT_SSH_PRIVATE_KEY }}
+            - name: Set up SSH key
+              run:  |
+                  mkdir -p ~/.ssh
+                  echo "${{ secrets.GIT_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+                  chmod 600 ~/.ssh/id_rsa
+                  ssh-keyscan github.com >> ~/.ssh/known_hosts
+            - name: Configure Git
+              run: |
+                git config --global user.name "github-actions[bot]"
+                git config --global user.email "github-actions[bot]@users.noreply.github.com"
+            - name: Remove submodules
+              run: |
+                rm .gitmodules
+                rm lib/ANAL/.gitmodules
+                rm -rf modules/ANAL/.git*
+                rm -rf modules/ANAL/doxygen-awesome-css/.git*
+            - name: Push Mirror
+              run: |
+                git rm --cached lib/ANAL/
+                git add .
+                git rm --cached -r lib/ANAL/doxygen-awesome-css/
+                git add .
+                git commit -m "chore: Resolve submodules"
+                git remote add epitech "${{ secrets.MIRROR_REPO }}"
+                git push --force epitech
