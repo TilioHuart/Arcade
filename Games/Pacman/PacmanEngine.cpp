@@ -8,17 +8,17 @@
 #include "PacmanEngine.hpp"
 #include "IRenderer.hpp"
 
-void game::PacmanEngine::processEvents(const std::vector<ANAL::Event> &event)
+void ANAL::PacmanEngine::processEvents(std::vector<Event> &Event)
 {
 
 }
 
-void game::PacmanEngine::render(ANAL::IRenderer& renderer)
+void ANAL::PacmanEngine::render(ANAL::IRenderer &renderer, ANAL::IArcade &arcade)
 {
 
 }
 
-void game::PacmanEngine::compute()
+void ANAL::PacmanEngine::compute()
 {
 
 }

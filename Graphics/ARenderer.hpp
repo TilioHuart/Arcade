@@ -14,7 +14,7 @@
 namespace Graphics {
     class ARenderer : public ANAL::IRenderer {
        public:
-            void drawSprite(const ANAL::ISprite& sprite) override;
+            void drawEntity(const ANAL::IEntity &entity) override;
 
             void drawText(const std::string& str, ANAL::Vector2<int> pos) override;
 

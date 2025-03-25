@@ -14,9 +14,9 @@ namespace ANAL {
     class PacmanEngine : public ANAL::AGame {
        public:
         PacmanEngine();
-        void processEvents(const std::vector<ANAL::Event> &event) override;
+        void processEvents(std::vector<Event> &Event) override;
         void compute() override;
-        void render(ANAL::IRenderer& renderer) override;
+        void render(ANAL::IRenderer &renderer, ANAL::IArcade &arcade) override;
 
        private:
     };

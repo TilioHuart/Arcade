@@ -8,6 +8,7 @@
 #pragma once
 
 #include "Events.hpp"
+#include "IArcade.hpp"
 #include "IGame.hpp"
 #include "IRenderer.hpp"
 #include "ISprite.hpp"
@@ -17,18 +18,9 @@
 namespace ANAL {
     class AGame : public ANAL::IGame {
        public:
-        void processEvents(const std::vector<ANAL::Event> &event) override = 0;
-        void compute() override = 0;
-        void render(ANAL::IRenderer &renderer) override = 0;
-
-       protected:
-        virtual void setSprite(ANAL::ISprite &sprite);
-
-        [[nodiscard]] std::vector<std::shared_ptr<ANAL::ISprite>>
-        getSprite() const;
-
-       private:
-        std::vector<std::shared_ptr<ANAL::ISprite>> _sprites;
+        void processEvents(std::vector<Event>& Event) override;
+        void compute() override;
+        void render(ANAL::IRenderer &renderer, ANAL::IArcade& arcade) override;
     };
 
 }  // namespace ANAL
