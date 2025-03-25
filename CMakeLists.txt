@@ -1,18 +1,12 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(arcade CXX)
+project(Arcade CXX)
 
-set(SOURCE_FILES
-    src/main.cpp
-    src/arcade.cpp
-    Games/
-    Graphics/
-)
+# Games
+add_subdirectory(Games/Pacman)
 
-add_executable(${PROJECT_NAME} ${SOURCE_FILES})
+# Displays
+add_subdirectory(Graphics/Ncurses)
 
-target_include_directories(${PROJECT_NAME} PRIVATE modules/anal/include/ANAL)
-
-target_include_directories(${PROJECT_NAME} PRIVATE Games)
-
-target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+# Core
+add_subdirectory(Arcade/)
