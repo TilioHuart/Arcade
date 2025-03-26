@@ -8,24 +8,30 @@
 #pragma once
 
 #include "IRenderer.hpp"
-#include "ISprite.hpp"
+#include "IEntity.hpp"
 #include "Vector2.hpp"
+#include <GLFW/glfw3.h>
+#include <memory>
+#include <vector>
 
-namespace Graphics {
+namespace ANAL {
     class ARenderer : public ANAL::IRenderer {
        public:
-            void drawEntity(const ANAL::IEntity &entity) override;
+        void drawEntity(const ANAL::IEntity &entity) override;
 
-            void drawText(const std::string& str, ANAL::Vector2<int> pos) override;
+        void drawText(const std::string &str, ANAL::Vector2<int> pos) override;
 
-            void setWindowTitle(const std::string& windowTitle) override;
+        void setWindowTitle(const std::string &windowTitle) override;
 
-            void render() override;
+        void render() override;
 
-            std::vector<ANAL::Event>& getEvents() override;
+        std::vector<ANAL::Event> &getEvents() override;
 
-            void clear() override;
-       private:
+        void clear() override;
+
        protected:
+        int _windowWidth = 900;
+        int _windowHeight = 600;
+        std::string _windowTitle = "PlaceHolder";
     };
-}  // namespace Graphics
+}  // namespace ANAL
