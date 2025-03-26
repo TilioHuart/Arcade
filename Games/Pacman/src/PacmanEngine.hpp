@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include "Games/AGame.hpp"
+#include "AGame.hpp"
 #include "IRenderer.hpp"
 
 namespace ANAL {

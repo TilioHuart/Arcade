@@ -12,7 +12,6 @@
 #include "IGame.hpp"
 #include "IRenderer.hpp"
 #include "ISprite.hpp"
-#include <memory>
 #include <vector>
 
 namespace ANAL {
