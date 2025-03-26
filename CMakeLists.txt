@@ -11,6 +11,7 @@ add_subdirectory(Games/Minesweeper)
 # Displays
 add_subdirectory(Graphics/Ncurses)
 add_subdirectory(Graphics/OpenGl)
+add_subdirectory(Graphics/SDL)
 
 # Core
 add_subdirectory(Arcade/)
