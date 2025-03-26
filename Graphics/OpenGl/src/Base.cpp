@@ -6,7 +6,6 @@
 //
 
 #include "GL/glew.h"
-#include "GLFW/glfw3.h"
 #include "OpenGl.hpp"
 #include <iostream>
 
@@ -29,7 +28,6 @@ ANAL::OpenGlRenderer::OpenGlRenderer()
     }
     glfwMakeContextCurrent(this->_window);
 
-    /*glewExperimental = GL_TRUE;*/
 }
 
 ANAL::OpenGlRenderer::~OpenGlRenderer()

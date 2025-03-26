@@ -10,12 +10,10 @@
 #include "IEntity.hpp"
 #include "Asset.hpp"
 #include "Vector2.hpp"
-#include <memory>
 
 namespace ANAL {
     class Entity : public ANAL::IEntity {
        public:
-        Entity() = default;
         virtual ~Entity() = default;
 
         virtual void setPos(Vector2<int> positions)

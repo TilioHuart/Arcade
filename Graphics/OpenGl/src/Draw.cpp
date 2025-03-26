@@ -8,7 +8,6 @@
 #include "IEntity.hpp"
 #include "OpenGl.hpp"
 #include <GL/gl.h>
-#include <GLFW/glfw3.h>
 #include <memory>
 
 void ANAL::OpenGlRenderer::drawEntity(const ANAL::IEntity &entity)
