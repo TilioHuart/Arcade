@@ -11,27 +11,27 @@
 #include "IEntity.hpp"
 #include "Vector2.hpp"
 #include <GLFW/glfw3.h>
-#include <memory>
 #include <vector>
 
 namespace ANAL {
     class ARenderer : public ANAL::IRenderer {
        public:
-        void drawEntity(const ANAL::IEntity &entity) override;
+        ~ARenderer() override = default;
+        void drawEntity(const ANAL::IEntity &entity) override = 0;
 
-        void drawText(const std::string &str, ANAL::Vector2<int> pos) override;
+        void drawText(const std::string &str, ANAL::Vector2<int> pos) override = 0;
 
-        void setWindowTitle(const std::string &windowTitle) override;
+        void setWindowTitle(const std::string &windowTitle) override = 0;
 
-        void render() override;
+        void render() override = 0;
 
-        std::vector<ANAL::Event> &getEvents() override;
+        std::vector<ANAL::Event> &getEvents() override = 0;
 
-        void clear() override;
+        void clear() override = 0;
 
        protected:
         int _windowWidth = 900;
-        int _windowHeight = 600;
+        int _windowHeight = 900;
         std::string _windowTitle = "PlaceHolder";
     };
 }  // namespace ANAL
