@@ -8,10 +8,12 @@
 #pragma once
 
 #include "ARenderer.hpp"
+#include "Entity.hpp"
 #include "Events.hpp"
 #include "IEntity.hpp"
 #include "ISprite.hpp"
 #include "Vector2.hpp"
+#include <memory>
 #include <queue>
 #include <vector>
 
@@ -35,8 +37,9 @@ namespace ANAL {
         void clear() override;
 
        private:
-        GLFWwindow* _window = nullptr;
-        std::queue<IEntity> _entities;
+        GLFWwindow *_window = nullptr;
+        std::vector<Event> _events;
+        std::queue<std::shared_ptr<Entity>> _entities;
         void _displayWindow();
     };
 }  // namespace ANAL

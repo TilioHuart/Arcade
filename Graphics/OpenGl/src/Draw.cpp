@@ -9,10 +9,21 @@
 #include "OpenGl.hpp"
 #include <GL/gl.h>
 #include <GLFW/glfw3.h>
+#include <memory>
 
 void ANAL::OpenGlRenderer::drawEntity(const ANAL::IEntity &entity)
 {
-    this->_entities.push(entity);
+}
+
+void ANAL::OpenGlRenderer::drawText(
+    const std::string &text, Vector2<int> position)
+{}
+
+void ANAL::OpenGlRenderer::setWindowTitle(const std::string &title) {}
+
+std::vector<ANAL::Event> &ANAL::OpenGlRenderer::getEvents() 
+{
+    return this->_events;
 }
 
 void ANAL::OpenGlRenderer::clear()
