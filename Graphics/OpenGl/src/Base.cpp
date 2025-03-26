@@ -5,7 +5,6 @@
 // OpenGl base functions
 //
 
-#include "GL/glew.h"
 #include "OpenGl.hpp"
 #include <iostream>
 
