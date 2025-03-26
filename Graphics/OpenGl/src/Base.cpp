@@ -5,6 +5,7 @@
 // OpenGl base functions
 //
 
+#include <GLFW/glfw3.h>
 #include "OpenGl.hpp"
 #include <iostream>
 
