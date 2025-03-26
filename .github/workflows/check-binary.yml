@@ -24,6 +24,15 @@ jobs:
           - name: Update submodules
             run: |
                   git submodule update --init --recursive
+          - name: Install dependencies (SDL2, OpenGL)
+            run: |
+              sudo apt-get update
+              sudo apt-get install -y \
+                libsdl2-dev \
+                libglew-dev \
+                libgl1-mesa-dev \
+                libglu1-mesa-dev  \
+                libglfw3-dev
           - name: Compile Repo
             run:  |
                   mkdir .build
