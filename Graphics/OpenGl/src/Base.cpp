@@ -18,13 +18,23 @@ ANAL::OpenGlRenderer::OpenGlRenderer()
 
     if (glfwInit() == GLFW_FALSE) {
         std::cerr << "Error while initializing opengl window" << std::endl;
+        return;
     }
 
     this->_window = glfwCreateWindow(this->_windowWidth, this->_windowHeight,
         this->_windowTitle.c_str(), nullptr, nullptr);
-    if (!this->_window) {
+    if (this->_window == nullptr) {
         std::cerr << "Error while creating window" << std::endl;
+        return;
     }
+    glfwMakeContextCurrent(this->_window);
+
+    /*glewExperimental = GL_TRUE;*/
 }
 
-ANAL::OpenGlRenderer::~OpenGlRenderer() {}
+ANAL::OpenGlRenderer::~OpenGlRenderer()
+{
+    if (this->_window != nullptr)
+        glfwDestroyWindow(this->_window);
+    glfwTerminate();
+}

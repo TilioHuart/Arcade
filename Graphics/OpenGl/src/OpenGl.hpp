@@ -9,8 +9,10 @@
 
 #include "ARenderer.hpp"
 #include "Events.hpp"
+#include "IEntity.hpp"
 #include "ISprite.hpp"
 #include "Vector2.hpp"
+#include <queue>
 #include <vector>
 
 namespace ANAL {
@@ -33,6 +35,8 @@ namespace ANAL {
         void clear() override;
 
        private:
-        GLFWwindow* _window;
+        GLFWwindow* _window = nullptr;
+        std::queue<IEntity> _entities;
+        void _displayWindow();
     };
 }  // namespace ANAL
