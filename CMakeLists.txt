@@ -6,6 +6,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Games
 add_subdirectory(Games/Pacman)
+add_subdirectory(Games/Minesweeper)
 
 # Displays
 add_subdirectory(Graphics/Ncurses)
