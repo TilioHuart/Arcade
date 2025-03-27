@@ -6,3 +6,6 @@ arcade
 *.o
 .cache
 compile_commands.json
+result*
+.envrc
+.direnv

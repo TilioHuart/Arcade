@@ -33,6 +33,8 @@
             mesa
             mesa.dev
             libglvnd
+            SDL2
+            SDL2_image
           ] ++ deps;
         };
 
