@@ -34,14 +34,14 @@ jobs:
             - name: Remove submodules
               run: |
                 rm .gitmodules
-                rm lib/ANAL/.gitmodules
-                rm -rf modules/ANAL/.git*
-                rm -rf modules/ANAL/doxygen-awesome-css/.git*
+                rm modules/anal/.gitmodules
+                rm -rf modules/anal/.git*
+                rm -rf modules/anal/doxygen-awesome-css/.git*
             - name: Push Mirror
               run: |
-                git rm --cached lib/ANAL/
+                git rm --cached modules/anal/
                 git add .
-                git rm --cached -r lib/ANAL/doxygen-awesome-css/
+                git rm --cached -r modules/anal/doxygen-awesome-css/
                 git add .
                 git commit -m "chore: Resolve submodules"
                 git remote add epitech "${{ secrets.MIRROR_REPO }}"
