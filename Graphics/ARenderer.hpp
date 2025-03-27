@@ -10,7 +10,6 @@
 #include "IRenderer.hpp"
 #include "IEntity.hpp"
 #include "Vector2.hpp"
-#include <GLFW/glfw3.h>
 #include <vector>
 
 namespace ANAL {
