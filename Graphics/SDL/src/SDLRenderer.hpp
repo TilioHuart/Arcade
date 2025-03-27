@@ -30,6 +30,7 @@ namespace ANAL {
        private:
         SDL_Window *_window = nullptr;
         SDL_Renderer *_renderer = nullptr;
+        std::vector<ANAL::Event> _sdlEvents;
     };
 
 }  // namespace ANAL
