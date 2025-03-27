@@ -68,9 +68,7 @@ void ANAL::SDLRenderer::drawEntity(const ANAL::IEntity &entity)
 
 void ANAL::SDLRenderer::drawText(
     const std::string &str, ANAL::Vector2<int> pos)
-{
-
-}
+{}
 
 void ANAL::SDLRenderer::setWindowTitle(const std::string &windowTitle)
 {
@@ -127,4 +125,11 @@ std::vector<ANAL::Event> &ANAL::SDLRenderer::getEvents()
 void ANAL::SDLRenderer::clear()
 {
     SDL_RenderClear(this->_renderer);
+}
+
+extern "C" {
+std::unique_ptr<ANAL::IRenderer> uwu_entrypoint_renderer(void)
+{
+    return std::make_unique<ANAL::SDLRenderer>();
+}
 }
