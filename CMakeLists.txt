@@ -4,6 +4,8 @@ project(Arcade CXX)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+add_subdirectory(modules/anal)
+
 # Games
 add_subdirectory(Games/Pacman)
 add_subdirectory(Games/Minesweeper)
