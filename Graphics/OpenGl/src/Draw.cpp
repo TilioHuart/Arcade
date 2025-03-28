@@ -5,15 +5,16 @@
 // Draw OpenGl
 //
 
+#include <array>
 #ifdef USE_OPENGL
 
-#include "IEntity.hpp"
-#include "OpenGl.hpp"
-#include <GL/gl.h>
-#include <iostream>
+#    include "IEntity.hpp"
+#    include "OpenGl.hpp"
+#    include <GL/gl.h>
+#    include <iostream>
 
-#define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
+#    define STB_IMAGE_IMPLEMENTATION
+#    include "stb_image.hpp"
 
 void ANAL::OpenGlRenderer::drawEntity(const ANAL::IEntity &entity)
 {
@@ -46,13 +47,13 @@ void ANAL::OpenGlRenderer::drawEntity(const ANAL::IEntity &entity)
 
     stbi_image_free(imgData);
 
-    float vertices[] = {//first triangle
+    std::array<float, 24> vertices = {//first triangle
         -1.0, 1.0, 0.0, 1.0, -1.0, -1.0, 0.0, 0.0, 1.0, -1.0, 1.0, 0.0,
         //second triangle
         -1.0, 1.0, 0.0, 1.0, 1.0, -1.0, 1.0, 0.0, 1.0, 1.0, 1.0, 1.0};
 
-    GLuint VAO;
-    GLuint VBO;
+    GLuint VAO = 0;
+    GLuint VBO = 0;
 
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
@@ -60,7 +61,8 @@ void ANAL::OpenGlRenderer::drawEntity(const ANAL::IEntity &entity)
     glBindVertexArray(VAO);
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    glBufferData(
+        GL_ARRAY_BUFFER, sizeof(vertices), vertices.data(), GL_STATIC_DRAW);
 
     glVertexAttribPointer(
         0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), nullptr);

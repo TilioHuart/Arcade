@@ -41,5 +41,6 @@ namespace ANAL {
         std::queue<IEntity> _entities;
         std::vector<Event> _events;
         void _displayWindow();
+        GLuint _loadShaders(const std::string &vertex, const std::string &fragment);
     };
 }  // namespace ANAL
