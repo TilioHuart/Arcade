@@ -5,6 +5,8 @@
 // Event
 //
 
+#ifdef USE_OPENGL
+
 #include "OpenGl.hpp"
 
 std::vector<ANAL::Event> &ANAL::OpenGlRenderer::getEvents()
@@ -12,3 +14,4 @@ std::vector<ANAL::Event> &ANAL::OpenGlRenderer::getEvents()
     return this->_events;
 }
 
+#endif
