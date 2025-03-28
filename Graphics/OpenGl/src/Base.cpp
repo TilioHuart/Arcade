@@ -5,6 +5,8 @@
 // OpenGl base functions
 //
 
+#ifdef USE_OPENGL
+
 #include "OpenGl.hpp"
 #include <GLFW/glfw3.h>
 #include <iostream>
@@ -41,3 +43,5 @@ ANAL::OpenGlRenderer::~OpenGlRenderer()
         glfwDestroyWindow(this->_window);
     glfwTerminate();
 }
+
+#endif

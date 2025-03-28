@@ -5,6 +5,8 @@
 // Draw OpenGl
 //
 
+#ifdef USE_OPENGL
+
 #include "IEntity.hpp"
 #include "OpenGl.hpp"
 #include <GL/gl.h>
@@ -94,3 +96,5 @@ void ANAL::OpenGlRenderer::_displayWindow()
 {
     glfwSwapBuffers(this->_window);
 }
+
+#endif
