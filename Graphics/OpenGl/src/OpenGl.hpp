@@ -38,9 +38,16 @@ namespace ANAL {
 
        private:
         GLFWwindow *_window = nullptr;
+        GLuint _shaderProgram;
+        GLuint _vertexShader;
+        GLuint _fragmentShader;
         std::queue<IEntity> _entities;
         std::vector<Event> _events;
+
         void _displayWindow();
-        GLuint _loadShaders(const std::string &vertex, const std::string &fragment);
+        void _loadShaders();
+        GLuint _compileShader(GLenum type, const std::string &shaderCode);
+        void _linkShaders();
+        std::string _getFileData(const std::string &file) const;
     };
 }  // namespace ANAL

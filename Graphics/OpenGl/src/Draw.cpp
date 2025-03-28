@@ -5,16 +5,16 @@
 // Draw OpenGl
 //
 
-#include <array>
 #ifdef USE_OPENGL
 
-#    include "IEntity.hpp"
-#    include "OpenGl.hpp"
-#    include <GL/gl.h>
-#    include <iostream>
+#include "IEntity.hpp"
+#include "OpenGl.hpp"
+#include <GL/gl.h>
+#include <array>
+#include <iostream>
 
-#    define STB_IMAGE_IMPLEMENTATION
-#    include "stb_image.hpp"
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.hpp"
 
 void ANAL::OpenGlRenderer::drawEntity(const ANAL::IEntity &entity)
 {
@@ -70,33 +70,27 @@ void ANAL::OpenGlRenderer::drawEntity(const ANAL::IEntity &entity)
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float),
         (void *)(2 * sizeof(float)));
     glEnableVertexAttribArray(1);
+
+    this->_loadShaders();
+    if (this->_shaderProgram == 0) {
+        std::cerr << "Error while loading shaders" << std::endl; // replace by throw
+        return;
+    }
+    glUseProgram(this->_shaderProgram);
+
+    glUniform1i(glGetUniformLocation(this->_shaderProgram, "texture1"), 0);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, texture);
+
+    glBindVertexArray(VAO);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+
+    glBindVertexArray(0);
+    glUseProgram(0);
 }
 
 void ANAL::OpenGlRenderer::drawText(
     const std::string &text, Vector2<int> position)
 {}
-
-void ANAL::OpenGlRenderer::setWindowTitle(const std::string &title) {}
-
-std::vector<ANAL::Event> &ANAL::OpenGlRenderer::getEvents()
-{
-    return this->_events;
-}
-
-void ANAL::OpenGlRenderer::clear()
-{
-    glClear(GL_COLOR_BUFFER_BIT);
-    this->_displayWindow();
-}
-
-void ANAL::OpenGlRenderer::render()
-{
-    this->_displayWindow();
-}
-
-void ANAL::OpenGlRenderer::_displayWindow()
-{
-    glfwSwapBuffers(this->_window);
-}
 
 #endif
