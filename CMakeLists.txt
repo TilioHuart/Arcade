@@ -7,6 +7,8 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
 add_subdirectory(modules/anal)
 
+add_subdirectory(modules/anal)
+
 # Games
 add_subdirectory(Games/Pacman)
 add_subdirectory(Games/Minesweeper)
