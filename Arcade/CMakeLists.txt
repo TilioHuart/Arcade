@@ -4,7 +4,7 @@ project(arcade CXX)
 
 set(SOURCE_FILES
     src/main.cpp
-    src/arcade.cpp
+    src/Arcade.cpp
 )
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})

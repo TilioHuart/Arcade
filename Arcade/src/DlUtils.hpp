@@ -12,11 +12,11 @@
 #include <string>
 
 namespace Arcade {
-    class DlFunctions {
+    class DlUtils {
        public:
-        class Error : public std::exception {
+        class DlUtilsError : public std::exception {
            public:
-            Error(std::string msg) : _msg(std::move(msg)) {};
+            DlUtilsError(std::string msg);
 
             [[nodiscard]] const char *what() const noexcept override
             {
