@@ -6,6 +6,7 @@
 //
 
 #include "Arcade.hpp"
+#include "src/DlUtils.hpp"
 
 void Arcade::Arcade::setGame(std::unique_ptr<ANAL::IGame> &newGame) {
     this ->_runningGame = std::move(newGame);
