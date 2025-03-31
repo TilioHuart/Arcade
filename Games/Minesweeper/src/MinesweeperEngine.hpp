@@ -26,6 +26,8 @@ namespace ANAL {
         MINE
     };
 
+    Case &operator++(Case &origine);
+
     class MinesweeperEngine : public AGame {
        public:
         MinesweeperEngine();

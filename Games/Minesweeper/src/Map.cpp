@@ -33,7 +33,7 @@ void ANAL::MinesweeperEngine::_createEasyMap()
     this->_map.clear();
     this->_map.resize(this->_gridSize);
 
-    for (auto &line: this->_map) {
+    for (auto &line : this->_map) {
         line.resize(this->_gridSize, ANAL::Case::EMPTY);
     }
 
@@ -50,7 +50,7 @@ void ANAL::MinesweeperEngine::_createNormalMap()
     this->_map.clear();
     this->_map.resize(this->_gridSize);
 
-    for (auto &line: this->_map) {
+    for (auto &line : this->_map) {
         line.resize(this->_gridSize, ANAL::Case::EMPTY);
     }
 
@@ -67,7 +67,7 @@ void ANAL::MinesweeperEngine::_createHardMap()
     this->_map.clear();
     this->_map.resize(this->_gridSize);
 
-    for (auto &line: this->_map) {
+    for (auto &line : this->_map) {
         line.resize(this->_gridSize, ANAL::Case::EMPTY);
     }
 
@@ -93,4 +93,32 @@ void ANAL::MinesweeperEngine::_placeMines()
 
 void ANAL::MinesweeperEngine::_setNeighbors()
 {
+    for (size_t i = 0; i < this->_gridSize; i += 1) {
+        for (size_t j = 0; j < this->_gridSize; j += 1) {
+            if (this->_map[i][j] == Case::MINE) {
+                if (i > 0) {
+                    if (j > 0) {
+                        ++this->_map[i - 1][j - 1];
+                    }
+                    if (j < this->_gridSize - 1)
+                        ++this->_map[i - 1][j + 1];
+                    ++this->_map[i - 1][j];
+                }
+                if (i < this->_gridSize - 1) {
+                    if (j > 0)
+                        ++this->_map[i + 1][j - 1];
+                    if (j < this->_gridSize - 1) {
+                        ++this->_map[i + 1][j + 1];
+                    }
+                    ++this->_map[i + 1][j];
+                }
+                if (j > 0) {
+                    ++this->_map[i][j - 1];
+                }
+                if (i < this->_gridSize - 1) {
+                    ++this->_map[i][j + 1];
+                }
+            }
+        }
+    }
 }
