@@ -7,17 +7,17 @@
 
 #ifdef USE_SDL2
 
-#include "SDLRenderer.hpp"
-#include "Events.hpp"
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_events.h>
-#include <SDL2/SDL_image.h>
-#include <SDL2/SDL_keycode.h>
-#include <SDL2/SDL_rect.h>
-#include <SDL2/SDL_render.h>
-#include <SDL2/SDL_video.h>
-#include <map>
-#include <vector>
+#    include "SDLRenderer.hpp"
+#    include "Events.hpp"
+#    include <SDL2/SDL.h>
+#    include <SDL2/SDL_events.h>
+#    include <SDL2/SDL_image.h>
+#    include <SDL2/SDL_keycode.h>
+#    include <SDL2/SDL_rect.h>
+#    include <SDL2/SDL_render.h>
+#    include <SDL2/SDL_ttf.h>
+#    include <SDL2/SDL_video.h>
+#    include <vector>
 
 ANAL::SDLRenderer::SDLRenderer()
 {
@@ -38,6 +38,9 @@ ANAL::SDLRenderer::SDLRenderer()
     this->_renderer = SDL_CreateRenderer(this->_window, -1, rendererFlags);
     if (this->_renderer == nullptr)
         throw Exception();
+    if (TTF_Init() < 0)
+        throw Exception();
+    this->font = TTF_OpenFont("./JetBrainsMonoNerdFont-Medium.ttf", 25);
 }
 
 ANAL::SDLRenderer::~SDLRenderer()
@@ -70,7 +73,20 @@ void ANAL::SDLRenderer::drawEntity(const ANAL::IEntity &entity)
 
 void ANAL::SDLRenderer::drawText(
     const std::string &str, ANAL::Vector2<int> pos)
-{}
+{
+    SDL_Color White = {255, 255, 255};
+    SDL_Surface *surface =
+        TTF_RenderText_Solid(this->font, str.c_str(), White);
+    SDL_Texture *Message =
+        SDL_CreateTextureFromSurface(this->_renderer, surface);
+
+    SDL_Rect rect;
+    rect.x = pos.x;
+    rect.y = pos.y;
+    SDL_RenderCopy(this->_renderer, Message, nullptr, &rect);
+    SDL_FreeSurface(surface);
+    SDL_DestroyTexture(Message);
+}
 
 void ANAL::SDLRenderer::setWindowTitle(const std::string &windowTitle)
 {
