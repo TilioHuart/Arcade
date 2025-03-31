@@ -5,12 +5,15 @@
 // Base functions
 //
 
+#include "IEntity.hpp"
 #include "MinesweeperEngine.hpp"
 #include <iostream>
+#include <memory.h>
 
 ANAL::MinesweeperEngine::MinesweeperEngine()
 {
     std::cout << "Init of minesweeper" << std::endl;
+    this->_createMap();
 }
 
 ANAL::MinesweeperEngine::~MinesweeperEngine()
@@ -21,7 +24,8 @@ ANAL::MinesweeperEngine::~MinesweeperEngine()
 void ANAL::MinesweeperEngine::render(
     ANAL::IRenderer &renderer, ANAL::IArcade &arcade)
 {
-    renderer.clear();
+    auto entity = arcade.newEntity();
+    renderer.drawEntity(*entity);
     renderer.render();
 }
 
