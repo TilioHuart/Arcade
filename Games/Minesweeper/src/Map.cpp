@@ -33,7 +33,7 @@ void ANAL::MinesweeperEngine::_createEasyMap()
     this->_map.clear();
     this->_map.resize(this->_gridSize);
 
-    for (auto &line : this->_map) {
+    for (auto &line: this->_map) {
         line.resize(this->_gridSize, ANAL::Case::EMPTY);
     }
 
@@ -50,7 +50,7 @@ void ANAL::MinesweeperEngine::_createNormalMap()
     this->_map.clear();
     this->_map.resize(this->_gridSize);
 
-    for (auto &line : this->_map) {
+    for (auto &line: this->_map) {
         line.resize(this->_gridSize, ANAL::Case::EMPTY);
     }
 
@@ -67,7 +67,7 @@ void ANAL::MinesweeperEngine::_createHardMap()
     this->_map.clear();
     this->_map.resize(this->_gridSize);
 
-    for (auto &line : this->_map) {
+    for (auto &line: this->_map) {
         line.resize(this->_gridSize, ANAL::Case::EMPTY);
     }
 

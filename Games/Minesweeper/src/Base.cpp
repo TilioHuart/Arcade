@@ -6,8 +6,6 @@
 //
 
 #include "Events.hpp"
-#include "IAsset.hpp"
-#include "IEntity.hpp"
 #include "MinesweeperEngine.hpp"
 #include <iostream>
 #include <memory.h>
@@ -22,7 +20,6 @@ ANAL::MinesweeperEngine::~MinesweeperEngine()
 {
     std::cout << "Destroy of minesweeper" << std::endl;
 }
-
 
 void processEvents(std::vector<ANAL::Event> &Event) {}
 
