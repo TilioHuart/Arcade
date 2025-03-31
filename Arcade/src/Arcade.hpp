@@ -9,6 +9,8 @@
 
 #include "IGame.hpp"
 #include "IRenderer.hpp"
+#include <string>
+#include <vector>
 
 namespace Arcade {
     class Arcade {
@@ -22,5 +24,7 @@ namespace Arcade {
        private:
         std::unique_ptr<ANAL::IGame> _runningGame;
         std::unique_ptr<ANAL::IRenderer> _runningDisplay;
+        std::vector<std::string> gameLibList;
+        std::vector<std::string> displayLibList;
     };
 }  // namespace Arcade

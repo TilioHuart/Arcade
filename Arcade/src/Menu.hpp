@@ -7,10 +7,18 @@
 
 #pragma once
 
-#include "IGame.hpp"
+#include "AGame.hpp"
+#include "Events.hpp"
 
 namespace Arcade {
-    class Menu : public ANAL::IGame {
+    class MenuEngine : public ANAL::AGame {
        public:
+        MenuEngine();
+        ~MenuEngine() override;
+
+        void processEvents(std::vector<ANAL::Event> &Event) override;
+        void compute() override;
+        void render(ANAL::IRenderer &renderer, ANAL::IArcade &arcade) override;
+
     };
 }  // namespace Arcade
