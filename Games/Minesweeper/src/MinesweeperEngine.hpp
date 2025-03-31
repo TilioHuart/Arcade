@@ -26,6 +26,8 @@ namespace ANAL {
         MINE
     };
 
+    enum class Visibility : std::uint8_t { HIDDEN, VISIBLE, FLAG };
+
     Case &operator++(Case &origine);
 
     class MinesweeperEngine : public AGame {
@@ -42,13 +44,22 @@ namespace ANAL {
         size_t _nbMineLeft = 10;
         size_t _gridSize = 9;
         std::vector<std::vector<ANAL::Case>> _map;
+        std::vector<std::vector<ANAL::Visibility>> _hidden;
+
         void _createMap();
         void _createEasyMap();
         void _createNormalMap();
         void _createHardMap();
+
         void _placeMines();
         void _setNeighbors();
+        void _createHidden();
+
         void _renderBackground(
             ANAL::IRenderer &renderer, ANAL::IArcade &arcade) const;
+        void _renderCases(ANAL::IRenderer &renderer, ANAL::IArcade &arcade) const;
+        void _displayHidden(ANAL::IRenderer &renderer, ANAL::IArcade &arcade, size_t i, size_t j) const;
+        void _displayVisible(ANAL::IRenderer &renderer, ANAL::IArcade &arcade, size_t i, size_t j) const;
+        void _displayFlag(ANAL::IRenderer &renderer, ANAL::IArcade &arcade, size_t i, size_t j) const;
     };
 }  // namespace ANAL

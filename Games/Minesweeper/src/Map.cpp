@@ -73,6 +73,7 @@ void ANAL::MinesweeperEngine::_createHardMap()
 
     this->_placeMines();
     this->_setNeighbors();
+    this->_createHidden();
 }
 
 void ANAL::MinesweeperEngine::_placeMines()
@@ -120,5 +121,15 @@ void ANAL::MinesweeperEngine::_setNeighbors()
                 }
             }
         }
+    }
+}
+
+void ANAL::MinesweeperEngine::_createHidden()
+{
+    this->_hidden.clear();
+    this->_hidden.resize(this->_gridSize);
+
+    for (auto &line : this->_hidden) {
+        line.resize(this->_gridSize, ANAL::Visibility::HIDDEN);
     }
 }
