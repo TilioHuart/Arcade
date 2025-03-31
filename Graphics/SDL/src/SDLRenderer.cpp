@@ -5,6 +5,8 @@
 // SDLRenderer.cpp
 //
 
+#ifdef USE_SDL2
+
 #include "SDLRenderer.hpp"
 #include "Events.hpp"
 #include <SDL2/SDL.h>
@@ -133,3 +135,5 @@ std::unique_ptr<ANAL::IRenderer> uwu_entrypoint_renderer(void)
     return std::make_unique<ANAL::SDLRenderer>();
 }
 }
+
+#endif
