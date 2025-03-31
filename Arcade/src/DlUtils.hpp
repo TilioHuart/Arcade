@@ -29,16 +29,11 @@ namespace Arcade {
             std::string _msg;
         };
 
-        void open(const std::string &pathToLib);
-        void close();
-        ANAL::ModuleType getLibType();
-        std::unique_ptr<ANAL::IGame> loadGame();
-        std::unique_ptr<ANAL::IRenderer> loadDisplay();
-
-       private:
-        void *_lib;
-        ANAL::IGame *_game;
-        ANAL::IRenderer *_display;
+        static void *open(const std::string &pathToLib);
+        static void close(void *lib);
+        static ANAL::ModuleType getLibType(void *lib);
+        static std::unique_ptr<ANAL::IGame> loadGame(void *lib);
+        static std::unique_ptr<ANAL::IRenderer> loadDisplay(void *lib);
     };
 
 }  // namespace Arcade

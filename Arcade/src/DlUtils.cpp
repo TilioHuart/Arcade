@@ -13,45 +13,46 @@
 
 Arcade::DlUtils::DlUtilsError::DlUtilsError(std::string msg) : _msg(std::move(msg)) {}
 
-void Arcade::DlUtils::open(const std::string &pathToLib)
+void *Arcade::DlUtils::open(const std::string &pathToLib)
 {
-    this->_lib = dlopen(pathToLib.c_str(), RTLD_LAZY);
-    if (_lib == nullptr)
+    void *lib = dlopen(pathToLib.c_str(), RTLD_LAZY);
+    if (lib == nullptr)
         throw DlUtilsError("Invalid pointer from dlopen");
+    return lib;
 }
 
-void Arcade::DlUtils::close()
+void Arcade::DlUtils::close(void *lib)
 {
-    if (_lib == nullptr || dlclose(this->_lib) != 0)
+    if (lib == nullptr || dlclose(lib) != 0)
         throw DlUtilsError("Invalid lib can't be dlclosed");
 }
 
-ANAL::ModuleType Arcade::DlUtils::getLibType()
+ANAL::ModuleType Arcade::DlUtils::getLibType(void *lib)
 {
-    auto *const func = reinterpret_cast<ANAL::ModuleType(*)()>
-        (dlsym(this->_lib, "uwu_get_module_type"));
-    if (func == nullptr)
+    auto *const module = reinterpret_cast<ANAL::ModuleType(*)()>
+        (dlsym(lib, "uwu_get_module_type"));
+    if (module == nullptr)
         throw DlUtilsError("Couldn't retrieve lib type");
-    return func();
+    return module();
 }
 
-std::unique_ptr<ANAL::IGame> Arcade::DlUtils::loadGame()
+std::unique_ptr<ANAL::IGame> Arcade::DlUtils::loadGame(void *lib)
 {
-    const auto func = reinterpret_cast<std::unique_ptr<ANAL::IGame>(*)()>
-        (dlsym(this->_game, "uwu_entrypoint_game"));
-    if (func == nullptr)
+    const auto module = reinterpret_cast<std::unique_ptr<ANAL::IGame>(*)()>
+        (dlsym(lib, "uwu_entrypoint_game"));
+    if (module == nullptr)
         throw DlUtilsError("Couldn't retrieve game");
-    auto game = func();
+    auto game = module();
     return std::move(game);
 }
 
-std::unique_ptr<ANAL::IRenderer> Arcade::DlUtils::loadDisplay()
+std::unique_ptr<ANAL::IRenderer> Arcade::DlUtils::loadDisplay(void *lib)
 {
-    const auto func = reinterpret_cast<std::unique_ptr<ANAL::IRenderer>(*)()>
-        (dlsym(this->_display, "uwu_entrypoint_renderer"));
-    if (func == nullptr)
+    const auto module = reinterpret_cast<std::unique_ptr<ANAL::IRenderer>(*)()>
+        (dlsym(lib, "uwu_entrypoint_renderer"));
+    if (module == nullptr)
         throw DlUtilsError("Couldn't retrieve display");
-    auto renderer = func();
+    auto renderer = module();
     return std::move(renderer);
 
 }
