@@ -5,6 +5,8 @@
 // Base functions
 //
 
+#include "Events.hpp"
+#include "IAsset.hpp"
 #include "IEntity.hpp"
 #include "MinesweeperEngine.hpp"
 #include <iostream>
@@ -21,13 +23,6 @@ ANAL::MinesweeperEngine::~MinesweeperEngine()
     std::cout << "Destroy of minesweeper" << std::endl;
 }
 
-void ANAL::MinesweeperEngine::render(
-    ANAL::IRenderer &renderer, ANAL::IArcade &arcade)
-{
-    auto entity = arcade.newEntity();
-    renderer.drawEntity(*entity);
-    renderer.render();
-}
 
 void processEvents(std::vector<ANAL::Event> &Event) {}
 

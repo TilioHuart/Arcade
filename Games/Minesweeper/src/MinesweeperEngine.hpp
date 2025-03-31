@@ -48,5 +48,7 @@ namespace ANAL {
         void _createHardMap();
         void _placeMines();
         void _setNeighbors();
+        void _renderBackground(
+            ANAL::IRenderer &renderer, ANAL::IArcade &arcade) const;
     };
 }  // namespace ANAL
