@@ -20,4 +20,3 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE ../)
 target_include_directories(${PROJECT_NAME} PRIVATE ../../modules/anal/include/ANAL)
-target_compile_options(DisplaySDL2 PRIVATE -fno-gnu-unique)

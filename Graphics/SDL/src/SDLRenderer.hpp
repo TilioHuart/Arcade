@@ -9,6 +9,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_video.h>
+#include <SDL_ttf.h>
 
 namespace ANAL {
     class SDLRenderer : public ARenderer {
@@ -30,6 +31,7 @@ namespace ANAL {
        private:
         SDL_Window *_window = nullptr;
         SDL_Renderer *_renderer = nullptr;
+        TTF_Font *font = nullptr;
         std::vector<ANAL::Event> _sdlEvents;
     };
 
