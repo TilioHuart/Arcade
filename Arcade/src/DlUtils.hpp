@@ -17,18 +17,17 @@ namespace Arcade {
         class DlUtilsError : public std::exception {
            public:
             DlUtilsError(std::string msg);
-
             [[nodiscard]] const char *what() const noexcept override
             {
                 return this->_msg.c_str();
             };
-
            private:
             std::string _msg;
         };
 
-        void loadLib(const std::string &pathToLib);
-        std::unique_ptr<ANAL::IRenderer> callGraphicLib();
+        void open(const std::string &pathToLib);
+        void sym(const std::string &pathToLib);
+        void close();
 
        private:
         void *_lib;
