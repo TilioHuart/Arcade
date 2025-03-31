@@ -8,7 +8,8 @@ file(GLOB SOURCES src/*.cpp)
 
 add_library(DisplaySDL2 SHARED ${SOURCES})
 
-find_package(SDL2 REQUIRED)
+find_package(SDL2)
+find_package(SDL2_image)
 
 if (SDL2_FOUND AND SDL2_IMAGE_FOUND)
     add_definitions(-DUSE_SDL2)
