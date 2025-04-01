@@ -7,8 +7,11 @@
 
 #ifdef USE_SDL2
 
-#    include "SDLRenderer.hpp"
+#include "IModule.hpp"
+#include <map>
+
 #    include "Events.hpp"
+#    include "SDLRenderer.hpp"
 #    include <SDL2/SDL.h>
 #    include <SDL2/SDL_events.h>
 #    include <SDL2/SDL_image.h>
@@ -145,7 +148,12 @@ void ANAL::SDLRenderer::clear()
     SDL_RenderClear(this->_renderer);
 }
 
+
 extern "C" {
+ANAL::ModuleType uwu_get_module_type()
+{
+    return ANAL::ModuleType::RENDERER;
+}
 std::unique_ptr<ANAL::IRenderer> uwu_entrypoint_renderer(void)
 {
     return std::make_unique<ANAL::SDLRenderer>();
