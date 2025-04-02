@@ -8,8 +8,6 @@ set(SOURCE_FILES
     src/DlUtils.cpp
 )
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
-
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
 target_include_directories(${PROJECT_NAME} PRIVATE ../modules/anal/include/ANAL)
