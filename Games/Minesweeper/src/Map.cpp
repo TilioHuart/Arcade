@@ -28,7 +28,7 @@ void ANAL::MinesweeperEngine::_createEasyMap()
 {
     this->_nbMine = 10;
     this->_nbMineLeft = 10;
-    this->_gridSize = 9;
+    this->_gridSize = 10;
 
     this->_map.clear();
     this->_map.resize(this->_gridSize);
@@ -36,16 +36,13 @@ void ANAL::MinesweeperEngine::_createEasyMap()
     for (auto &line : this->_map) {
         line.resize(this->_gridSize, ANAL::Case::EMPTY);
     }
-
-    this->_placeMines();
-    this->_setNeighbors();
 }
 
 void ANAL::MinesweeperEngine::_createNormalMap()
 {
     this->_nbMine = 40;
     this->_nbMineLeft = 40;
-    this->_gridSize = 16;
+    this->_gridSize = 20;
 
     this->_map.clear();
     this->_map.resize(this->_gridSize);
@@ -53,16 +50,13 @@ void ANAL::MinesweeperEngine::_createNormalMap()
     for (auto &line : this->_map) {
         line.resize(this->_gridSize, ANAL::Case::EMPTY);
     }
-
-    this->_placeMines();
-    this->_setNeighbors();
 }
 
 void ANAL::MinesweeperEngine::_createHardMap()
 {
     this->_nbMine = 99;
     this->_nbMineLeft = 99;
-    this->_gridSize = 22;
+    this->_gridSize = 30;
 
     this->_map.clear();
     this->_map.resize(this->_gridSize);
@@ -70,10 +64,6 @@ void ANAL::MinesweeperEngine::_createHardMap()
     for (auto &line : this->_map) {
         line.resize(this->_gridSize, ANAL::Case::EMPTY);
     }
-
-    this->_placeMines();
-    this->_setNeighbors();
-    this->_createHidden();
 }
 
 void ANAL::MinesweeperEngine::_placeMines()

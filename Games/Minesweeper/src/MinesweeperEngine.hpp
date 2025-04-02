@@ -42,7 +42,7 @@ namespace ANAL {
         Difficulty _difficulty = Difficulty::EASY;
         size_t _nbMine = 10;
         size_t _nbMineLeft = 10;
-        size_t _gridSize = 9;
+        size_t _gridSize = 10;
         std::vector<std::vector<ANAL::Case>> _map;
         std::vector<std::vector<ANAL::Visibility>> _hidden;
 

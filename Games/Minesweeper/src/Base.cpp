@@ -14,6 +14,9 @@ ANAL::MinesweeperEngine::MinesweeperEngine()
 {
     std::cout << "Init of minesweeper" << std::endl;
     this->_createMap();
+    this->_placeMines();
+    this->_setNeighbors();
+    this->_createHidden();
 }
 
 ANAL::MinesweeperEngine::~MinesweeperEngine()

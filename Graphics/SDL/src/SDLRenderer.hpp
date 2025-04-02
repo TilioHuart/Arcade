@@ -32,7 +32,7 @@ namespace ANAL {
        private:
         SDL_Window *_window = nullptr;
         SDL_Renderer *_renderer = nullptr;
-        TTF_Font *font = nullptr;
+        // TTF_Font *font = nullptr;
         std::vector<ANAL::Event> _sdlEvents;
     };
 
