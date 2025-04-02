@@ -5,8 +5,6 @@
 // SDLRenderer.cpp
 //
 
-#ifdef USE_SDL2
-
 #include "IModule.hpp"
 #include <map>
 
@@ -160,4 +158,3 @@ std::unique_ptr<ANAL::IRenderer> uwu_entrypoint_renderer(void)
 }
 }
 
-#endif
