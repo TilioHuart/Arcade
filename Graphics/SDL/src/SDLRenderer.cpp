@@ -8,17 +8,17 @@
 #include "IModule.hpp"
 #include <map>
 
-#    include "Events.hpp"
-#    include "SDLRenderer.hpp"
-#    include <SDL2/SDL.h>
-#    include <SDL2/SDL_events.h>
-#    include <SDL2/SDL_image.h>
-#    include <SDL2/SDL_keycode.h>
-#    include <SDL2/SDL_rect.h>
-#    include <SDL2/SDL_render.h>
-#    include <SDL2/SDL_ttf.h>
-#    include <SDL2/SDL_video.h>
-#    include <vector>
+#include "Events.hpp"
+#include "SDLRenderer.hpp"
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_events.h>
+#include <SDL2/SDL_image.h>
+#include <SDL2/SDL_keycode.h>
+#include <SDL2/SDL_rect.h>
+#include <SDL2/SDL_render.h>
+#include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_video.h>
+#include <vector>
 
 ANAL::SDLRenderer::SDLRenderer()
 {
@@ -101,44 +101,41 @@ void ANAL::SDLRenderer::render()
 
 std::vector<ANAL::Event> &ANAL::SDLRenderer::getEvents()
 {
-    /*SDL_Event sdlEvent;*/
-    /*const std::map<ANAL::Event, SDL_KeyCode> code{*/
-    /*    {Event::PRESSED_KEY_A, SDLK_a}, {Event::PRESSED_KEY_B, SDLK_b},*/
-    /*    {Event::PRESSED_KEY_C, SDLK_c}, {Event::PRESSED_KEY_D, SDLK_d},*/
-    /*    {Event::PRESSED_KEY_E, SDLK_e}, {Event::PRESSED_KEY_F, SDLK_f},*/
-    /*    {Event::PRESSED_KEY_G, SDLK_g}, {Event::PRESSED_KEY_H, SDLK_h},*/
-    /*    {Event::PRESSED_KEY_I, SDLK_i}, {Event::PRESSED_KEY_J, SDLK_j},*/
-    /*    {Event::PRESSED_KEY_K, SDLK_k}, {Event::PRESSED_KEY_L, SDLK_l},*/
-    /*    {Event::PRESSED_KEY_M, SDLK_m}, {Event::PRESSED_KEY_N, SDLK_n},*/
-    /*    {Event::PRESSED_KEY_O, SDLK_o}, {Event::PRESSED_KEY_P, SDLK_p},*/
-    /*    {Event::PRESSED_KEY_Q, SDLK_q}, {Event::PRESSED_KEY_R, SDLK_r},*/
-    /*    {Event::PRESSED_KEY_S, SDLK_s}, {Event::PRESSED_KEY_T, SDLK_t},*/
-    /*    {Event::PRESSED_KEY_U, SDLK_u}, {Event::PRESSED_KEY_V, SDLK_v},*/
-    /*    {Event::PRESSED_KEY_W, SDLK_w}, {Event::PRESSED_KEY_X, SDLK_x},*/
-    /*    {Event::PRESSED_KEY_Y, SDLK_y}, {Event::PRESSED_KEY_Z, SDLK_z},*/
-    /*    {Event::PRESSED_KEY_0, SDLK_0}, {Event::PRESSED_KEY_1, SDLK_1},*/
-    /*    {Event::PRESSED_KEY_2, SDLK_2}, {Event::PRESSED_KEY_3, SDLK_3},*/
-    /*    {Event::PRESSED_KEY_4, SDLK_4}, {Event::PRESSED_KEY_5, SDLK_5},*/
-    /*    {Event::PRESSED_KEY_6, SDLK_6}, {Event::PRESSED_KEY_7, SDLK_7},*/
-    /*    {Event::PRESSED_KEY_8, SDLK_8}, {Event::PRESSED_KEY_9, SDLK_9},*/
-    /*    {Event::PRESSED_KEY_ARROW_RIGHT, SDLK_RIGHT},*/
-    /*    {Event::PRESSED_KEY_ARROW_LEFT, SDLK_LEFT},*/
-    /*    {Event::PRESSED_KEY_ARROW_UP, SDLK_UP},*/
-    /*    {Event::PRESSED_KEY_ARROW_DOWN, SDLK_DOWN}};*/
-    /**/
-    /*while (SDL_PollEvent(&sdlEvent)) {*/
-    /*    switch (sdlEvent.type) {*/
-    /*        case SDL_KEYDOWN:*/
-    /*            for (auto it : code)*/
-    /*                if (sdlEvent.key.keysym.sym == it.second)*/
-    /*                    this->_sdlEvents.push_back(it.first);*/
-    /*        case SDL_QUIT:*/
-    /*            this->_sdlEvents.push_back(Event::CLOSE);*/
-    /*        default:*/
-    /*            break;*/
-    /*    }*/
-    /*}*/
-    /*return this->_sdlEvents;*/
+    SDL_Event sdlEvent;
+    const std::map<ANAL::Keys, SDL_KeyCode> code{{Keys::KEY_A, SDLK_a},
+        {Keys::KEY_B, SDLK_b}, {Keys::KEY_C, SDLK_c}, {Keys::KEY_D, SDLK_d},
+        {Keys::KEY_E, SDLK_e}, {Keys::KEY_F, SDLK_f}, {Keys::KEY_G, SDLK_g},
+        {Keys::KEY_H, SDLK_h}, {Keys::KEY_I, SDLK_i}, {Keys::KEY_J, SDLK_j},
+        {Keys::KEY_K, SDLK_k}, {Keys::KEY_L, SDLK_l}, {Keys::KEY_M, SDLK_m},
+        {Keys::KEY_N, SDLK_n}, {Keys::KEY_O, SDLK_o}, {Keys::KEY_P, SDLK_p},
+        {Keys::KEY_Q, SDLK_q}, {Keys::KEY_R, SDLK_r}, {Keys::KEY_S, SDLK_s},
+        {Keys::KEY_T, SDLK_t}, {Keys::KEY_U, SDLK_u}, {Keys::KEY_V, SDLK_v},
+        {Keys::KEY_W, SDLK_w}, {Keys::KEY_X, SDLK_x}, {Keys::KEY_Y, SDLK_y},
+        {Keys::KEY_Z, SDLK_z}, {Keys::KEY_0, SDLK_0}, {Keys::KEY_1, SDLK_1},
+        {Keys::KEY_2, SDLK_2}, {Keys::KEY_3, SDLK_3}, {Keys::KEY_4, SDLK_4},
+        {Keys::KEY_5, SDLK_5}, {Keys::KEY_6, SDLK_6}, {Keys::KEY_7, SDLK_7},
+        {Keys::KEY_8, SDLK_8}, {Keys::KEY_9, SDLK_9}};
+
+    while (SDL_PollEvent(&sdlEvent)) {
+        switch (sdlEvent.type) {
+            case SDL_KEYDOWN: {
+                for (auto it : code)
+                    if (sdlEvent.key.keysym.sym == it.second) {
+                        ANAL::Event ev;
+                        ev.keyEvent->key = it.first;
+                        this->_sdlEvents.push_back(ev);
+                    }
+            }
+            case SDL_QUIT: {
+                ANAL::Event ev;
+                ev.keyEvent->key = Keys::KEY_Q;
+                this->_sdlEvents.push_back(ev);
+            }
+            default:
+                break;
+        }
+    }
+    return this->_sdlEvents;
 }
 
 void ANAL::SDLRenderer::clear()
@@ -146,15 +143,14 @@ void ANAL::SDLRenderer::clear()
     SDL_RenderClear(this->_renderer);
 }
 
-
 extern "C" {
 ANAL::ModuleType uwu_get_module_type()
 {
     return ANAL::ModuleType::RENDERER;
 }
+
 std::unique_ptr<ANAL::IRenderer> uwu_entrypoint_renderer(void)
 {
     return std::make_unique<ANAL::SDLRenderer>();
 }
 }
-

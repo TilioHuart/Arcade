@@ -8,8 +8,8 @@
 #include "ARenderer.hpp"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_render.h>
-#include <SDL2/SDL_video.h>
 #include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_video.h>
 
 namespace ANAL {
     class SDLRenderer : public ARenderer {
@@ -28,6 +28,7 @@ namespace ANAL {
         std::vector<ANAL::Event> &getEvents() override;
 
         void clear() override;
+
        private:
         SDL_Window *_window = nullptr;
         SDL_Renderer *_renderer = nullptr;
