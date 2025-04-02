@@ -42,6 +42,8 @@ ANAL::SDLRenderer::SDLRenderer()
     if (TTF_Init() < 0)
         throw Exception();
     this->font = TTF_OpenFont("./JetBrainsMonoNerdFont-Medium.ttf", 25);
+    if (this->font == nullptr)
+        throw Exception();
 }
 
 ANAL::SDLRenderer::~SDLRenderer()
@@ -84,6 +86,8 @@ void ANAL::SDLRenderer::drawText(
     SDL_Rect rect;
     rect.x = pos.x;
     rect.y = pos.y;
+    rect.w = surface->w;
+    rect.h = surface->h;
     SDL_RenderCopy(this->_renderer, Message, nullptr, &rect);
     SDL_FreeSurface(surface);
     SDL_DestroyTexture(Message);
@@ -124,12 +128,15 @@ std::vector<ANAL::Event> &ANAL::SDLRenderer::getEvents()
                         ANAL::Event ev;
                         ev.keyEvent->key = it.first;
                         this->_sdlEvents.push_back(ev);
+                        break;
                     }
+                break;
             }
             case SDL_QUIT: {
                 ANAL::Event ev;
                 ev.keyEvent->key = Keys::KEY_Q;
                 this->_sdlEvents.push_back(ev);
+                break;
             }
             default:
                 break;
