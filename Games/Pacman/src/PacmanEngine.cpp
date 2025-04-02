@@ -13,7 +13,7 @@ void ANAL::PacmanEngine::processEvents(std::vector<Event> &Event)
 
 }
 
-void ANAL::PacmanEngine::render(ANAL::IRenderer &renderer, ANAL::IArcade &arcade)
+void ANAL::PacmanEngine::render(ANAL::IRenderer &renderer, const ANAL::IArcade &arcade)
 {
 
 }

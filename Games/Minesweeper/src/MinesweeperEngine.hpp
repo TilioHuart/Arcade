@@ -36,7 +36,7 @@ namespace ANAL {
         ~MinesweeperEngine() override;
         void processEvents(std::vector<Event> &Event) override;
         void compute() override;
-        void render(ANAL::IRenderer &renderer, ANAL::IArcade &arcade) override;
+        void render(ANAL::IRenderer &renderer, const ANAL::IArcade &arcade) override;
 
        private:
         Difficulty _difficulty = Difficulty::EASY;
@@ -56,10 +56,10 @@ namespace ANAL {
         void _createHidden();
 
         void _renderBackground(
-            ANAL::IRenderer &renderer, ANAL::IArcade &arcade) const;
-        void _renderCases(ANAL::IRenderer &renderer, ANAL::IArcade &arcade) const;
-        void _displayHidden(ANAL::IRenderer &renderer, ANAL::IArcade &arcade, size_t i, size_t j) const;
-        void _displayVisible(ANAL::IRenderer &renderer, ANAL::IArcade &arcade, size_t i, size_t j) const;
-        void _displayFlag(ANAL::IRenderer &renderer, ANAL::IArcade &arcade, size_t i, size_t j) const;
+            ANAL::IRenderer &renderer, const ANAL::IArcade &arcade) const;
+        void _renderCases(ANAL::IRenderer &renderer, const ANAL::IArcade &arcade) const;
+        void _displayHidden(ANAL::IRenderer &renderer, const ANAL::IArcade &arcade, size_t i, size_t j) const;
+        void _displayVisible(ANAL::IRenderer &renderer, const ANAL::IArcade &arcade, size_t i, size_t j) const;
+        void _displayFlag(ANAL::IRenderer &renderer, const ANAL::IArcade &arcade, size_t i, size_t j) const;
     };
 }  // namespace ANAL

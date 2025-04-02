@@ -11,7 +11,7 @@
 #include <vector>
 
 void ANAL::MinesweeperEngine::render(
-    ANAL::IRenderer &renderer, ANAL::IArcade &arcade)
+    ANAL::IRenderer &renderer, const ANAL::IArcade &arcade)
 {
     renderer.clear();
     this->_renderBackground(renderer, arcade);
@@ -20,7 +20,7 @@ void ANAL::MinesweeperEngine::render(
 }
 
 void ANAL::MinesweeperEngine::_renderBackground(
-    ANAL::IRenderer &renderer, ANAL::IArcade &arcade) const
+    ANAL::IRenderer &renderer, const ANAL::IArcade &arcade) const
 {
     auto entity = arcade.newEntity();
     auto asset = arcade.newAsset();
@@ -38,7 +38,7 @@ void ANAL::MinesweeperEngine::_renderBackground(
 }
 
 void ANAL::MinesweeperEngine::_renderCases(
-    ANAL::IRenderer &renderer, ANAL::IArcade &arcade) const
+    ANAL::IRenderer &renderer, const ANAL::IArcade &arcade) const
 {
     for (size_t i = 0; i < this->_gridSize; i += 1) {
         for (size_t j = 0; j < this->_gridSize; j += 1) {
@@ -53,7 +53,7 @@ void ANAL::MinesweeperEngine::_renderCases(
 }
 
 void ANAL::MinesweeperEngine::_displayHidden(
-    ANAL::IRenderer &renderer, ANAL::IArcade &arcade, size_t i, size_t j) const
+    ANAL::IRenderer &renderer, const ANAL::IArcade &arcade, size_t i, size_t j) const
 {
     auto entity = arcade.newEntity();
     auto asset = arcade.newAsset();
@@ -68,7 +68,7 @@ void ANAL::MinesweeperEngine::_displayHidden(
 }
 
 void ANAL::MinesweeperEngine::_displayVisible(
-    ANAL::IRenderer &renderer, ANAL::IArcade &arcade, size_t i, size_t j) const
+    ANAL::IRenderer &renderer, const ANAL::IArcade &arcade, size_t i, size_t j) const
 {
 
     std::stringstream pathStream;
@@ -100,7 +100,7 @@ void ANAL::MinesweeperEngine::_displayVisible(
 }
 
 void ANAL::MinesweeperEngine::_displayFlag(
-    ANAL::IRenderer &renderer, ANAL::IArcade &arcade, size_t i, size_t j) const
+    ANAL::IRenderer &renderer, const ANAL::IArcade &arcade, size_t i, size_t j) const
 {
     auto entity = arcade.newEntity();
     auto asset = arcade.newAsset();

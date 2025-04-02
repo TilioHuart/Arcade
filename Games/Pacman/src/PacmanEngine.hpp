@@ -16,7 +16,7 @@ namespace ANAL {
         PacmanEngine();
         void processEvents(std::vector<Event> &Event) override;
         void compute() override;
-        void render(ANAL::IRenderer &renderer, ANAL::IArcade &arcade) override;
+        void render(ANAL::IRenderer &renderer, const ANAL::IArcade &arcade) override;
 
        private:
     };
