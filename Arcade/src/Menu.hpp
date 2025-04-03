@@ -18,7 +18,7 @@ namespace Arcade {
 
         void processEvents(std::vector<ANAL::Event> &Event) override;
         void compute() override;
-        void render(ANAL::IRenderer &renderer, ANAL::IArcade &arcade) override;
+        void render(ANAL::IRenderer &renderer, const ANAL::IArcade &arcade) override;
 
     };
 }  // namespace Arcade
