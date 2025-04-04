@@ -68,6 +68,10 @@ void ANAL::SDLRenderer::drawEntity(const ANAL::IEntity &entity)
         this->_renderer, entity.getAsset().getTexturePath().c_str());
     if (texture == nullptr)
         throw Exception();
+    float cellSizeWidth = this->_windowWidth / 32.0F;
+    float cellSizeHeight = this->_windowHeight / 32.0F;
+    dest.x = static_cast<int>(entity.getPos().x * cellSizeWidth);
+    dest.y = static_cast<int>(entity.getPos().y * cellSizeHeight);
     dest.x = entity.getPos().x;
     dest.y = entity.getPos().y;
     SDL_QueryTexture(texture, nullptr, nullptr, &dest.w, &dest.h);
@@ -85,9 +89,10 @@ void ANAL::SDLRenderer::drawText(
         SDL_CreateTextureFromSurface(this->_renderer, surface);
 
     SDL_Rect rect;
-    float cellSize = 900.0F / 32.0F;
-    rect.x = static_cast<int>(pos.x * cellSize);
-    rect.y = static_cast<int>(pos.y * cellSize);
+    float cellSizeWidth = this->_windowWidth / 32.0F;
+    float cellSizeHeight = this->_windowHeight / 32.0F;
+    rect.x = static_cast<int>(pos.x * cellSizeWidth);
+    rect.y = static_cast<int>(pos.y * cellSizeHeight);
     rect.w = surface->w;
     rect.h = surface->h;
     SDL_RenderCopy(this->_renderer, Message, nullptr, &rect);
