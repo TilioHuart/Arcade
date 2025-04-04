@@ -29,8 +29,8 @@ namespace ANAL {
         void clear() override = 0;
 
        protected:
-        int _windowWidth = 900;
-        int _windowHeight = 900;
+        float _windowWidth = 900;
+        float _windowHeight = 900;
         std::string _windowTitle = "PlaceHolder";
     };
 }  // namespace ANAL
