@@ -9,26 +9,42 @@
 
 #include "IAsset.hpp"
 #include <string>
+#include <memory>
 
 namespace ANAL {
     class Asset : public IAsset {
        public:
         Asset() = default;
+
+        Asset(const Asset &asset) { *this = asset; }
+
         virtual ~Asset() = default;
 
-        virtual void setTexturePath(const std::string &texture)
+        Asset &operator=(const Asset &asset)
+        {
+            this->_texturePath = asset._texturePath;
+            this->_alt = asset._alt;
+            return *this;
+        }
+
+        [[nodiscard]] std::unique_ptr<IAsset> clone() const
+        {
+            return std::make_unique<Asset>(*this);
+        }
+
+        void setTexturePath(const std::string &texture) final
         {
             this->_texturePath = texture;
         };
 
-        [[nodiscard]] virtual const std::string &getTexturePath() const
+        [[nodiscard]] const std::string &getTexturePath() const final
         {
             return this->_texturePath;
         };
 
-        virtual void setAlternateRender(char alt) { this->_alt = alt; };
+        void setAlternateRender(char alt) final { this->_alt = alt; };
 
-        [[nodiscard]] virtual char getAlternateRender() const
+        [[nodiscard]] char getAlternateRender() const final
         {
             return this->_alt;
         };

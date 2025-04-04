@@ -16,10 +16,10 @@
 
 namespace ANAL {
     class AGame : public ANAL::IGame {
-       public:
-        void processEvents(std::vector<Event>& Event) override;
-        void compute() override;
-        void render(ANAL::IRenderer &renderer, const ANAL::IArcade& arcade) override;
+       // public:
+        // virtual void processEvents(std::vector<Event>& Event) override;
+        // void compute() override;
+        // void render(ANAL::IRenderer &renderer, const ANAL::IArcade& arcade) override;
     };
 
 }  // namespace ANAL

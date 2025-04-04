@@ -9,6 +9,7 @@
 #include "IGame.hpp"
 #include "IModule.hpp"
 #include "dlfcn.h"
+#include <iostream>
 #include <string>
 
 Arcade::DlUtils::DlUtilsError::DlUtilsError(std::string msg) : _msg(std::move(msg)) {}
@@ -52,7 +53,7 @@ std::unique_ptr<ANAL::IRenderer> Arcade::DlUtils::loadDisplay(void *lib)
         (dlsym(lib, "uwu_entrypoint_renderer"));
     if (module == nullptr)
         throw DlUtilsError("Couldn't retrieve display");
-    auto renderer = module();
+    std::unique_ptr<ANAL::IRenderer> renderer = module();
+    std::cout << "Why god have you betray me" << std::endl;
     return std::move(renderer);
-
 }

@@ -13,11 +13,11 @@
 namespace Arcade {
     class MenuEngine : public ANAL::AGame {
        public:
-        MenuEngine();
-        ~MenuEngine() override;
+        MenuEngine() = default;
+        ~MenuEngine() override {};
 
-        void processEvents(std::vector<ANAL::Event> &Event) override;
-        void compute() override;
+        void processEvents(std::vector<ANAL::Event> &Event) override {};
+        void compute() override {};
         void render(ANAL::IRenderer &renderer, const ANAL::IArcade &arcade) override;
 
     };

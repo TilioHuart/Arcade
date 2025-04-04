@@ -7,6 +7,7 @@
 
 #ifdef USE_OPENGL
 
+#include "IModule.hpp"
 #include "OpenGl.hpp"
 #include <GLFW/glfw3.h>
 #include <iostream>
@@ -42,6 +43,18 @@ ANAL::OpenGlRenderer::~OpenGlRenderer()
     if (this->_window != nullptr)
         glfwDestroyWindow(this->_window);
     glfwTerminate();
+}
+
+extern "C" {
+ANAL::ModuleType uwu_get_module_type()
+{
+    return ANAL::ModuleType::RENDERER;
+}
+
+std::unique_ptr<ANAL::IRenderer> uwu_entrypoint_renderer(void)
+{
+    return std::make_unique<ANAL::OpenGlRenderer>();
+}
 }
 
 #endif

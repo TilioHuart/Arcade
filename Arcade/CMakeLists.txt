@@ -6,6 +6,8 @@ set(SOURCE_FILES
     src/main.cpp
     src/Arcade.cpp
     src/DlUtils.cpp
+    src/App.cpp
+    src/Menu.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
