@@ -41,7 +41,7 @@ ANAL::SDLRenderer::SDLRenderer()
         throw Exception();
     if (TTF_Init() < 0)
         throw Exception();
-    this->font = TTF_OpenFont("./JetBrainsMonoNerdFont-Medium.ttf", 25);
+    this->font = TTF_OpenFont("./assets/fonts/JetBrainsMonoNerdFont-Medium.ttf", 25);
     if (this->font == nullptr)
         throw Exception();
 }
