@@ -24,16 +24,6 @@ jobs:
           - name: Update submodules
             run: |
                   git submodule update --init --recursive
-          - name: Install dependencies (SDL2, OpenGL)
-            run: |
-              sudo apt-get update
-              sudo apt-get install -y \
-                libsdl2-dev \
-                libsdl2-image-dev \
-                libglew-dev \
-                libgl1-mesa-dev \
-                libglu1-mesa-dev  \
-                libglfw3-dev
           - name: Compile Repo
             run:  |
                   mkdir .build
@@ -43,7 +33,7 @@ jobs:
                   cmake --build .build/.
           - name: Check binary presence
             run: |
-                if [ ! -f ./.build/${{ inputs.executable }} ]; then
+                if [ ! -f ./${{ inputs.executable }} ]; then
                     echo "::error title=Binary
                     ERROR::Binary not found"
                     exit 1
