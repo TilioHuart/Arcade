@@ -4,7 +4,7 @@ project(arcade_sfml LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(SFML 2 REQUIRED COMPONENTS graphics window system)
+find_package(SFML 2 COMPONENTS graphics window system)
 
 set(MISSING_DEP FALSE)
 if (NOT SFML_FOUND)
