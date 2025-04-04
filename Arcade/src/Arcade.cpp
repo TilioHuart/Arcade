@@ -49,7 +49,7 @@ void Arcade::Arcade::run()
         auto frameDuration =
             std::chrono::duration_cast<std::chrono::milliseconds>(
                 frameEnd - frameStart);
-        const std::chrono::milliseconds targetFrameDuration(500);
+        const std::chrono::milliseconds targetFrameDuration(33);
         if (frameDuration < targetFrameDuration) {
             std::this_thread::sleep_for(targetFrameDuration - frameDuration);
         }
