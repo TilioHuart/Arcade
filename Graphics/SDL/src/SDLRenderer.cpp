@@ -41,7 +41,8 @@ ANAL::SDLRenderer::SDLRenderer()
         throw Exception();
     if (TTF_Init() < 0)
         throw Exception();
-    this->font = TTF_OpenFont("./assets/fonts/JetBrainsMonoNerdFont-Medium.ttf", 25);
+    this->font =
+        TTF_OpenFont("./assets/fonts/JetBrainsMonoNerdFont-Medium.ttf", 25);
     if (this->font == nullptr)
         throw Exception();
 }
@@ -84,8 +85,9 @@ void ANAL::SDLRenderer::drawText(
         SDL_CreateTextureFromSurface(this->_renderer, surface);
 
     SDL_Rect rect;
-    rect.x = pos.x;
-    rect.y = pos.y;
+    float cellSize = 900.0F / 32.0F;
+    rect.x = static_cast<int>(pos.x * cellSize);
+    rect.y = static_cast<int>(pos.y * cellSize);
     rect.w = surface->w;
     rect.h = surface->h;
     SDL_RenderCopy(this->_renderer, Message, nullptr, &rect);
