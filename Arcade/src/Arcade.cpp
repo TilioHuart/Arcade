@@ -8,10 +8,12 @@
 #include "Arcade.hpp"
 #include "Asset.hpp"
 #include "Entity.hpp"
+#include "Events.hpp"
 #include <chrono>
 #include <iostream>
 #include <memory>
 #include <thread>
+#include <vector>
 
 void Arcade::Arcade::setGame(std::unique_ptr<ANAL::IGame> &newGame)
 {
@@ -31,19 +33,21 @@ void Arcade::Arcade::setDisplay(std::unique_ptr<ANAL::IRenderer> &newDisplay)
 
 void Arcade::Arcade::run()
 {
+    std::vector<ANAL::Event> events;
+
     while (this->_isRunning) {
         auto frameStart = std::chrono::steady_clock::now();
 
         this->_runningGame->render(*this->_runningDisplay, *this);
 
-        auto events = this->_runningDisplay->getEvents();
+        events.clear();
+        events = this->_runningDisplay->getEvents();
         for (const auto &event : events) {
             if (event.closeEvent) {
                 this->_isRunning = false;
-                continue;
+                break;
             }
         }
-        std::cout << "Hello there" << std::endl;
 
         auto frameEnd = std::chrono::steady_clock::now();
         auto frameDuration =

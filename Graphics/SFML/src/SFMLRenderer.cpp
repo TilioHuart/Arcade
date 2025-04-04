@@ -9,6 +9,7 @@
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/Keyboard.hpp>
+#include <SFML/Window/Mouse.hpp>
 #include <SFML/Window/VideoMode.hpp>
 #include <map>
 
@@ -67,7 +68,8 @@ void ANAL::SFMLRenderer::drawText(
     text.setFont(*this->_font);
     text.setString(str);
     text.setFillColor(sf::Color::White);
-    text.setPosition(static_cast<float>(pos.x) * cellSize, static_cast<float>(pos.y) * cellSize);
+    text.setPosition(static_cast<float>(pos.x) * cellSize,
+        static_cast<float>(pos.y) * cellSize);
 
     this->_window->draw(text);
 }
@@ -86,6 +88,8 @@ void ANAL::SFMLRenderer::render()
 std::vector<ANAL::Event> &ANAL::SFMLRenderer::getEvents()
 {
     sf::Event sfmlEvent;
+    float cellSize = 900.0F / 32.0F;
+    this->_sfmlEvents.clear();
 
     const std::map<ANAL::Keys, sf::Keyboard::Key> code{
         {Keys::KEY_A, sf::Keyboard::Key::A},
@@ -125,6 +129,11 @@ std::vector<ANAL::Event> &ANAL::SFMLRenderer::getEvents()
         {Keys::KEY_8, sf::Keyboard::Key::Num8},
         {Keys::KEY_9, sf::Keyboard::Key::Num9}};
 
+    const std::map<ANAL::MouseKeys, sf::Mouse::Button> mouse{
+        {MouseKeys::LEFT_CLICK, sf::Mouse::Button::Left},
+        {MouseKeys::RIGHT_CLICK, sf::Mouse::Button::Right},
+        {MouseKeys::MIDDLE_CLICK, sf::Mouse::Button::Middle}};
+
     while (this->_window->pollEvent(sfmlEvent)) {
         switch (sfmlEvent.type) {
             case sf::Event::KeyPressed: {
@@ -141,6 +150,23 @@ std::vector<ANAL::Event> &ANAL::SFMLRenderer::getEvents()
                 ANAL::Event ev;
                 ev.keyEvent->key = Keys::KEY_Q;
                 this->_sfmlEvents.push_back(ev);
+                break;
+            }
+            case sf::Event::MouseButtonReleased: {
+                for (auto it : mouse) {
+                    if (sfmlEvent.mouseButton.button == it.second) {
+                        ANAL::Event ev;
+                        ev.mouseEvent->key = it.first;
+                        ev.mouseEvent->state = State::RELEASED;
+                        ev.mouseEvent->coords = {
+                            static_cast<int>(
+                                sfmlEvent.mouseButton.x / cellSize),
+                            static_cast<int>(
+                                sfmlEvent.mouseButton.y / cellSize)};
+                        ev.type = EventType::MOUSE;
+                        this->_sfmlEvents.push_back(ev);
+                    }
+                }
                 break;
             }
             default:
