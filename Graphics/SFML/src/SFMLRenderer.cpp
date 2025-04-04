@@ -41,6 +41,7 @@ void ANAL::SFMLRenderer::drawEntity(const ANAL::IEntity &entity)
 {
     sf::Texture texture;
     sf::Sprite sprite;
+    float cellSize = 900.0F / 32.0F;
 
     if (entity.getAsset().getTexturePath().empty())
         throw Exception();
@@ -49,8 +50,8 @@ void ANAL::SFMLRenderer::drawEntity(const ANAL::IEntity &entity)
         throw Exception();
 
     sprite.setTexture(texture);
-    sprite.setPosition(static_cast<float>(entity.getPos().x),
-        static_cast<float>(entity.getPos().y));
+    sprite.setPosition(static_cast<float>(entity.getPos().x) * cellSize,
+        static_cast<float>(entity.getPos().y) * cellSize);
 
     this->_window->draw(sprite);
 }
@@ -59,13 +60,14 @@ void ANAL::SFMLRenderer::drawText(
     const std::string &str, ANAL::Vector2<int> pos)
 {
     sf::Text text;
+    float cellSize = 900.0F / 32.0F;
 
     if (!this->_font)
         throw Exception();
     text.setFont(*this->_font);
     text.setString(str);
     text.setFillColor(sf::Color::White);
-    text.setPosition(static_cast<float>(pos.x), static_cast<float>(pos.y));
+    text.setPosition(static_cast<float>(pos.x) * cellSize, static_cast<float>(pos.y) * cellSize);
 
     this->_window->draw(text);
 }
