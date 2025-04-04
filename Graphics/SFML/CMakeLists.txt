@@ -21,15 +21,18 @@ endif()
 add_library(arcade_sfml SHARED ${SOURCES})
 set_target_properties(arcade_sfml PROPERTIES PREFIX "")
 
-target_include_directories(arcade_sfml PRIVATE
-    ../
-    ../../modules/anal/include/ANAL/
-)
+if (NOT MISSING_DEP)
+    target_include_directories(arcade_sfml PRIVATE
+        ../
+        ../../modules/anal/include/ANAL/
+    )
 
-target_link_libraries(arcade_sfml PRIVATE
-    sfml-graphics
-    sfml-window
-    sfml-system
-)
+    target_link_libraries(arcade_sfml PRIVATE
+        sfml-graphics
+        sfml-window
+        sfml-system
+    )
+endif()
+
 
 target_compile_options(arcade_sfml PRIVATE -fno-gnu-unique)
