@@ -26,7 +26,6 @@
             pkg-config
             sfml
             ncurses
-            SDL2
             libGLU
             glfw
             glew
@@ -34,6 +33,7 @@
             mesa.dev
             libglvnd
             SDL2
+            SDL2_ttf
             SDL2_image
           ] ++ deps;
         };
