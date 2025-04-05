@@ -50,6 +50,31 @@ void ANAL::NcursesRenderer::render()
 
 std::vector<ANAL::Event> &ANAL::NcursesRenderer::getEvents()
 {
+    std::vector<ANAL::Event> events;
+    const std::map<ANAL::Keys, int> code{{Keys::KEY_A, 'a'},
+        {Keys::KEY_B, 'b'}, {Keys::KEY_C, 'c'}, {Keys::KEY_D, 'd'},
+        {Keys::KEY_E, 'e'}, {Keys::KEY_F, 'f'}, {Keys::KEY_G, 'g'},
+        {Keys::KEY_H, 'h'}, {Keys::KEY_I, 'i'}, {Keys::KEY_J, 'j'},
+        {Keys::KEY_K, 'k'}, {Keys::KEY_L, 'l'}, {Keys::KEY_M, 'm'},
+        {Keys::KEY_N, 'n'}, {Keys::KEY_O, 'o'}, {Keys::KEY_P, 'p'},
+        {Keys::KEY_Q, 'q'}, {Keys::KEY_R, 'r'}, {Keys::KEY_S, 's'},
+        {Keys::KEY_T, 't'}, {Keys::KEY_U, 'u'}, {Keys::KEY_V, 'v'},
+        {Keys::KEY_W, 'w'}, {Keys::KEY_X, 'x'}, {Keys::KEY_Y, 'y'},
+        {Keys::KEY_Z, 'z'}, {Keys::KEY_0, '0'}, {Keys::KEY_1, '1'},
+        {Keys::KEY_2, '2'}, {Keys::KEY_3, '3'}, {Keys::KEY_4, '4'},
+        {Keys::KEY_5, '5'}, {Keys::KEY_6, '6'}, {Keys::KEY_7, '7'},
+        {Keys::KEY_8, '8'}, {Keys::KEY_9, '9'}};
+    int ch;
+    while ((ch = getch()) != ERR) {
+        for (auto it : code)
+            if (ch == it.second) {
+                ANAL::Event ev;
+                ev.keyEvent->key = it.first;
+                this->_ncursesEvents.push_back(ev);
+                break;
+            }
+    }
+    return this->_ncursesEvents;
 }
 
 void ANAL::NcursesRenderer::clear()
