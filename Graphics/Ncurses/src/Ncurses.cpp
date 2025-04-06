@@ -10,14 +10,23 @@
 #include <map>
 #include <ncurses.h>
 
-ANAL::NcursesRenderer::NcursesRenderer() : _windowSize(32, 32), _upperLeftCornerPos(0, 0){
+ANAL::NcursesRenderer::NcursesRenderer()
+    : _windowSize(32, 32), _upperLeftCornerPos(0, 0)
+{
     initscr();
     curs_set(0);
     keypad(stdscr, TRUE);
     noecho();
     nodelay(stdscr, TRUE);
     this->_windowSize = ANAL::Vector2<int>(32, 32);
-    this->_upperLeftCornerPos = ANAL::Vector2<int>((getmaxx(stdscr) - this->_windowSize.x) / 2, (getmaxy(stdscr) - this->_windowSize.y) / 2);
+    this->_upperLeftCornerPos =
+        ANAL::Vector2<int>((getmaxx(stdscr) - this->_windowSize.x) / 2,
+            (getmaxy(stdscr) - this->_windowSize.y) / 2);
+}
+
+ANAL::NcursesRenderer::~NcursesRenderer()
+{
+    endwin();
 }
 
 void ANAL::NcursesRenderer::drawEntity(const ANAL::IEntity &entity)
