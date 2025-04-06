@@ -23,7 +23,7 @@ namespace ANAL {
 
        private:
         ANAL::Vector2<int> _upperLeftCornerPos;
-        ANAL::Vector2<int> _windowSize = {30, 30};
+        ANAL::Vector2<int> _windowSize;
         std::string _windowTitle;
         std::vector<ANAL::Event> _ncursesEvents;
     };
