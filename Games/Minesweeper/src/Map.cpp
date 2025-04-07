@@ -8,6 +8,7 @@
 #include "MinesweeperEngine.hpp"
 #include <cstdlib>
 #include <ctime>
+#include <iostream>
 
 void ANAL::MinesweeperEngine::_createMap()
 {
@@ -56,7 +57,7 @@ void ANAL::MinesweeperEngine::_createHardMap()
 {
     this->_nbMine = 99;
     this->_nbMineLeft = 99;
-    this->_gridSize = 30;
+    this->_gridSize = 32;
 
     this->_map.clear();
     this->_map.resize(this->_gridSize);

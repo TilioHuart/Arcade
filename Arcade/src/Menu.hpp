@@ -19,13 +19,6 @@ namespace Arcade {
 
         void processEvents(std::vector<ANAL::Event> &Event) override
         {
-            for (auto &it : Event) {
-                if (it.type == ANAL::EventType::MOUSE) {
-                    std::cout
-                        << "Astalavista baby\nx:" << it.mouseEvent->coords.x
-                        << "\ny:" << it.mouseEvent->coords.y << std::endl;
-                }
-            }
         };
 
         void compute() override {};

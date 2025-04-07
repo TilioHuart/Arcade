@@ -7,6 +7,7 @@
 
 #include "MinesweeperEngine.hpp"
 #include <cstdint>
+#include <iostream>
 #include <sstream>
 #include <vector>
 
@@ -25,13 +26,12 @@ void ANAL::MinesweeperEngine::_renderBackground(
     auto entity = arcade.newEntity();
     auto asset = arcade.newAsset();
 
-    asset->setTexturePath("assets/hidden.png");
+    asset->setTexturePath("./assets/minesweeper/hidden.png");
     asset->setAlternateRender('~');
     entity->setAsset(*asset);
     for (size_t i = 0; i < this->_gridSize; i += 1) {
         for (size_t j = 0; j < this->_gridSize; j += 1) {
-            entity->setPos({static_cast<int>(i * (900 / this->_gridSize)),
-                static_cast<int>(j * (900 / this->_gridSize))});
+            entity->setPos({static_cast<int>(i), static_cast<int>(j)});
             renderer.drawEntity(*entity);
         }
     }
@@ -52,35 +52,36 @@ void ANAL::MinesweeperEngine::_renderCases(
     }
 }
 
-void ANAL::MinesweeperEngine::_displayHidden(
-    ANAL::IRenderer &renderer, const ANAL::IArcade &arcade, size_t i, size_t j) const
+void ANAL::MinesweeperEngine::_displayHidden(ANAL::IRenderer &renderer,
+    const ANAL::IArcade &arcade, size_t i, size_t j) const
 {
     auto entity = arcade.newEntity();
     auto asset = arcade.newAsset();
 
-    asset->setTexturePath("assets/hidden.png");
+    asset->setTexturePath("./assets/minesweeper/hidden.png");
     asset->setAlternateRender('~');
     entity->setAsset(*asset);
-    entity->setPos({static_cast<int>(i * (900 / this->_gridSize)),
-        static_cast<int>(j * (900 / this->_gridSize))});
+    entity->setPos({static_cast<int>(i), static_cast<int>(j)});
 
     renderer.drawEntity(*entity);
 }
 
-void ANAL::MinesweeperEngine::_displayVisible(
-    ANAL::IRenderer &renderer, const ANAL::IArcade &arcade, size_t i, size_t j) const
+void ANAL::MinesweeperEngine::_displayVisible(ANAL::IRenderer &renderer,
+    const ANAL::IArcade &arcade, size_t i, size_t j) const
 {
 
     std::stringstream pathStream;
-    std::string path = "assets/";
+    std::string path = "./assets/minesweeper/";
     auto entity = arcade.newEntity();
     auto asset = arcade.newAsset();
 
     if (static_cast<uint8_t>(this->_map[i][j]) >= 1 &&
         static_cast<uint8_t>(this->_map[i][j]) <= 8) {
         pathStream << static_cast<uint8_t>(this->_map[i][j]);
-        path += pathStream.str();
+        // std::cout << "Pathstream " << pathStream.rdbuf() << std::endl;
+        pathStream >> path;
         asset->setAlternateRender(pathStream.str().front());
+        std::cout << "Ici: " << path << std::endl;
     }
     if (this->_map[i][j] == Case::EMPTY) {
         path += "empty";
@@ -93,14 +94,13 @@ void ANAL::MinesweeperEngine::_displayVisible(
     path += ".png";
     asset->setTexturePath(path);
     entity->setAsset(*asset);
-    entity->setPos({static_cast<int>(i * (900 / this->_gridSize)),
-        static_cast<int>(j * (900 / this->_gridSize))});
+    entity->setPos({static_cast<int>(i), static_cast<int>(j)});
 
     renderer.drawEntity(*entity);
 }
 
-void ANAL::MinesweeperEngine::_displayFlag(
-    ANAL::IRenderer &renderer, const ANAL::IArcade &arcade, size_t i, size_t j) const
+void ANAL::MinesweeperEngine::_displayFlag(ANAL::IRenderer &renderer,
+    const ANAL::IArcade &arcade, size_t i, size_t j) const
 {
     auto entity = arcade.newEntity();
     auto asset = arcade.newAsset();
@@ -108,8 +108,7 @@ void ANAL::MinesweeperEngine::_displayFlag(
     asset->setTexturePath("assets/flag.png");
     asset->setAlternateRender(' ');
     entity->setAsset(*asset);
-    entity->setPos({static_cast<int>(i * (900 / this->_gridSize)),
-        static_cast<int>(j * (900 / this->_gridSize))});
+    entity->setPos({static_cast<int>(i), static_cast<int>(j)});
 
     renderer.drawEntity(*entity);
 }
