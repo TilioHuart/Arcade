@@ -7,6 +7,7 @@
 
 #pragma once
 
+#include "Events.hpp"
 #include "IArcade.hpp"
 #include "IAsset.hpp"
 #include "IEntity.hpp"
@@ -37,6 +38,9 @@ namespace Arcade {
 
         void setGame(std::unique_ptr<ANAL::IGame> &);
         void setDisplay(std::unique_ptr<ANAL::IRenderer> &);
+
+        void setGameToLaunch(const std::string &gameToLaunch);
+        void setRendererToLaunch(const std::string &rendererToLaunch);
         void run();
 
         [[nodiscard]] std::unique_ptr<ANAL::IAsset> newAsset() const final;
@@ -44,9 +48,14 @@ namespace Arcade {
 
        private:
         bool _isRunning = true;
+
+        std::string _gameToLaunch;
+        std::string _rendererToLaunch;
+
         std::unique_ptr<ANAL::IGame> _runningGame;
         std::unique_ptr<ANAL::IRenderer> _runningDisplay;
-        std::vector<std::string> gameLibList;
-        std::vector<std::string> displayLibList;
+
+        void _reloadRenderer();
+        void _reloadGame();
     };
 }  // namespace Arcade

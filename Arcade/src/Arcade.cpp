@@ -9,6 +9,9 @@
 #include "Asset.hpp"
 #include "Entity.hpp"
 #include "Events.hpp"
+#include "IGame.hpp"
+#include "src/DlUtils.hpp"
+#include "src/Menu.hpp"
 #include <chrono>
 #include <iostream>
 #include <memory>
@@ -39,6 +42,8 @@ void Arcade::Arcade::run()
         auto frameStart = std::chrono::steady_clock::now();
 
         this->_runningGame->render(*this->_runningDisplay, *this);
+        this->_reloadRenderer();
+        this->_reloadGame();
 
         events.clear();
         events = this->_runningDisplay->getEvents();
@@ -59,6 +64,42 @@ void Arcade::Arcade::run()
         this->_runningGame->processEvents(events);
         this->_runningGame->compute();
     }
+}
+
+void Arcade::Arcade::setGameToLaunch(const std::string &gameToLaunch)
+{
+    this->_gameToLaunch = gameToLaunch;
+}
+
+void Arcade::Arcade::setRendererToLaunch(const std::string &rendererToLaunch)
+{
+    this->_rendererToLaunch = rendererToLaunch;
+}
+
+void Arcade::Arcade::_reloadRenderer()
+{
+    auto rendererLib = this->_rendererToLaunch;
+    
+    if (rendererLib == "")
+        return;
+    void *loadedLib = DlUtils::open(rendererLib);
+    auto graphical = DlUtils::loadDisplay(loadedLib);
+
+    this->setDisplay(graphical);
+    this->_rendererToLaunch = "";
+}
+
+void Arcade::Arcade::_reloadGame()
+{
+    auto gameLib = this->_gameToLaunch;
+    
+    if (gameLib == "")
+        return;
+    void *loadedGame = DlUtils::open(gameLib);
+    auto game = DlUtils::loadGame(loadedGame);
+
+    this->setGame(game);
+    this->_gameToLaunch = "";
 }
 
 [[nodiscard]] std::unique_ptr<ANAL::IAsset> Arcade::Arcade::newAsset() const
