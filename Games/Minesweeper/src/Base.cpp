@@ -30,8 +30,6 @@ void ANAL::MinesweeperEngine::processEvents(std::vector<ANAL::Event> &Event)
 {
     for (auto &it : Event) {
         if (it.type == ANAL::EventType::MOUSE) {
-            std::cout << "Astalavista baby\nx:" << it.mouseEvent->coords.x
-                      << "\ny:" << it.mouseEvent->coords.y << std::endl;
             auto xPos = it.mouseEvent->coords.x;
             auto yPos = it.mouseEvent->coords.y;
             if (xPos >= this->_gridSize || yPos >= this->_gridSize) {

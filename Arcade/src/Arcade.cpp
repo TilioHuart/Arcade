@@ -48,7 +48,6 @@ void Arcade::Arcade::run()
                 break;
             }
         }
-
         auto frameEnd = std::chrono::steady_clock::now();
         auto frameDuration =
             std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -57,8 +56,6 @@ void Arcade::Arcade::run()
         if (frameDuration < targetFrameDuration) {
             std::this_thread::sleep_for(targetFrameDuration - frameDuration);
         }
-        std::cout << "Ici" << std::endl;
-
         this->_runningGame->processEvents(events);
         this->_runningGame->compute();
     }

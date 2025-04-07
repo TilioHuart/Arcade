@@ -72,23 +72,25 @@ void ANAL::MinesweeperEngine::_displayVisible(ANAL::IRenderer &renderer,
 
     std::stringstream pathStream;
     std::string path = "./assets/minesweeper/";
+    std::string tmp = "";
     auto entity = arcade.newEntity();
     auto asset = arcade.newAsset();
 
     if (static_cast<uint8_t>(this->_map[i][j]) >= 1 &&
         static_cast<uint8_t>(this->_map[i][j]) <= 8) {
-        pathStream << static_cast<uint8_t>(this->_map[i][j]);
-        // std::cout << "Pathstream " << pathStream.rdbuf() << std::endl;
-        pathStream >> path;
-        asset->setAlternateRender(pathStream.str().front());
-        std::cout << "Ici: " << path << std::endl;
-    }
-    if (this->_map[i][j] == Case::EMPTY) {
-        path += "empty";
+        pathStream << static_cast<int>(this->_map[i][j]);
+        pathStream >> tmp;
+        path += tmp;
+        asset->setAlternateRender(tmp.front());
+    } else if (this->_map[i][j] == Case::EMPTY) {
+        pathStream << "empty";
+        pathStream >> tmp;
+        path += tmp;
         asset->setAlternateRender(' ');
-    }
-    if (this->_map[i][j] == Case::MINE) {
-        path += "bombe";
+    } else if (this->_map[i][j] == Case::MINE) {
+        pathStream << "bombe";
+        pathStream >> tmp;
+        path += tmp;
         asset->setAlternateRender('x');
     }
     path += ".png";
