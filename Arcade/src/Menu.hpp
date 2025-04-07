@@ -28,8 +28,8 @@ namespace Arcade {
             ANAL::IRenderer &renderer, const ANAL::IArcade &arcade) override;
 
        private:
-        std::vector<std::pair<std::string, bool>> _games;
-        std::vector<std::pair<std::string, bool>> _renderer;
+        std::vector<std::string> _games;
+        std::vector<std::string> _renderers;
 
         void retrieveModules();
     };

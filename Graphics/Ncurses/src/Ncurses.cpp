@@ -16,9 +16,9 @@ ANAL::NcursesRenderer::NcursesRenderer()
 {
     initscr();
     curs_set(0);
-    keypad(stdscr, TRUE);
-    noecho();
-    nodelay(stdscr, TRUE);
+    /* keypad(stdscr, TRUE); */
+    /* noecho(); */
+    /* nodelay(stdscr, TRUE); */
     this->_windowSize = ANAL::Vector2<int>(32, 32);
     this->_upperLeftCornerPos =
         ANAL::Vector2<int>((getmaxx(stdscr) - this->_windowSize.x) / 2,
@@ -44,6 +44,7 @@ void ANAL::NcursesRenderer::drawText(
 {
     /* if (pos.y > this->_windowSize.y || pos.x + str.length() > this->_windowSize.x) */
     /*     throw EntityError("Text can't be drawn outside of the window"); */
+    mvprintw(5, 5, "%s", str.c_str());
     mvprintw(this->_upperLeftCornerPos.y + pos.y,
         this->_upperLeftCornerPos.x + pos.x, "%s", str.c_str());
 }
@@ -99,5 +100,10 @@ extern "C" {
 ANAL::ModuleType uwu_get_module_type()
 {
     return ANAL::ModuleType::RENDERER;
+}
+
+std::unique_ptr<ANAL::IRenderer> uwu_entrypoint_renderer(void)
+{
+    return std::make_unique<ANAL::NcursesRenderer>();
 }
 }
