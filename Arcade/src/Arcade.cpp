@@ -14,7 +14,6 @@
 #include "src/Menu.hpp"
 #include <chrono>
 #include <iostream>
-#include <memory>
 #include <thread>
 #include <vector>
 
@@ -42,8 +41,14 @@ void Arcade::Arcade::run()
         auto frameStart = std::chrono::steady_clock::now();
 
         this->_runningGame->render(*this->_runningDisplay, *this);
-        this->_reloadRenderer();
-        this->_reloadGame();
+        auto *menu = dynamic_cast<MenuEngine*>(this->_runningGame.get());
+
+        if (menu != nullptr) {
+            this->_gameToLaunch = menu->getGame();
+            this->_rendererToLaunch = menu->getRenderer();
+            this->_reloadRenderer();
+            this->_reloadGame();
+        }
 
         events.clear();
         events = this->_runningDisplay->getEvents();
@@ -57,7 +62,7 @@ void Arcade::Arcade::run()
         auto frameDuration =
             std::chrono::duration_cast<std::chrono::milliseconds>(
                 frameEnd - frameStart);
-        const std::chrono::milliseconds targetFrameDuration(33);
+        const std::chrono::milliseconds targetFrameDuration(50);
         if (frameDuration < targetFrameDuration) {
             std::this_thread::sleep_for(targetFrameDuration - frameDuration);
         }
@@ -79,7 +84,7 @@ void Arcade::Arcade::setRendererToLaunch(const std::string &rendererToLaunch)
 void Arcade::Arcade::_reloadRenderer()
 {
     auto rendererLib = this->_rendererToLaunch;
-    
+
     if (rendererLib == "")
         return;
     void *loadedLib = DlUtils::open(rendererLib);
@@ -92,7 +97,7 @@ void Arcade::Arcade::_reloadRenderer()
 void Arcade::Arcade::_reloadGame()
 {
     auto gameLib = this->_gameToLaunch;
-    
+
     if (gameLib == "")
         return;
     void *loadedGame = DlUtils::open(gameLib);

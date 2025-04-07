@@ -28,6 +28,7 @@ void ANAL::MinesweeperEngine::processEvents(std::vector<ANAL::Event> &Event)
         if (this->_hasLose) {
                 if (it.keyEvent->key == ANAL::Keys::KEY_R) {
                     this->_hasLose = false;
+                    this->_mineDisplayed = false;
                     this->_restartGame();
                 }
             return;
@@ -46,10 +47,12 @@ void ANAL::MinesweeperEngine::processEvents(std::vector<ANAL::Event> &Event)
             if (mouseKey == MouseKeys::RIGHT_CLICK) {
                 if (this->_hidden[xPos][yPos] == ANAL::Visibility::HIDDEN) {
                     this->_hidden[xPos][yPos] = ANAL::Visibility::FLAG;
+                    this->_nbFlags += 1;
                     continue;
                 }
                 if (this->_hidden[xPos][yPos] == ANAL::Visibility::FLAG) {
                     this->_hidden[xPos][yPos] = ANAL::Visibility::HIDDEN;
+                    this->_nbFlags -= 1;
                     continue;
                 }
             }

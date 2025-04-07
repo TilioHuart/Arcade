@@ -13,14 +13,14 @@
 void ANAL::MinesweeperEngine::_createMap()
 {
     switch (this->_difficulty) {
-        case ANAL::Difficulty::NORMAL:
-            this->_createNormalMap();
+        case ANAL::Difficulty::EASY:
+            this->_createEasyMap();
             break;
         case ANAL::Difficulty::HARD:
             this->_createHardMap();
             break;
         default:
-            this->_createEasyMap();
+            this->_createNormalMap();
             break;
     }
 }
@@ -43,7 +43,7 @@ void ANAL::MinesweeperEngine::_createNormalMap()
 {
     this->_nbMine = 40;
     this->_nbMineLeft = 40;
-    this->_gridSize = 20;
+    this->_gridSize = 15;
 
     this->_map.clear();
     this->_map.resize(this->_gridSize);
@@ -57,7 +57,7 @@ void ANAL::MinesweeperEngine::_createHardMap()
 {
     this->_nbMine = 99;
     this->_nbMineLeft = 99;
-    this->_gridSize = 32;
+    this->_gridSize = 22;
 
     this->_map.clear();
     this->_map.resize(this->_gridSize);

@@ -7,9 +7,11 @@
 
 #include "IRenderer.hpp"
 #include "MinesweeperEngine.hpp"
+#include <chrono>
 #include <cstdint>
 #include <iostream>
 #include <sstream>
+#include <thread>
 #include <vector>
 
 void ANAL::MinesweeperEngine::render(
@@ -26,11 +28,35 @@ void ANAL::MinesweeperEngine::render(
 }
 
 void ANAL::MinesweeperEngine::_displayLose(
-    ANAL::IRenderer &renderer, const ANAL::IArcade &arcade) const
+    ANAL::IRenderer &renderer, const ANAL::IArcade &arcade)
 {
+    this->_displayMines(renderer, arcade);
+
     renderer.clear();
     renderer.drawText("You Lose", Vector2<int>(10, 10));
     renderer.render();
+}
+
+void ANAL::MinesweeperEngine::_displayMines(
+    ANAL::IRenderer &renderer, const ANAL::IArcade &arcade)
+{
+    if (this->_mineDisplayed)
+        return;
+    for (size_t i = 0; i < this->_gridSize; i += 1) {
+        for (size_t j = 0; j < this->_gridSize; j += 1) {
+            if (this->_map[i][j] == Case::MINE) {
+                this->_hidden[i][j] = ANAL::Visibility::VISIBLE;
+            }
+        }
+    }
+    renderer.clear();
+    this->_renderBackground(renderer, arcade);
+    this->_renderCases(renderer, arcade);
+    renderer.render();
+    this->_mineDisplayed = true;
+
+    auto timeToWait = std::chrono::milliseconds(3000);
+    std::this_thread::sleep_for(timeToWait);
 }
 
 void ANAL::MinesweeperEngine::_renderBackground(

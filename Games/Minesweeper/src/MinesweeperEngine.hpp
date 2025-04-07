@@ -41,11 +41,13 @@ namespace ANAL {
             ANAL::IRenderer &renderer, const ANAL::IArcade &arcade) override;
 
        private:
-        Difficulty _difficulty = Difficulty::EASY;
+        Difficulty _difficulty = Difficulty::NORMAL;
         size_t _nbMine = 10;
         size_t _nbMineLeft = 10;
+        size_t _nbFlags = 0;
         size_t _gridSize = 10;
         bool _hasLose = false;
+        bool _mineDisplayed = false;
         std::vector<std::vector<ANAL::Case>> _map;
         std::vector<std::vector<ANAL::Visibility>> _hidden;
 
@@ -70,8 +72,8 @@ namespace ANAL {
             const ANAL::IArcade &arcade, size_t i, size_t j) const;
         void _displayFlag(ANAL::IRenderer &renderer,
             const ANAL::IArcade &arcade, size_t i, size_t j) const;
-
+        void _displayMines(ANAL::IRenderer &renderer, const ANAL::IArcade &arcade);
         void _displayLose(
-            ANAL::IRenderer &renderer, const ANAL::IArcade &arcade) const;
+            ANAL::IRenderer &renderer, const ANAL::IArcade &arcade);
     };
 }  // namespace ANAL
