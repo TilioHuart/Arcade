@@ -14,35 +14,67 @@
 
 ANAL::MinesweeperEngine::MinesweeperEngine()
 {
-    std::cout << "Init of minesweeper" << std::endl;
     this->_createMap();
     this->_placeMines();
     this->_setNeighbors();
     this->_createHidden();
 }
 
-ANAL::MinesweeperEngine::~MinesweeperEngine()
-{
-    std::cout << "Destroy of minesweeper" << std::endl;
-}
+ANAL::MinesweeperEngine::~MinesweeperEngine() {}
 
 void ANAL::MinesweeperEngine::processEvents(std::vector<ANAL::Event> &Event)
 {
     for (auto &it : Event) {
+        if (this->_hasLose) {
+                if (it.keyEvent->key == ANAL::Keys::KEY_R) {
+                    this->_hasLose = false;
+                    this->_restartGame();
+                }
+            return;
+        }
         if (it.type == ANAL::EventType::MOUSE) {
             auto xPos = it.mouseEvent->coords.x;
             auto yPos = it.mouseEvent->coords.y;
+            auto mouseKey = it.mouseEvent->key;
+
             if (xPos >= this->_gridSize || yPos >= this->_gridSize) {
                 continue;
             }
-            if (this->_hidden[xPos][yPos] == ANAL::Visibility::HIDDEN) {
+            if (mouseKey == MouseKeys::LEFT_CLICK) {
                 this->_hidden[xPos][yPos] = ANAL::Visibility::VISIBLE;
+            }
+            if (mouseKey == MouseKeys::RIGHT_CLICK) {
+                if (this->_hidden[xPos][yPos] == ANAL::Visibility::HIDDEN) {
+                    this->_hidden[xPos][yPos] = ANAL::Visibility::FLAG;
+                    continue;
+                }
+                if (this->_hidden[xPos][yPos] == ANAL::Visibility::FLAG) {
+                    this->_hidden[xPos][yPos] = ANAL::Visibility::HIDDEN;
+                    continue;
+                }
             }
         }
     }
 }
 
-void ANAL::MinesweeperEngine::compute() {}
+void ANAL::MinesweeperEngine::compute()
+{
+    for (size_t i = 0; i < this->_gridSize; i += 1) {
+        for (size_t j = 0; j < this->_gridSize; j += 1) {
+            if (this->_hidden[i][j] == Visibility::VISIBLE &&
+                this->_map[i][j] == Case::MINE)
+                this->_hasLose = true;
+        }
+    }
+}
+
+void ANAL::MinesweeperEngine::_restartGame()
+{
+    this->_createMap();
+    this->_placeMines();
+    this->_setNeighbors();
+    this->_createHidden();
+}
 
 extern "C" {
 ANAL::ModuleType uwu_get_module_type()

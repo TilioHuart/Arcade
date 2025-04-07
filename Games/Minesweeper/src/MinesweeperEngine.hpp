@@ -8,6 +8,7 @@
 #pragma once
 
 #include "AGame.hpp"
+#include "IArcade.hpp"
 #include <cstdint>
 
 namespace ANAL {
@@ -36,15 +37,19 @@ namespace ANAL {
         ~MinesweeperEngine() override;
         void processEvents(std::vector<Event> &Event) override;
         void compute() override;
-        void render(ANAL::IRenderer &renderer, const ANAL::IArcade &arcade) override;
+        void render(
+            ANAL::IRenderer &renderer, const ANAL::IArcade &arcade) override;
 
        private:
         Difficulty _difficulty = Difficulty::EASY;
         size_t _nbMine = 10;
         size_t _nbMineLeft = 10;
         size_t _gridSize = 10;
+        bool _hasLose = false;
         std::vector<std::vector<ANAL::Case>> _map;
         std::vector<std::vector<ANAL::Visibility>> _hidden;
+
+        void _restartGame();
 
         void _createMap();
         void _createEasyMap();
@@ -57,9 +62,16 @@ namespace ANAL {
 
         void _renderBackground(
             ANAL::IRenderer &renderer, const ANAL::IArcade &arcade) const;
-        void _renderCases(ANAL::IRenderer &renderer, const ANAL::IArcade &arcade) const;
-        void _displayHidden(ANAL::IRenderer &renderer, const ANAL::IArcade &arcade, size_t i, size_t j) const;
-        void _displayVisible(ANAL::IRenderer &renderer, const ANAL::IArcade &arcade, size_t i, size_t j) const;
-        void _displayFlag(ANAL::IRenderer &renderer, const ANAL::IArcade &arcade, size_t i, size_t j) const;
+        void _renderCases(
+            ANAL::IRenderer &renderer, const ANAL::IArcade &arcade) const;
+        void _displayHidden(ANAL::IRenderer &renderer,
+            const ANAL::IArcade &arcade, size_t i, size_t j) const;
+        void _displayVisible(ANAL::IRenderer &renderer,
+            const ANAL::IArcade &arcade, size_t i, size_t j) const;
+        void _displayFlag(ANAL::IRenderer &renderer,
+            const ANAL::IArcade &arcade, size_t i, size_t j) const;
+
+        void _displayLose(
+            ANAL::IRenderer &renderer, const ANAL::IArcade &arcade) const;
     };
 }  // namespace ANAL

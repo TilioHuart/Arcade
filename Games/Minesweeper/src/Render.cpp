@@ -5,6 +5,7 @@
 // Render
 //
 
+#include "IRenderer.hpp"
 #include "MinesweeperEngine.hpp"
 #include <cstdint>
 #include <iostream>
@@ -14,9 +15,21 @@
 void ANAL::MinesweeperEngine::render(
     ANAL::IRenderer &renderer, const ANAL::IArcade &arcade)
 {
+    if (this->_hasLose) {
+        this->_displayLose(renderer, arcade);
+        return;
+    }
     renderer.clear();
     this->_renderBackground(renderer, arcade);
     this->_renderCases(renderer, arcade);
+    renderer.render();
+}
+
+void ANAL::MinesweeperEngine::_displayLose(
+    ANAL::IRenderer &renderer, const ANAL::IArcade &arcade) const
+{
+    renderer.clear();
+    renderer.drawText("You Lose", Vector2<int>(10, 10));
     renderer.render();
 }
 
@@ -107,7 +120,7 @@ void ANAL::MinesweeperEngine::_displayFlag(ANAL::IRenderer &renderer,
     auto entity = arcade.newEntity();
     auto asset = arcade.newAsset();
 
-    asset->setTexturePath("assets/flag.png");
+    asset->setTexturePath("assets/minesweeper/flag.png");
     asset->setAlternateRender(' ');
     entity->setAsset(*asset);
     entity->setPos({static_cast<int>(i), static_cast<int>(j)});
