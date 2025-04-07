@@ -41,7 +41,7 @@ void Arcade::Arcade::run()
         auto frameStart = std::chrono::steady_clock::now();
 
         this->_runningGame->render(*this->_runningDisplay, *this);
-        auto *menu = dynamic_cast<MenuEngine*>(this->_runningGame.get());
+        auto *menu = dynamic_cast<MenuEngine *>(this->_runningGame.get());
 
         if (menu != nullptr) {
             this->_gameToLaunch = menu->getGame();
@@ -52,12 +52,8 @@ void Arcade::Arcade::run()
 
         events.clear();
         events = this->_runningDisplay->getEvents();
-        for (const auto &event : events) {
-            if (event.closeEvent) {
-                this->_isRunning = false;
-                break;
-            }
-        }
+        if (!this->_processArcadeEvents(events))
+            continue;
         auto frameEnd = std::chrono::steady_clock::now();
         auto frameDuration =
             std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -69,6 +65,23 @@ void Arcade::Arcade::run()
         this->_runningGame->processEvents(events);
         this->_runningGame->compute();
     }
+}
+
+bool Arcade::Arcade::_processArcadeEvents(
+    const std::vector<ANAL::Event> &events)
+{
+    for (const auto &event : events) {
+        if (event.closeEvent) {
+            this->_isRunning = false;
+            return false;
+        }
+        if (event.keyEvent->key == ANAL::Keys::KEY_N) {
+            std::unique_ptr<ANAL::IGame> menu = std::make_unique<MenuEngine>();
+            this->setGame(menu);
+            return false;
+        }
+    }
+    return true;
 }
 
 void Arcade::Arcade::setGameToLaunch(const std::string &gameToLaunch)

@@ -25,7 +25,7 @@ namespace Arcade {
 
         class ArcadeError : public std::exception {
            public:
-            ArcadeError(std::string msg): _msg(std::move(msg)) {};
+            ArcadeError(std::string msg) : _msg(std::move(msg)) {};
 
             [[nodiscard]] const char *what() const noexcept override
             {
@@ -57,5 +57,7 @@ namespace Arcade {
 
         void _reloadRenderer();
         void _reloadGame();
+
+        bool _processArcadeEvents(const std::vector<ANAL::Event> &events);
     };
 }  // namespace Arcade
