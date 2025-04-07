@@ -9,11 +9,16 @@
 
 #include "AGame.hpp"
 #include "Events.hpp"
+#include "Vector2.hpp"
 #include <cstdint>
 #include <vector>
 
-namespace anal {
+namespace ANAL {
     enum class STATE : std::uint8_t { EMPTY, FRUIT, SNAKE, HEAD };
+
+    enum class DIRECTION : std::uint8_t { UP, DOWN, LEFT, RIGHT };
+
+    enum class VICTORY : std::uint8_t { YES, NO, UNDEFINED };
 
     class SnakeEngine : public ANAL::AGame {
        public:
@@ -26,12 +31,31 @@ namespace anal {
 
        private:
         std::vector<std::vector<STATE>> map;
-        uint8_t mapSize = 15;
+        std::vector<ANAL::Vector2<int>> snake;
+        int fruitX;
+        int fruitY;
+        int mapSize = 15;
         uint8_t fruitPos = 0;
+        bool fruitEaten = true;
+        int previousX;
+        int previousY;
+        DIRECTION snakeDirection = DIRECTION::RIGHT;
+        uint8_t snakeCompute = 0;
+        VICTORY gameState = VICTORY::UNDEFINED;
 
         void createMap();
         void setSnake();
         void setFruit();
+        void renderMap(ANAL::IRenderer &renderer, const ANAL::IArcade &arcade);
+        void renderFruit(
+            ANAL::IRenderer &renderer, const ANAL::IArcade &arcade);
+        void renderSnake(
+            ANAL::IRenderer &renderer, const ANAL::IArcade &arcade);
+        void computeSnake();
+        void moveRight();
+        void moveLeft();
+        void moveUp();
+        void moveDown();
     };
 
-}  // namespace anal
+}  // namespace ANAL

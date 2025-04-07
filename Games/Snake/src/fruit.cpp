@@ -6,26 +6,41 @@
 //
 
 #include "SnakeEngine.hpp"
-#include <cstdint>
+#include <iostream>
 
-void anal::SnakeEngine::setFruit()
+void ANAL::SnakeEngine::setFruit()
 {
-    uint8_t counter = 0;
-    uint8_t newCounter = 0;
-
-    for (const auto &it : this->map)
-        for (auto elt : it)
-            if (elt == STATE::EMPTY)
-                counter += 1;
-
-    srand (time(nullptr));
-    uint8_t newFruit = rand() % counter;
+    if (!fruitEaten)
+        return;
+    int counter = 0;
+    int newCounter = 0;
 
     for (const auto &it : this->map)
         for (auto elt : it) {
-            if (newCounter == newFruit)
+            if (elt == STATE::EMPTY)
+                counter += 1;
+        }
+
+    srand(time(nullptr));
+    int newFruit = rand() % counter;
+
+    int i = 0;
+    int y = 0;
+    for (auto &it : this->map) {
+        for (auto &elt : it) {
+            if (newCounter == newFruit) {
+                std::cout << "New fruit at " << newCounter << "\n";
                 elt = STATE::FRUIT;
+                this->fruitX = y;
+                this->fruitY = i;
+                this->fruitEaten = false;
+                return;
+            }
             if (elt == STATE::EMPTY)
                 newCounter += 1;
+            i += 1;
+        }
+        y += 1;
+        i = 0;
     }
 }
