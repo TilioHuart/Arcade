@@ -34,13 +34,9 @@ Arcade::MenuEngine::MenuEngine()
             DlUtils::close(lib);
             switch (type) {
                 case ANAL::ModuleType::GAME:
-                    std::cout << "add game " << elem.path().string()
-                              << std::endl;
                     this->_games.push_back(elem.path().string());
                     break;
                 case ANAL::ModuleType::RENDERER:
-                    std::cout << "add disp " << elem.path().string()
-                              << std::endl;
                     this->_renderers.push_back(elem.path().string());
                     break;
                 default:

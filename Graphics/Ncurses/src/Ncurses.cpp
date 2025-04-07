@@ -10,19 +10,22 @@
 #include "IModule.hpp"
 #include <map>
 #include <ncurses.h>
+#include <term.h>
+#include <unistd.h>
 
 ANAL::NcursesRenderer::NcursesRenderer()
     : _windowSize(32, 32), _upperLeftCornerPos(0, 0)
 {
-    initscr();
-    curs_set(0);
-    /* keypad(stdscr, TRUE); */
-    /* noecho(); */
-    /* nodelay(stdscr, TRUE); */
+    this->_window = initscr();
+    noecho();
+    raw();
+    setupterm(NULL, STDOUT_FILENO, NULL);
+    keypad(stdscr, TRUE);
+    nodelay(stdscr, TRUE);
     this->_windowSize = ANAL::Vector2<int>(32, 32);
     this->_upperLeftCornerPos =
-        ANAL::Vector2<int>((getmaxx(stdscr) - this->_windowSize.x) / 2,
-            (getmaxy(stdscr) - this->_windowSize.y) / 2);
+        ANAL::Vector2<int>((getmaxx(this->_window) - this->_windowSize.x) / 2,
+            (getmaxy(this->_window) - this->_windowSize.y) / 2);
 }
 
 ANAL::NcursesRenderer::~NcursesRenderer()
@@ -44,7 +47,6 @@ void ANAL::NcursesRenderer::drawText(
 {
     /* if (pos.y > this->_windowSize.y || pos.x + str.length() > this->_windowSize.x) */
     /*     throw EntityError("Text can't be drawn outside of the window"); */
-    mvprintw(5, 5, "%s", str.c_str());
     mvprintw(this->_upperLeftCornerPos.y + pos.y,
         this->_upperLeftCornerPos.x + pos.x, "%s", str.c_str());
 }
@@ -59,7 +61,7 @@ void ANAL::NcursesRenderer::setWindowTitle(const std::string &windowTitle)
 
 void ANAL::NcursesRenderer::render()
 {
-    refresh();
+    wrefresh(this->_window);
 }
 
 std::vector<ANAL::Event> &ANAL::NcursesRenderer::getEvents()
@@ -93,7 +95,8 @@ std::vector<ANAL::Event> &ANAL::NcursesRenderer::getEvents()
 
 void ANAL::NcursesRenderer::clear()
 {
-    clear();
+    wclear(this->_window);
+    wrefresh(this->_window);
 }
 
 extern "C" {

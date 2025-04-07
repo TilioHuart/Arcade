@@ -26,5 +26,6 @@ namespace ANAL {
         ANAL::Vector2<int> _windowSize;
         std::string _windowTitle;
         std::vector<ANAL::Event> _ncursesEvents;
+        WINDOW *_window = nullptr;
     };
 }  // namespace ANAL
