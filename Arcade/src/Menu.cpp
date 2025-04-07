@@ -54,10 +54,9 @@ void Arcade::MenuEngine::render(
     renderer.setWindowTitle("uwu Menu");
     renderer.drawText("uwu_MENU_uwu", ANAL::Vector2<int>(3, 1));
     renderer.drawText("Games:", ANAL::Vector2<int>(0, line));
-    line += 2;
-    for (int i = 0; i < this->_renderers.size() && i < 10; i++) {
+    for (int i = 0; i < this->_games.size() && i < 10; i++) {
         line += 1;
-        renderer.drawText(this->_renderers[i], ANAL::Vector2<int>(2, line));
+        renderer.drawText(this->_games[i], ANAL::Vector2<int>(2, line));
     }
     line += 3;
     renderer.drawText("Displays:", ANAL::Vector2<int>(0, line));
