@@ -58,6 +58,8 @@ ANAL::SDLRenderer::~SDLRenderer()
 
 void ANAL::SDLRenderer::drawEntity(const ANAL::IEntity &entity)
 {
+    float cellSizeWidth = this->_windowWidth / 32.0F;
+    float cellSizeHeight = this->_windowHeight / 32.0F;
     SDL_Texture *texture;
     SDL_Rect dest;
 
@@ -68,12 +70,8 @@ void ANAL::SDLRenderer::drawEntity(const ANAL::IEntity &entity)
         this->_renderer, entity.getAsset().getTexturePath().c_str());
     if (texture == nullptr)
         throw Exception();
-    float cellSizeWidth = this->_windowWidth / 32.0F;
-    float cellSizeHeight = this->_windowHeight / 32.0F;
     dest.x = static_cast<int>(entity.getPos().x * cellSizeWidth);
     dest.y = static_cast<int>(entity.getPos().y * cellSizeHeight);
-    dest.x = entity.getPos().x;
-    dest.y = entity.getPos().y;
     SDL_QueryTexture(texture, nullptr, nullptr, &dest.w, &dest.h);
     SDL_RenderCopy(this->_renderer, texture, nullptr, &dest);
     SDL_DestroyTexture(texture);
