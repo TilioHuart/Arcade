@@ -24,6 +24,7 @@ Arcade::MenuEngine::MenuEngine()
 {
     this->_actualGame = 0;
     this->_actualRenderer = 0;
+    this->_launchGame = false;
     for (const auto &elem : std::filesystem::directory_iterator("./lib")) {
         if (elem.path().extension() != ".so")
             continue;

@@ -52,8 +52,10 @@ void Arcade::Arcade::run()
 
         events.clear();
         events = this->_runningDisplay->getEvents();
-        if (!this->_processArcadeEvents(events))
+        if (!this->_processArcadeEvents(events)) {
+            events.clear();
             continue;
+        }
         auto frameEnd = std::chrono::steady_clock::now();
         auto frameDuration =
             std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -98,26 +100,26 @@ void Arcade::Arcade::_reloadRenderer()
 {
     auto rendererLib = this->_rendererToLaunch;
 
-    if (rendererLib == "")
+    if (rendererLib.empty())
         return;
     void *loadedLib = DlUtils::open(rendererLib);
     auto graphical = DlUtils::loadDisplay(loadedLib);
 
     this->setDisplay(graphical);
-    this->_rendererToLaunch = "";
+    this->_rendererToLaunch.clear();
 }
 
 void Arcade::Arcade::_reloadGame()
 {
     auto gameLib = this->_gameToLaunch;
 
-    if (gameLib == "")
+    if (gameLib.empty())
         return;
     void *loadedGame = DlUtils::open(gameLib);
     auto game = DlUtils::loadGame(loadedGame);
 
     this->setGame(game);
-    this->_gameToLaunch = "";
+    this->_gameToLaunch.clear();
 }
 
 [[nodiscard]] std::unique_ptr<ANAL::IAsset> Arcade::Arcade::newAsset() const
