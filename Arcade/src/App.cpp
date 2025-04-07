@@ -19,12 +19,12 @@ int runApp(const char *lib)
     try {
         void *loadedLib = Arcade::DlUtils::open(lib);
         auto graphical = Arcade::DlUtils::loadDisplay(loadedLib);
-        std::unique_ptr<ANAL::IGame> menu = std::make_unique<Arcade::MenuEngine>();
-        // void *loadedGame = Arcade::DlUtils::open("lib/arcade_minesweeper.so");
-        // auto game = Arcade::DlUtils::loadGame(loadedGame);
+        // std::unique_ptr<ANAL::IGame> menu = std::make_unique<Arcade::MenuEngine>();
+        void *loadedGame = Arcade::DlUtils::open("lib/arcade_minesweeper.so");
+        auto game = Arcade::DlUtils::loadGame(loadedGame);
         
         arcade.setDisplay(graphical);
-        arcade.setGame(menu);
+        arcade.setGame(game);
         arcade.run();
         Arcade::DlUtils::close(loadedLib);
     } catch (const Arcade::DlUtils::DlUtilsError &error) {
