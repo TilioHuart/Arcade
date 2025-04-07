@@ -26,11 +26,14 @@ namespace Arcade {
         void compute() override;
         void render(
             ANAL::IRenderer &renderer, const ANAL::IArcade &arcade) override;
+        std::string getGame();
+        std::string getRenderer();
 
        private:
         std::vector<std::string> _games;
         std::vector<std::string> _renderers;
-
-        void retrieveModules();
+        size_t _actualGame;
+        size_t _actualRenderer;
+        bool _launchGame;
     };
 }  // namespace Arcade

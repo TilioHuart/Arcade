@@ -13,34 +13,38 @@
 #include "IModule.hpp"
 #include "IRenderer.hpp"
 #include "Vector2.hpp"
+#include "src/Arcade.hpp"
 #include "src/DlUtils.hpp"
 #include <filesystem>
 #include <iostream>
 #include <memory>
 #include <ostream>
 
-
-Arcade::MenuEngine::MenuEngine() {
+Arcade::MenuEngine::MenuEngine()
+{
+    this->_actualGame = 0;
+    this->_actualRenderer = 0;
     for (const auto &elem : std::filesystem::directory_iterator("./lib")) {
         if (elem.path().extension() != ".so")
             continue;
         try {
-            void *lib = Arcade::DlUtils::open(elem.path().string());
-            ANAL::ModuleType type = Arcade::DlUtils::getLibType(lib);
+            void *lib = DlUtils::open(elem.path().string());
+            ANAL::ModuleType type = DlUtils::getLibType(lib);
             switch (type) {
                 case ANAL::ModuleType::GAME:
-                    std::cout << "add game " << elem.path().string() << std::endl;
+                    std::cout << "add game " << elem.path().string()
+                              << std::endl;
                     this->_games.push_back(elem.path().string());
                     break;
                 case ANAL::ModuleType::RENDERER:
-                    std::cout << "add disp " << elem.path().string() << std::endl;
+                    std::cout << "add disp " << elem.path().string()
+                              << std::endl;
                     this->_renderers.push_back(elem.path().string());
                     break;
                 default:
                     break;
             }
-        }
-        catch (const DlUtils::DlUtilsError&) {
+        } catch (const DlUtils::DlUtilsError &) {
             continue;
         }
     }
@@ -54,12 +58,14 @@ void Arcade::MenuEngine::render(
     renderer.setWindowTitle("uwu Menu");
     renderer.drawText("uwu_MENU_uwu", ANAL::Vector2<int>(3, 1));
     renderer.drawText("Games:", ANAL::Vector2<int>(0, line));
+    renderer.drawText(">", ANAL::Vector2<int>(1, line + 1 + this->_actualGame));
     for (int i = 0; i < this->_games.size() && i < 10; i++) {
         line += 1;
         renderer.drawText(this->_games[i], ANAL::Vector2<int>(2, line));
     }
     line += 3;
     renderer.drawText("Displays:", ANAL::Vector2<int>(0, line));
+    renderer.drawText(">", ANAL::Vector2<int>(1, line + 1 + this->_actualRenderer));
     for (int i = 0; i < this->_renderers.size() && i < 10; i++) {
         line += 1;
         renderer.drawText(this->_renderers[i], ANAL::Vector2<int>(2, line));
@@ -67,11 +73,37 @@ void Arcade::MenuEngine::render(
     renderer.render();
 }
 
-void Arcade::MenuEngine::compute() {
-}
+void Arcade::MenuEngine::compute() {}
 
 void Arcade::MenuEngine::processEvents(std::vector<ANAL::Event> &Event)
 {
+    for (const auto &elem : Event) {
+        if (elem.keyEvent->key == ANAL::Keys::KEY_H &&
+            this->_actualGame < this->_games.size() - 1) {
+            this->_actualGame += 1;
+        }
+        if (elem.keyEvent->key == ANAL::Keys::KEY_J && this->_actualGame > 0) {
+            this->_actualGame -= 1;
+        }
+        if (elem.keyEvent->key == ANAL::Keys::KEY_K &&
+            this->_actualRenderer < this->_renderers.size() - 1) {
+            this->_actualRenderer += 1;
+        }
+        if (elem.keyEvent->key == ANAL::Keys::KEY_L &&
+            this->_actualRenderer > 0) {
+            this->_actualRenderer -= 1;
+        }
+        if (elem.keyEvent->key == ANAL::Keys::KEY_E)
+            this->_launchGame = true;
+    }
+}
+
+std::string Arcade::MenuEngine::getGame() {
+    return _launchGame ? _games[_actualGame] : "";
+}
+
+std::string Arcade::MenuEngine::getRenderer() {
+    return _launchGame ? _renderers[_actualRenderer] : "";
 }
 
 extern "C" {
