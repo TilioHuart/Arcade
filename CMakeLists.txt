@@ -10,7 +10,7 @@ set(CMAKE_CXX_STANDARD 17)
 add_subdirectory(modules/anal)
 
 # Games
-add_subdirectory(Games/Pacman)
+# add_subdirectory(Games/Pacman)
 add_subdirectory(Games/Minesweeper)
 
 # Displays

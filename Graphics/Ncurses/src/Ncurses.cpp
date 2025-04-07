@@ -5,8 +5,9 @@
 // NcursesDisp.cpp
 //
 
-#include "./Ncurses.hpp"
+#include "Ncurses.hpp"
 #include "Events.hpp"
+#include "IModule.hpp"
 #include <map>
 #include <ncurses.h>
 
@@ -92,4 +93,11 @@ std::vector<ANAL::Event> &ANAL::NcursesRenderer::getEvents()
 void ANAL::NcursesRenderer::clear()
 {
     clear();
+}
+
+extern "C" {
+ANAL::ModuleType uwu_get_module_type()
+{
+    return ANAL::ModuleType::RENDERER;
+}
 }

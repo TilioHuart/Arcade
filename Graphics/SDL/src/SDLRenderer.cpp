@@ -112,6 +112,7 @@ void ANAL::SDLRenderer::render()
 
 std::vector<ANAL::Event> &ANAL::SDLRenderer::getEvents()
 {
+    this->_sdlEvents.clear();
     SDL_Event sdlEvent;
     const std::map<ANAL::Keys, SDL_KeyCode> code{{Keys::KEY_A, SDLK_a},
         {Keys::KEY_B, SDLK_b}, {Keys::KEY_C, SDLK_c}, {Keys::KEY_D, SDLK_d},
