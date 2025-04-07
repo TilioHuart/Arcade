@@ -30,6 +30,7 @@ Arcade::MenuEngine::MenuEngine()
         try {
             void *lib = DlUtils::open(elem.path().string());
             ANAL::ModuleType type = DlUtils::getLibType(lib);
+            DlUtils::close(lib);
             switch (type) {
                 case ANAL::ModuleType::GAME:
                     std::cout << "add game " << elem.path().string()
