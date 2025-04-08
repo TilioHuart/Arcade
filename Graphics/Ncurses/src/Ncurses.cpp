@@ -19,7 +19,7 @@ ANAL::NcursesRenderer::NcursesRenderer()
     this->_window = initscr();
     noecho();
     raw();
-    setupterm(NULL, STDOUT_FILENO, NULL);
+    setupterm(nullptr, STDOUT_FILENO, nullptr);
     keypad(stdscr, TRUE);
     nodelay(stdscr, TRUE);
     this->_windowSize = ANAL::Vector2<int>(32, 32);
@@ -82,6 +82,43 @@ std::vector<ANAL::Event> &ANAL::NcursesRenderer::getEvents()
         {Keys::KEY_8, '8'}, {Keys::KEY_9, '9'}};
     int ch;
     while ((ch = getch()) != ERR) {
+        if (ch == KEY_MOUSE) {
+            MEVENT mouseEvent;
+            if (getmouse(&mouseEvent) == OK) {
+                ANAL::Event mev;
+                switch (mouseEvent.bstate) {
+                    case BUTTON1_PRESSED:
+                        mev.mouseEvent->key = MouseKeys::LEFT_CLICK;
+                        mev.mouseEvent->state = State::PRESSED;
+                        break;
+                    case BUTTON2_PRESSED:
+                        mev.mouseEvent->key = MouseKeys::RIGHT_CLICK;
+                        mev.mouseEvent->state = State::PRESSED;
+                        break;
+                    case BUTTON3_PRESSED:
+                        mev.mouseEvent->key = MouseKeys::MIDDLE_CLICK;
+                        mev.mouseEvent->state = State::PRESSED;
+                        break;
+                    case BUTTON1_RELEASED:
+                        mev.mouseEvent->key = MouseKeys::LEFT_CLICK;
+                        mev.mouseEvent->state = State::RELEASED;
+                        break;
+                    case BUTTON2_RELEASED:
+                        mev.mouseEvent->key = MouseKeys::RIGHT_CLICK;
+                        mev.mouseEvent->state = State::RELEASED;
+                        break;
+                    case BUTTON3_RELEASED:
+                        mev.mouseEvent->key = MouseKeys::MIDDLE_CLICK;
+                        mev.mouseEvent->state = State::RELEASED;
+                        break;
+                    default:
+                        break;
+                }
+                mev.mouseEvent->coords = {mouseEvent.x, mouseEvent.y};
+                this->_ncursesEvents.push_back(mev);
+                break;
+            }
+        }
         for (auto it : code)
             if (ch == it.second) {
                 ANAL::Event ev;
