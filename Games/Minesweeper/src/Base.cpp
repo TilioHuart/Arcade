@@ -22,44 +22,6 @@ ANAL::MinesweeperEngine::MinesweeperEngine()
 
 ANAL::MinesweeperEngine::~MinesweeperEngine() {}
 
-void ANAL::MinesweeperEngine::processEvents(std::vector<ANAL::Event> &Event)
-{
-    for (auto &it : Event) {
-        if (this->_hasLose) {
-                if (it.keyEvent->key == ANAL::Keys::KEY_R) {
-                    this->_hasLose = false;
-                    this->_mineDisplayed = false;
-                    this->_restartGame();
-                }
-            return;
-        }
-        if (it.type == ANAL::EventType::MOUSE) {
-            auto xPos = it.mouseEvent->coords.x;
-            auto yPos = it.mouseEvent->coords.y;
-            auto mouseKey = it.mouseEvent->key;
-
-            if (xPos >= this->_gridSize || yPos >= this->_gridSize) {
-                continue;
-            }
-            if (mouseKey == MouseKeys::LEFT_CLICK) {
-                this->_hidden[xPos][yPos] = ANAL::Visibility::VISIBLE;
-            }
-            if (mouseKey == MouseKeys::RIGHT_CLICK) {
-                if (this->_hidden[xPos][yPos] == ANAL::Visibility::HIDDEN) {
-                    this->_hidden[xPos][yPos] = ANAL::Visibility::FLAG;
-                    this->_nbFlags += 1;
-                    continue;
-                }
-                if (this->_hidden[xPos][yPos] == ANAL::Visibility::FLAG) {
-                    this->_hidden[xPos][yPos] = ANAL::Visibility::HIDDEN;
-                    this->_nbFlags -= 1;
-                    continue;
-                }
-            }
-        }
-    }
-}
-
 void ANAL::MinesweeperEngine::compute()
 {
     for (size_t i = 0; i < this->_gridSize; i += 1) {

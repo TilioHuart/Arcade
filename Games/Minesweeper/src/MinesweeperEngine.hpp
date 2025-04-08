@@ -51,6 +51,7 @@ namespace ANAL {
         std::vector<std::vector<ANAL::Case>> _map;
         std::vector<std::vector<ANAL::Visibility>> _hidden;
 
+        void _propagateEmpty(int xPos, int yPos);
         void _restartGame();
 
         void _createMap();
