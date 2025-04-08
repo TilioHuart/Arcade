@@ -31,7 +31,8 @@ void ANAL::SnakeEngine::compute()
         return;
     this->setFruit();
     this->computeSnake();
-    if (this->snake[0].x == this->fruitX && this->snake[0].y == this->fruitY && !this->fruitEaten) {
+    if (this->snake[0].x == this->fruitX && this->snake[0].y == this->fruitY &&
+        !this->fruitEaten) {
         this->fruitEaten = true;
         score += 1;
         this->snake.push_back({this->previousX, this->previousY});
@@ -41,7 +42,11 @@ void ANAL::SnakeEngine::compute()
 void ANAL::SnakeEngine::processEvents(std::vector<ANAL::Event> &event)
 {
     if (this->gameState != VICTORY::UNDEFINED)
-        return;
+        for (const auto &elem : event) {
+            if (elem.keyEvent->key == ANAL::Keys::KEY_R)
+                this->resetGame();
+            return;
+        }
     for (const auto &elem : event) {
         if (elem.keyEvent->key == ANAL::Keys::ARROW_LEFT)
             this->snakeDirection = DIRECTION::LEFT;
@@ -59,6 +64,7 @@ void ANAL::SnakeEngine::processEvents(std::vector<ANAL::Event> &event)
 void ANAL::SnakeEngine::resetGame()
 {
     this->snakeDirection = DIRECTION::RIGHT;
+    this->gameState = VICTORY::UNDEFINED;
     this->createMap();
     this->setSnake();
     this->fruitEaten = true;
