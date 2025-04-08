@@ -29,7 +29,6 @@ void ANAL::SnakeEngine::setFruit()
     for (auto &it : this->map) {
         for (auto &elt : it) {
             if (newCounter == newFruit) {
-                std::cout << "New fruit at " << newCounter << "\n";
                 elt = STATE::FRUIT;
                 this->fruitX = y;
                 this->fruitY = i;

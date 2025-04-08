@@ -18,7 +18,6 @@ ANAL::SnakeEngine::SnakeEngine()
     this->createMap();
     this->setSnake();
     this->setFruit();
-    std::cout << "Init of Snake" << std::endl;
 }
 
 ANAL::SnakeEngine::~SnakeEngine()
@@ -34,6 +33,7 @@ void ANAL::SnakeEngine::compute()
     this->computeSnake();
     if (this->snake[0].x == this->fruitX && this->snake[0].y == this->fruitY && !this->fruitEaten) {
         this->fruitEaten = true;
+        score += 1;
         this->snake.push_back({this->previousX, this->previousY});
     }
 }
@@ -51,7 +51,19 @@ void ANAL::SnakeEngine::processEvents(std::vector<ANAL::Event> &event)
             this->snakeDirection = DIRECTION::UP;
         if (elem.keyEvent->key == ANAL::Keys::KEY_D)
             this->snakeDirection = DIRECTION::RIGHT;
+        if (elem.keyEvent->key == ANAL::Keys::KEY_R)
+            this->resetGame();
     }
+}
+
+void ANAL::SnakeEngine::resetGame()
+{
+    this->snakeDirection = DIRECTION::RIGHT;
+    this->createMap();
+    this->setSnake();
+    this->fruitEaten = true;
+    this->score = 0;
+    this->setFruit();
 }
 
 extern "C" {

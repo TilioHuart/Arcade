@@ -42,6 +42,7 @@ namespace ANAL {
         DIRECTION snakeDirection = DIRECTION::RIGHT;
         uint8_t snakeCompute = 0;
         VICTORY gameState = VICTORY::UNDEFINED;
+        int score = 0;
 
         void createMap();
         void setSnake();
@@ -51,11 +52,14 @@ namespace ANAL {
             ANAL::IRenderer &renderer, const ANAL::IArcade &arcade);
         void renderSnake(
             ANAL::IRenderer &renderer, const ANAL::IArcade &arcade);
+        void renderScore(
+            ANAL::IRenderer &renderer, const ANAL::IArcade &arcade);
         void computeSnake();
         void moveRight();
         void moveLeft();
         void moveUp();
         void moveDown();
+        void resetGame();
     };
 
 }  // namespace ANAL
