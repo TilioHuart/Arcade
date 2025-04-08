@@ -10,9 +10,9 @@
 #include <map>
 
 #include "Events.hpp"
+#include "SDLRenderer.hpp"
 #include "SDL_error.h"
 #include "SDL_surface.h"
-#include "SDLRenderer.hpp"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_events.h>
 #include <SDL2/SDL_image.h>
@@ -147,7 +147,9 @@ std::vector<ANAL::Event> &ANAL::SDLRenderer::getEvents()
         {Keys::KEY_Z, SDLK_z}, {Keys::KEY_0, SDLK_0}, {Keys::KEY_1, SDLK_1},
         {Keys::KEY_2, SDLK_2}, {Keys::KEY_3, SDLK_3}, {Keys::KEY_4, SDLK_4},
         {Keys::KEY_5, SDLK_5}, {Keys::KEY_6, SDLK_6}, {Keys::KEY_7, SDLK_7},
-        {Keys::KEY_8, SDLK_8}, {Keys::KEY_9, SDLK_9}};
+        {Keys::KEY_8, SDLK_8}, {Keys::KEY_9, SDLK_9},
+        {Keys::ARROW_DOWN, SDLK_DOWN}, {Keys::ARROW_UP, SDLK_UP},
+        {Keys::ARROW_LEFT, SDLK_LEFT}, {Keys::ARROW_RIGHT, SDLK_RIGHT}};
 
     while (SDL_PollEvent(&sdlEvent)) {
         switch (sdlEvent.type) {
