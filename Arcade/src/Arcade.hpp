@@ -49,9 +49,11 @@ namespace Arcade {
        private:
         bool _isRunning = true;
 
+        std::string _previousGame;
         std::string _gameToLaunch;
         std::string _rendererToLaunch;
 
+        std::unique_ptr<ANAL::IGame> _savedGame;
         std::unique_ptr<ANAL::IGame> _runningGame;
         std::unique_ptr<ANAL::IRenderer> _runningDisplay;
 

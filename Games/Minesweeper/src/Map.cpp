@@ -27,8 +27,8 @@ void ANAL::MinesweeperEngine::_createMap()
 
 void ANAL::MinesweeperEngine::_createEasyMap()
 {
-    this->_nbMine = 10;
-    this->_nbMineLeft = 10;
+    this->_nbMine = 7;
+    this->_nbMineLeft = 7;
     this->_gridSize = 10;
 
     this->_map.clear();
@@ -41,8 +41,8 @@ void ANAL::MinesweeperEngine::_createEasyMap()
 
 void ANAL::MinesweeperEngine::_createNormalMap()
 {
-    this->_nbMine = 40;
-    this->_nbMineLeft = 40;
+    this->_nbMine = 30;
+    this->_nbMineLeft = 30;
     this->_gridSize = 15;
 
     this->_map.clear();
@@ -55,8 +55,8 @@ void ANAL::MinesweeperEngine::_createNormalMap()
 
 void ANAL::MinesweeperEngine::_createHardMap()
 {
-    this->_nbMine = 99;
-    this->_nbMineLeft = 99;
+    this->_nbMine = 60;
+    this->_nbMineLeft = 60;
     this->_gridSize = 22;
 
     this->_map.clear();

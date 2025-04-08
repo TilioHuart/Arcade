@@ -65,8 +65,6 @@ void ANAL::MinesweeperEngine::_displayLose(
 void ANAL::MinesweeperEngine::_displayWin(
     ANAL::IRenderer &renderer, const ANAL::IArcade &arcade)
 {
-    this->_displayMines(renderer, arcade);
-
     renderer.clear();
     this->_renderAth(renderer);
     renderer.drawText("You Win", Vector2<int>(10, 10));
