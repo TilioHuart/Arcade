@@ -175,7 +175,6 @@ std::vector<ANAL::Event> &ANAL::SDLRenderer::getEvents()
                         ANAL::Event ev;
                         ev.mouseEvent->key = it.first;
                         this->_sdlEvents.push_back(ev);
-                        std::cout << "Mouse detected\n";
                         break;
                     }
                 }
