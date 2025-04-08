@@ -24,7 +24,27 @@ void ANAL::MinesweeperEngine::render(
     renderer.clear();
     this->_renderBackground(renderer, arcade);
     this->_renderCases(renderer, arcade);
+    this->_renderAth(renderer);
     renderer.render();
+}
+
+void ANAL::MinesweeperEngine::_renderAth(ANAL::IRenderer &renderer) const
+{
+    auto minesLefts = this->_nbMine - this->_nbFlags;
+    std::stringstream minesLeftStream;
+    std::string minesLeftStr;
+
+    std::stringstream scoreStream;
+    std::string scoreStr;
+
+    minesLeftStream << minesLefts;
+    minesLeftStream >> minesLeftStr;
+
+    scoreStream << this->_score;
+    scoreStream >> scoreStr;
+
+    renderer.drawText("Mines left: " + minesLeftStr , {23, 1});
+    renderer.drawText("Score: " + scoreStr, {1, 23});
 }
 
 void ANAL::MinesweeperEngine::_displayLose(

@@ -7,6 +7,7 @@
 
 #include "Events.hpp"
 #include "MinesweeperEngine.hpp"
+#include <iostream>
 
 void ANAL::MinesweeperEngine::processEvents(std::vector<ANAL::Event> &Event)
 {
@@ -28,6 +29,10 @@ void ANAL::MinesweeperEngine::processEvents(std::vector<ANAL::Event> &Event)
                 continue;
             }
             if (mouseKey == MouseKeys::LEFT_CLICK) {
+                if (this->_map[xPos][yPos] != ANAL::Case::EMPTY &&
+                    this->_map[xPos][yPos] != ANAL::Case::MINE) {
+                    this->_score += 1;
+                }
                 if (this->_map[xPos][yPos] == ANAL::Case::EMPTY) {
                     this->_propagateEmpty(xPos, yPos);
                 }
@@ -51,11 +56,14 @@ void ANAL::MinesweeperEngine::processEvents(std::vector<ANAL::Event> &Event)
 
 void ANAL::MinesweeperEngine::_propagateEmpty(int xPos, int yPos)
 {
-    if (xPos < 0 || xPos > this->_gridSize || yPos < 0 ||
-        yPos > this->_gridSize ||
+    if (xPos < 0 || xPos >= this->_gridSize || yPos < 0 ||
+        yPos >= this->_gridSize ||
         this->_hidden[xPos][yPos] == ANAL::Visibility::VISIBLE)
         return;
     this->_hidden[xPos][yPos] = ANAL::Visibility::VISIBLE;
+    if (this->_map[xPos][yPos] == ANAL::Case::MINE)
+        return;
+    this->_score += 1;
     if (this->_map[xPos][yPos] == ANAL::Case::EMPTY) {
         if (xPos > 0) {
             this->_propagateEmpty(xPos - 1, yPos);
@@ -67,6 +75,7 @@ void ANAL::MinesweeperEngine::_propagateEmpty(int xPos, int yPos)
             }
         }
         if (xPos < this->_gridSize) {
+            // std::cout << "1" << std::endl;
             this->_propagateEmpty(xPos + 1, yPos);
             if (yPos > 0) {
                 this->_propagateEmpty(xPos + 1, yPos - 1);
