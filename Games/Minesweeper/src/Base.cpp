@@ -28,6 +28,7 @@ void ANAL::MinesweeperEngine::compute()
                 this->_hasLose = true;
         }
     }
+    this->_checkWin();
 }
 
 void ANAL::MinesweeperEngine::_restartGame()

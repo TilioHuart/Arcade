@@ -57,8 +57,12 @@ void ANAL::MinesweeperEngine::_clickLeftFirst(const Event &event)
     auto yPos = event.mouseEvent->coords.y;
     auto mouseKey = event.mouseEvent->key;
 
+    size_t index = 0;
+
     while (this->_firstClick && this->_map[xPos][yPos] != Case::EMPTY) {
+        std::cout << index << std::endl;
         this->_restartGame();
+        index += 1;
     }
     this->_firstClick = false;
 }

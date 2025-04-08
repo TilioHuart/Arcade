@@ -157,6 +157,8 @@ std::vector<ANAL::Event> &ANAL::SDLRenderer::getEvents()
         {MouseKeys::RIGHT_CLICK, SDL_BUTTON_RIGHT},
         {MouseKeys::MIDDLE_CLICK, SDL_BUTTON_MIDDLE}};
 
+    float cellSize = 900.0F / 32.0F;
+
     while (SDL_PollEvent(&sdlEvent)) {
         switch (sdlEvent.type) {
             case SDL_KEYDOWN: {
@@ -169,29 +171,34 @@ std::vector<ANAL::Event> &ANAL::SDLRenderer::getEvents()
                     }
                 break;
             }
-            case SDL_MOUSEBUTTONDOWN: {
+            case SDL_MOUSEBUTTONUP: {
                 for (auto it : mouse) {
                     if (sdlEvent.button.button == it.second) {
                         ANAL::Event ev;
                         ev.mouseEvent->key = it.first;
+                        ev.mouseEvent->state = State::RELEASED;
+                        ev.mouseEvent->coords = {
+                            static_cast<int>(sdlEvent.motion.x / cellSize),
+                            static_cast<int>(sdlEvent.motion.y / cellSize)};
+                        ev.type = EventType::MOUSE;
                         this->_sdlEvents.push_back(ev);
                         break;
                     }
                 }
                 break;
+            }
+            case SDL_QUIT: {
+                ANAL::Event ev;
+                ev.keyEvent->key = Keys::KEY_Q;
+                this->_sdlEvents.push_back(ev);
+                break;
+            }
+            default:
+                break;
         }
-        case SDL_QUIT: {
-            ANAL::Event ev;
-            ev.keyEvent->key = Keys::KEY_Q;
-            this->_sdlEvents.push_back(ev);
-            break;
-        }
-        default:
-            break;
     }
-}
 
-return this->_sdlEvents;
+    return this->_sdlEvents;
 }
 
 void ANAL::SDLRenderer::clear()

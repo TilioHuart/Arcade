@@ -42,7 +42,7 @@ namespace ANAL {
             ANAL::IRenderer &renderer, const ANAL::IArcade &arcade) override;
 
        private:
-        Difficulty _difficulty = Difficulty::NORMAL;
+        Difficulty _difficulty = Difficulty::EASY;
         size_t _score = 0;
         uint16_t _nbMine = 10;
         uint16_t _nbMineLeft = 10;
