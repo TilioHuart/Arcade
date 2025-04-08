@@ -116,6 +116,10 @@ bool Arcade::Arcade::_processArcadeEvents(
             this->_getNextGraphical();
             this->_reloadRenderer();
         }
+        if (event.keyEvent->key == ANAL::Keys::KEY_R) {
+            this->_gameToLaunch = this->_savedGame;
+            this->_reloadGame();
+        }
         if (event.keyEvent->key == ANAL::Keys::KEY_N) {
             std::unique_ptr<ANAL::IGame> menu = std::make_unique<MenuEngine>();
             this->setGame(menu);
