@@ -127,7 +127,11 @@ std::vector<ANAL::Event> &ANAL::SFMLRenderer::getEvents()
         {Keys::KEY_6, sf::Keyboard::Key::Num6},
         {Keys::KEY_7, sf::Keyboard::Key::Num7},
         {Keys::KEY_8, sf::Keyboard::Key::Num8},
-        {Keys::KEY_9, sf::Keyboard::Key::Num9}};
+        {Keys::KEY_9, sf::Keyboard::Key::Num9},
+        {Keys::ARROW_LEFT, sf::Keyboard::Left},
+        {Keys::ARROW_RIGHT, sf::Keyboard::Right},
+        {Keys::ARROW_DOWN, sf::Keyboard::Down},
+        {Keys::ARROW_UP, sf::Keyboard::Up}};
 
     const std::map<ANAL::MouseKeys, sf::Mouse::Button> mouse{
         {MouseKeys::LEFT_CLICK, sf::Mouse::Button::Left},
