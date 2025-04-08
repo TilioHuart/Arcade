@@ -10,6 +10,7 @@
 
 void ANAL::SnakeEngine::setSnake()
 {
+    this->snake.clear();
     this->snake.push_back({this->mapSize / 2, this->mapSize / 2});
     this->previousX = this->mapSize / 2;
     this->previousY = this->mapSize / 2;
@@ -20,7 +21,7 @@ void ANAL::SnakeEngine::setSnake()
 
 void ANAL::SnakeEngine::computeSnake()
 {
-    if (this->snakeCompute < 10) {
+    if (this->snakeCompute < 5) {
         this->snakeCompute += 1;
         return;
     }
@@ -38,7 +39,7 @@ void ANAL::SnakeEngine::computeSnake()
 void ANAL::SnakeEngine::moveRight()
 {
     bool head = true;
-    if (this->snake[0].x + 1 >= this->mapSize) {
+    if (this->snake[0].x + 1 >= this->mapSize || this->map[this->snake[0].x + 1][this->snake[0].y] == STATE::SNAKE) {
         this->gameState = VICTORY::NO;
         return;
     }
@@ -48,6 +49,7 @@ void ANAL::SnakeEngine::moveRight()
             this->previousY = it.y;
             this->map[it.x][it.y] = STATE::EMPTY;
             it.x += 1;
+            this->map[it.x][it.y] = STATE::SNAKE;
             head = false;
         } else {
             int tmpX = it.x;

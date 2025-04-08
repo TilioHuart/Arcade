@@ -7,6 +7,7 @@
 
 #include "SnakeEngine.hpp"
 #include <iostream>
+#include <sstream>
 
 void ANAL::SnakeEngine::render(
     ANAL::IRenderer &renderer, const ANAL::IArcade &arcade)
@@ -27,6 +28,7 @@ void ANAL::SnakeEngine::render(
     this->renderMap(renderer, arcade);
     this->renderFruit(renderer, arcade);
     this->renderSnake(renderer, arcade);
+    this->renderScore(renderer, arcade);
     renderer.render();
 }
 
@@ -75,4 +77,13 @@ void ANAL::SnakeEngine::renderSnake(
         newEntity->setPos({it.x, it.y});
         renderer.drawEntity(*newEntity);
     }
+}
+
+void ANAL::SnakeEngine::renderScore(ANAL::IRenderer &renderer, const ANAL::IArcade &arcade)
+{
+    std::stringstream scoreStream;
+    std::string scoreString ;
+    scoreStream << this->score;
+    scoreStream >> scoreString;
+    renderer.drawText(scoreString.c_str(), {16, 2});
 }
