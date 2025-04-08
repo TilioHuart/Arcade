@@ -19,6 +19,7 @@ ANAL::NcursesRenderer::NcursesRenderer()
     this->_window = initscr();
     noecho();
     raw();
+    curs_set(0);
     setupterm(nullptr, STDOUT_FILENO, nullptr);
     keypad(stdscr, TRUE);
     nodelay(stdscr, TRUE);
@@ -79,40 +80,41 @@ std::vector<ANAL::Event> &ANAL::NcursesRenderer::getEvents()
         {Keys::KEY_Z, 'z'}, {Keys::KEY_0, '0'}, {Keys::KEY_1, '1'},
         {Keys::KEY_2, '2'}, {Keys::KEY_3, '3'}, {Keys::KEY_4, '4'},
         {Keys::KEY_5, '5'}, {Keys::KEY_6, '6'}, {Keys::KEY_7, '7'},
-        {Keys::KEY_8, '8'}, {Keys::KEY_9, '9'}};
+        {Keys::KEY_8, '8'}, {Keys::KEY_9, '9'}, {Keys::ARROW_UP, KEY_UP},
+        {Keys::ARROW_DOWN, KEY_DOWN}, {Keys::ARROW_LEFT, KEY_LEFT},
+        {Keys::ARROW_RIGHT, KEY_RIGHT}};
     int ch;
-    while ((ch = getch()) != ERR) {
+    while ((ch = wgetch(this->_window)) != ERR) {
+        mvprintw(12, 5, "bonbini : %i", ch);
         if (ch == KEY_MOUSE) {
+            mvprintw(5, 5, "guzini");
             MEVENT mouseEvent;
             if (getmouse(&mouseEvent) == OK) {
                 ANAL::Event mev;
-                switch (mouseEvent.bstate) {
-                    case BUTTON1_PRESSED:
-                        mev.mouseEvent->key = MouseKeys::LEFT_CLICK;
-                        mev.mouseEvent->state = State::PRESSED;
-                        break;
-                    case BUTTON2_PRESSED:
-                        mev.mouseEvent->key = MouseKeys::RIGHT_CLICK;
-                        mev.mouseEvent->state = State::PRESSED;
-                        break;
-                    case BUTTON3_PRESSED:
-                        mev.mouseEvent->key = MouseKeys::MIDDLE_CLICK;
-                        mev.mouseEvent->state = State::PRESSED;
-                        break;
-                    case BUTTON1_RELEASED:
-                        mev.mouseEvent->key = MouseKeys::LEFT_CLICK;
-                        mev.mouseEvent->state = State::RELEASED;
-                        break;
-                    case BUTTON2_RELEASED:
-                        mev.mouseEvent->key = MouseKeys::RIGHT_CLICK;
-                        mev.mouseEvent->state = State::RELEASED;
-                        break;
-                    case BUTTON3_RELEASED:
-                        mev.mouseEvent->key = MouseKeys::MIDDLE_CLICK;
-                        mev.mouseEvent->state = State::RELEASED;
-                        break;
-                    default:
-                        break;
+                mev.type = EventType::MOUSE;
+                if (mouseEvent.bstate & BUTTON1_PRESSED) {
+                    mev.mouseEvent->key = MouseKeys::LEFT_CLICK;
+                    mev.mouseEvent->state = State::PRESSED;
+                }
+                if (mouseEvent.bstate & BUTTON2_PRESSED) {
+                    mev.mouseEvent->key = MouseKeys::RIGHT_CLICK;
+                    mev.mouseEvent->state = State::PRESSED;
+                }
+                if (mouseEvent.bstate & BUTTON3_PRESSED) {
+                    mev.mouseEvent->key = MouseKeys::MIDDLE_CLICK;
+                    mev.mouseEvent->state = State::PRESSED;
+                }
+                if (mouseEvent.bstate & BUTTON1_RELEASED) {
+                    mev.mouseEvent->key = MouseKeys::LEFT_CLICK;
+                    mev.mouseEvent->state = State::RELEASED;
+                }
+                if (mouseEvent.bstate & BUTTON2_RELEASED) {
+                    mev.mouseEvent->key = MouseKeys::RIGHT_CLICK;
+                    mev.mouseEvent->state = State::RELEASED;
+                }
+                if (mouseEvent.bstate & BUTTON3_RELEASED) {
+                    mev.mouseEvent->key = MouseKeys::MIDDLE_CLICK;
+                    mev.mouseEvent->state = State::RELEASED;
                 }
                 mev.mouseEvent->coords = {mouseEvent.x, mouseEvent.y};
                 this->_ncursesEvents.push_back(mev);
