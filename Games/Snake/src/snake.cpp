@@ -67,7 +67,7 @@ void ANAL::SnakeEngine::moveRight()
 void ANAL::SnakeEngine::moveLeft()
 {
     bool head = true;
-    if (this->snake[0].x - 1 < 0) {
+    if (this->snake[0].x - 1 < 0 || this->map[this->snake[0].x - 1][this->snake[0].y] == STATE::SNAKE) {
         this->gameState = VICTORY::NO;
         return;
     }
@@ -95,7 +95,7 @@ void ANAL::SnakeEngine::moveLeft()
 void ANAL::SnakeEngine::moveUp()
 {
     bool head = true;
-    if (this->snake[0].y - 1 < 0) {
+    if (this->snake[0].y - 1 < 0 || this->map[this->snake[0].x][this->snake[0].y - 1] == STATE::SNAKE) {
         this->gameState = VICTORY::NO;
         return;
     }
@@ -123,7 +123,7 @@ void ANAL::SnakeEngine::moveUp()
 void ANAL::SnakeEngine::moveDown()
 {
     bool head = true;
-    if (this->snake[0].y + 1 >= this->mapSize) {
+    if (this->snake[0].y + 1 >= this->mapSize || this->map[this->snake[0].x][this->snake[0].y + 1] == STATE::SNAKE) {
         this->gameState = VICTORY::NO;
         return;
     }
