@@ -7,7 +7,6 @@
 
 #pragma once
 
-#include "Events.hpp"
 #include "IArcade.hpp"
 #include "IAsset.hpp"
 #include "IEntity.hpp"
@@ -20,12 +19,13 @@
 namespace Arcade {
     class Arcade : public ANAL::IArcade {
        public:
-        Arcade() = default;
-        ~Arcade() = default;
+        Arcade() = delete;
+        Arcade(const std::string &renderer);
+        ~Arcade();
 
         class ArcadeError : public std::exception {
            public:
-            ArcadeError(std::string msg) : _msg(std::move(msg)) {};
+            ArcadeError(std::string msg): _msg(std::move(msg)) {};
 
             [[nodiscard]] const char *what() const noexcept override
             {
@@ -49,13 +49,17 @@ namespace Arcade {
        private:
         bool _isRunning = true;
 
-        std::string _previousGame;
+        void *_loadedGraphicalLib = nullptr;
+        void *_loadedGameLib = nullptr;
+        std::string _savedGame;
+        std::string _savedRenderer;
         std::string _gameToLaunch;
         std::string _rendererToLaunch;
+        void _getNextGame();
+        void _getNextGraphical();
 
-        std::unique_ptr<ANAL::IGame> _savedGame;
-        std::unique_ptr<ANAL::IGame> _runningGame;
-        std::unique_ptr<ANAL::IRenderer> _runningDisplay;
+        std::unique_ptr<ANAL::IGame> _runningGame = nullptr;
+        std::unique_ptr<ANAL::IRenderer> _runningDisplay = nullptr;
 
         void _reloadRenderer();
         void _reloadGame();

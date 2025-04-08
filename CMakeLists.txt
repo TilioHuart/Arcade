@@ -16,7 +16,7 @@ add_subdirectory(Games/Snake)
 
 # Displays
 add_subdirectory(Graphics/Ncurses)
-add_subdirectory(Graphics/OpenGl)
+# add_subdirectory(Graphics/OpenGl)
 add_subdirectory(Graphics/SDL)
 add_subdirectory(Graphics/SFML)
 

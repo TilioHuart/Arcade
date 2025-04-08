@@ -13,9 +13,34 @@
 #include "src/DlUtils.hpp"
 #include "src/Menu.hpp"
 #include <chrono>
+#include <dlfcn.h>
+#include <filesystem>
 #include <iostream>
 #include <thread>
 #include <vector>
+
+Arcade::Arcade::Arcade(const std::string &renderer)
+{
+    this->_loadedGraphicalLib = DlUtils::open(renderer);
+    auto graphical = DlUtils::loadDisplay(this->_loadedGraphicalLib);
+
+    this->setDisplay(graphical);
+}
+
+Arcade::Arcade::~Arcade()
+{
+    this->_runningDisplay.reset();
+    this->_runningGame.reset();
+
+    if (this->_loadedGameLib != nullptr) {
+        DlUtils::close(this->_loadedGameLib);
+        this->_loadedGameLib = nullptr;
+    }
+    if (this->_loadedGraphicalLib != nullptr) {
+        DlUtils::close(this->_loadedGraphicalLib);
+        this->_loadedGraphicalLib = nullptr;
+    }
+}
 
 void Arcade::Arcade::setGame(std::unique_ptr<ANAL::IGame> &newGame)
 {
@@ -41,6 +66,7 @@ void Arcade::Arcade::run()
         auto frameStart = std::chrono::steady_clock::now();
 
         this->_runningGame->render(*this->_runningDisplay, *this);
+
         auto *menu = dynamic_cast<MenuEngine *>(this->_runningGame.get());
 
         if (menu != nullptr) {
@@ -56,6 +82,7 @@ void Arcade::Arcade::run()
             events.clear();
             continue;
         }
+
         auto frameEnd = std::chrono::steady_clock::now();
         auto frameDuration =
             std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -77,6 +104,18 @@ bool Arcade::Arcade::_processArcadeEvents(
             this->_isRunning = false;
             return false;
         }
+        if (event.keyEvent->key == ANAL::Keys::KEY_Q) {
+            this->_isRunning = false;
+            return false;
+        }
+        if (event.keyEvent->key == ANAL::Keys::KEY_P) {
+            this->_getNextGame();
+            this->_reloadGame();
+        }
+        if (event.keyEvent->key == ANAL::Keys::KEY_M) {
+            this->_getNextGraphical();
+            this->_reloadRenderer();
+        }
         if (event.keyEvent->key == ANAL::Keys::KEY_N) {
             std::unique_ptr<ANAL::IGame> menu = std::make_unique<MenuEngine>();
             this->setGame(menu);
@@ -84,6 +123,74 @@ bool Arcade::Arcade::_processArcadeEvents(
         }
     }
     return true;
+}
+
+void Arcade::Arcade::_getNextGame()
+{
+    std::string gameToLoad;
+    bool isNext = false;
+
+    for (const auto &elem : std::filesystem::directory_iterator("./lib")) {
+        if (elem.path().extension() != ".so")
+            continue;
+        try {
+            void *lib = DlUtils::open(elem.path().string());
+            ANAL::ModuleType type = DlUtils::getLibType(lib);
+            DlUtils::close(lib);
+            switch (type) {
+                case ANAL::ModuleType::GAME:
+                    if (gameToLoad.empty() || isNext) {
+                        gameToLoad = elem.path().string();
+                        isNext = false;
+                    }
+                    if (gameToLoad == this->_savedGame) {
+                        isNext = true;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        } catch (const DlUtils::DlUtilsError &) {
+            continue;
+        }
+    }
+    this->_gameToLaunch = gameToLoad;
+}
+
+void Arcade::Arcade::_getNextGraphical()
+{
+    std::string graphicalToLoad;
+    std::string current;
+    bool isNext = false;
+
+    for (const auto &elem : std::filesystem::directory_iterator("./lib")) {
+        if (elem.path().extension() != ".so")
+            continue;
+        try {
+            void *lib = DlUtils::open(elem.path().string());
+            ANAL::ModuleType type = DlUtils::getLibType(lib);
+            DlUtils::close(lib);
+            switch (type) {
+                case ANAL::ModuleType::RENDERER:
+                    current = elem.path().string();
+                    if (graphicalToLoad.empty() || isNext) {
+                        std::cout << "ici" << graphicalToLoad << std::endl;
+                        graphicalToLoad = current;
+                        isNext = false;
+                    }
+                    if (current == this->_savedRenderer) {
+                        std::cout << "là" << graphicalToLoad << std::endl;
+                        isNext = true;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        } catch (const DlUtils::DlUtilsError &) {
+            continue;
+        }
+    }
+    this->_rendererToLaunch = graphicalToLoad;
 }
 
 void Arcade::Arcade::setGameToLaunch(const std::string &gameToLaunch)
@@ -102,11 +209,18 @@ void Arcade::Arcade::_reloadRenderer()
 
     if (rendererLib.empty())
         return;
+
     this->_runningDisplay.reset();
-    void *loadedLib = DlUtils::open(rendererLib);
-    auto graphical = DlUtils::loadDisplay(loadedLib);
+    if (this->_loadedGraphicalLib != nullptr) {
+        DlUtils::close(this->_loadedGraphicalLib);
+        this->_loadedGraphicalLib = nullptr;
+    }
+
+    this->_loadedGraphicalLib = DlUtils::open(rendererLib);
+    auto graphical = DlUtils::loadDisplay(this->_loadedGraphicalLib);
 
     this->setDisplay(graphical);
+    this->_savedRenderer = rendererLib;
     this->_rendererToLaunch.clear();
 }
 
@@ -116,11 +230,18 @@ void Arcade::Arcade::_reloadGame()
 
     if (gameLib.empty())
         return;
+
     this->_runningGame.reset();
-    void *loadedGame = DlUtils::open(gameLib);
-    auto game = DlUtils::loadGame(loadedGame);
+    if (this->_loadedGameLib != nullptr) {
+        DlUtils::close(this->_loadedGameLib);
+        this->_loadedGameLib = nullptr;
+    }
+
+    this->_loadedGameLib = DlUtils::open(gameLib);
+    auto game = DlUtils::loadGame(this->_loadedGameLib);
 
     this->setGame(game);
+    this->_savedGame = gameLib;
     this->_gameToLaunch.clear();
 }
 

@@ -14,19 +14,13 @@
 
 int runApp(const char *lib)
 {
-    Arcade::Arcade arcade;
+    Arcade::Arcade arcade(lib);
 
     try {
-        void *loadedLib = Arcade::DlUtils::open(lib);
-        auto graphical = Arcade::DlUtils::loadDisplay(loadedLib);
         std::unique_ptr<ANAL::IGame> menu = std::make_unique<Arcade::MenuEngine>();
-        // void *loadedGame = Arcade::DlUtils::open("lib/arcade_minesweeper.so");
-        // auto game = Arcade::DlUtils::loadGame(loadedGame);
         
-        arcade.setDisplay(graphical);
         arcade.setGame(menu);
         arcade.run();
-        Arcade::DlUtils::close(loadedLib);
     } catch (const Arcade::DlUtils::DlUtilsError &error) {
         std::cerr << "Dlutils error: " << error.what() << std::endl;
         return EPITECH_FAILURE;
