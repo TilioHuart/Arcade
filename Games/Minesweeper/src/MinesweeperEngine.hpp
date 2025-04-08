@@ -55,6 +55,9 @@ namespace ANAL {
         std::vector<std::vector<ANAL::Case>> _map;
         std::vector<std::vector<ANAL::Visibility>> _hidden;
 
+        void _clickLeftFirst(const Event &event);
+        void _clickLeft(const Event &event);
+        void _clickRight(const Event &event);
         void _propagateEmpty(int xPos, int yPos);
         void _restartGame();
 

@@ -13,14 +13,14 @@
 void ANAL::MinesweeperEngine::_createMap()
 {
     switch (this->_difficulty) {
-        case ANAL::Difficulty::EASY:
-            this->_createEasyMap();
+        case ANAL::Difficulty::NORMAL:
+            this->_createNormalMap();
             break;
         case ANAL::Difficulty::HARD:
             this->_createHardMap();
             break;
         default:
-            this->_createNormalMap();
+            this->_createEasyMap();
             break;
     }
 }

@@ -14,10 +14,6 @@ void ANAL::MinesweeperEngine::processEvents(std::vector<ANAL::Event> &Event)
     for (auto &it : Event) {
         if (this->_hasLose || this->_hasWin) {
             if (it.keyEvent->key == ANAL::Keys::KEY_R) {
-                this->_hasLose = false;
-                this->_hasWin = false;
-                this->_firstClick = true;
-                this->_mineDisplayed = false;
                 this->_restartGame();
             }
             return;
@@ -30,32 +26,59 @@ void ANAL::MinesweeperEngine::processEvents(std::vector<ANAL::Event> &Event)
             if (xPos >= this->_gridSize || yPos >= this->_gridSize) {
                 continue;
             }
-            if (mouseKey == MouseKeys::LEFT_CLICK) {
-                while (this->_firstClick && this->_map[xPos][yPos] != Case::EMPTY) {
-                    this->_restartGame();
-                }
-                this->_firstClick = false;
-                if (this->_map[xPos][yPos] != ANAL::Case::EMPTY &&
-                    this->_map[xPos][yPos] != ANAL::Case::MINE) {
-                    this->_score += 1;
-                }
-                if (this->_map[xPos][yPos] == ANAL::Case::EMPTY) {
-                    this->_propagateEmpty(xPos, yPos);
-                }
-                this->_hidden[xPos][yPos] = ANAL::Visibility::VISIBLE;
-            }
-            if (mouseKey == MouseKeys::RIGHT_CLICK) {
-                if (this->_hidden[xPos][yPos] == ANAL::Visibility::HIDDEN) {
-                    this->_hidden[xPos][yPos] = ANAL::Visibility::FLAG;
-                    this->_nbFlags += 1;
-                    continue;
-                }
-                if (this->_hidden[xPos][yPos] == ANAL::Visibility::FLAG) {
-                    this->_hidden[xPos][yPos] = ANAL::Visibility::HIDDEN;
-                    this->_nbFlags -= 1;
-                    continue;
-                }
-            }
+            this->_clickLeft(it);
+            this->_clickRight(it);
+        }
+    }
+}
+
+void ANAL::MinesweeperEngine::_clickLeft(const Event &event)
+{
+    auto xPos = event.mouseEvent->coords.x;
+    auto yPos = event.mouseEvent->coords.y;
+    auto mouseKey = event.mouseEvent->key;
+
+    if (mouseKey == MouseKeys::LEFT_CLICK) {
+        this->_clickLeftFirst(event);
+        if (this->_map[xPos][yPos] != ANAL::Case::EMPTY &&
+            this->_map[xPos][yPos] != ANAL::Case::MINE) {
+            this->_score += 1;
+        }
+        if (this->_map[xPos][yPos] == ANAL::Case::EMPTY) {
+            this->_propagateEmpty(xPos, yPos);
+        }
+        this->_hidden[xPos][yPos] = ANAL::Visibility::VISIBLE;
+    }
+}
+
+void ANAL::MinesweeperEngine::_clickLeftFirst(const Event &event)
+{
+    auto xPos = event.mouseEvent->coords.x;
+    auto yPos = event.mouseEvent->coords.y;
+    auto mouseKey = event.mouseEvent->key;
+
+    while (this->_firstClick && this->_map[xPos][yPos] != Case::EMPTY) {
+        this->_restartGame();
+    }
+    this->_firstClick = false;
+}
+
+void ANAL::MinesweeperEngine::_clickRight(const Event &event)
+{
+    auto xPos = event.mouseEvent->coords.x;
+    auto yPos = event.mouseEvent->coords.y;
+    auto mouseKey = event.mouseEvent->key;
+
+    if (mouseKey == MouseKeys::RIGHT_CLICK) {
+        if (this->_hidden[xPos][yPos] == ANAL::Visibility::HIDDEN) {
+            this->_hidden[xPos][yPos] = ANAL::Visibility::FLAG;
+            this->_nbFlags += 1;
+            return;
+        }
+        if (this->_hidden[xPos][yPos] == ANAL::Visibility::FLAG) {
+            this->_hidden[xPos][yPos] = ANAL::Visibility::HIDDEN;
+            this->_nbFlags -= 1;
+            return;
         }
     }
 }
@@ -102,7 +125,8 @@ void ANAL::MinesweeperEngine::_checkWin()
 {
     for (size_t i = 0; i < this->_gridSize; i += 1) {
         for (size_t j = 0; j < this->_gridSize; j += 1) {
-            if (this->_map[i][j] != Case::MINE && this->_hidden[i][j] != ANAL::Visibility::VISIBLE)
+            if (this->_map[i][j] != Case::MINE &&
+                this->_hidden[i][j] != ANAL::Visibility::VISIBLE)
                 return;
         }
     }
