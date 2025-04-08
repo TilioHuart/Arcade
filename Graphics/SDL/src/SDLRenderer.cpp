@@ -12,6 +12,7 @@
 #include "Events.hpp"
 #include "SDLRenderer.hpp"
 #include "SDL_error.h"
+#include "SDL_mouse.h"
 #include "SDL_surface.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_events.h>
@@ -151,6 +152,11 @@ std::vector<ANAL::Event> &ANAL::SDLRenderer::getEvents()
         {Keys::ARROW_DOWN, SDLK_DOWN}, {Keys::ARROW_UP, SDLK_UP},
         {Keys::ARROW_LEFT, SDLK_LEFT}, {Keys::ARROW_RIGHT, SDLK_RIGHT}};
 
+    const std::map<ANAL::MouseKeys, int> mouse{
+        {MouseKeys::LEFT_CLICK, SDL_BUTTON_LEFT},
+        {MouseKeys::RIGHT_CLICK, SDL_BUTTON_RIGHT},
+        {MouseKeys::MIDDLE_CLICK, SDL_BUTTON_MIDDLE}};
+
     while (SDL_PollEvent(&sdlEvent)) {
         switch (sdlEvent.type) {
             case SDL_KEYDOWN: {
@@ -163,17 +169,30 @@ std::vector<ANAL::Event> &ANAL::SDLRenderer::getEvents()
                     }
                 break;
             }
-            case SDL_QUIT: {
-                ANAL::Event ev;
-                ev.keyEvent->key = Keys::KEY_Q;
-                this->_sdlEvents.push_back(ev);
-                break;
-            }
-            default:
+            case SDL_MOUSEBUTTONDOWN: {
+                for (auto it : mouse) {
+                    if (sdlEvent.button.button == it.second) {
+                        ANAL::Event ev;
+                        ev.mouseEvent->key = it.first;
+                        this->_sdlEvents.push_back(ev);
+                        std::cout << "Mouse detected\n";
+                        break;
+                    }
+                }
                 break;
         }
+        case SDL_QUIT: {
+            ANAL::Event ev;
+            ev.keyEvent->key = Keys::KEY_Q;
+            this->_sdlEvents.push_back(ev);
+            break;
+        }
+        default:
+            break;
     }
-    return this->_sdlEvents;
+}
+
+return this->_sdlEvents;
 }
 
 void ANAL::SDLRenderer::clear()
