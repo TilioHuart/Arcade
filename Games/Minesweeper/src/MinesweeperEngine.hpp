@@ -51,6 +51,7 @@ namespace ANAL {
         bool _hasLose = false;
         bool _hasWin = false;
         bool _mineDisplayed = false;
+        bool _firstClick = true;
         std::vector<std::vector<ANAL::Case>> _map;
         std::vector<std::vector<ANAL::Visibility>> _hidden;
 

@@ -14,10 +14,7 @@
 
 ANAL::MinesweeperEngine::MinesweeperEngine()
 {
-    this->_createMap();
-    this->_placeMines();
-    this->_setNeighbors();
-    this->_createHidden();
+    this->_restartGame();
 }
 
 ANAL::MinesweeperEngine::~MinesweeperEngine() {}

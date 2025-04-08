@@ -16,6 +16,7 @@ void ANAL::MinesweeperEngine::processEvents(std::vector<ANAL::Event> &Event)
             if (it.keyEvent->key == ANAL::Keys::KEY_R) {
                 this->_hasLose = false;
                 this->_hasWin = false;
+                this->_firstClick = true;
                 this->_mineDisplayed = false;
                 this->_restartGame();
             }
@@ -30,6 +31,10 @@ void ANAL::MinesweeperEngine::processEvents(std::vector<ANAL::Event> &Event)
                 continue;
             }
             if (mouseKey == MouseKeys::LEFT_CLICK) {
+                while (this->_firstClick && this->_map[xPos][yPos] != Case::EMPTY) {
+                    this->_restartGame();
+                }
+                this->_firstClick = false;
                 if (this->_map[xPos][yPos] != ANAL::Case::EMPTY &&
                     this->_map[xPos][yPos] != ANAL::Case::MINE) {
                     this->_score += 1;
