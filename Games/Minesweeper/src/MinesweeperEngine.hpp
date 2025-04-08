@@ -49,6 +49,7 @@ namespace ANAL {
         uint16_t _nbFlags = 0;
         uint16_t _gridSize = 10;
         bool _hasLose = false;
+        bool _hasWin = false;
         bool _mineDisplayed = false;
         std::vector<std::vector<ANAL::Case>> _map;
         std::vector<std::vector<ANAL::Visibility>> _hidden;
@@ -65,6 +66,8 @@ namespace ANAL {
         void _setNeighbors();
         void _createHidden();
 
+        void _checkWin();
+
         void _renderBackground(
             ANAL::IRenderer &renderer, const ANAL::IArcade &arcade) const;
         void _renderCases(
@@ -79,6 +82,8 @@ namespace ANAL {
         void _displayMines(
             ANAL::IRenderer &renderer, const ANAL::IArcade &arcade);
         void _displayLose(
+            ANAL::IRenderer &renderer, const ANAL::IArcade &arcade);
+        void _displayWin(
             ANAL::IRenderer &renderer, const ANAL::IArcade &arcade);
     };
 }  // namespace ANAL

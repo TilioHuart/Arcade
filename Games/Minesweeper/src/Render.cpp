@@ -21,6 +21,10 @@ void ANAL::MinesweeperEngine::render(
         this->_displayLose(renderer, arcade);
         return;
     }
+    if (this->_hasWin) {
+        this->_displayWin(renderer, arcade);
+        return;
+    }
     renderer.clear();
     this->_renderBackground(renderer, arcade);
     this->_renderCases(renderer, arcade);
@@ -54,6 +58,16 @@ void ANAL::MinesweeperEngine::_displayLose(
 
     renderer.clear();
     renderer.drawText("You Lose", Vector2<int>(10, 10));
+    renderer.render();
+}
+
+void ANAL::MinesweeperEngine::_displayWin(
+    ANAL::IRenderer &renderer, const ANAL::IArcade &arcade)
+{
+    this->_displayMines(renderer, arcade);
+
+    renderer.clear();
+    renderer.drawText("You Win", Vector2<int>(10, 10));
     renderer.render();
 }
 

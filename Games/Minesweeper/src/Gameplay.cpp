@@ -12,9 +12,10 @@
 void ANAL::MinesweeperEngine::processEvents(std::vector<ANAL::Event> &Event)
 {
     for (auto &it : Event) {
-        if (this->_hasLose) {
+        if (this->_hasLose || this->_hasWin) {
             if (it.keyEvent->key == ANAL::Keys::KEY_R) {
                 this->_hasLose = false;
+                this->_hasWin = false;
                 this->_mineDisplayed = false;
                 this->_restartGame();
             }
@@ -75,7 +76,6 @@ void ANAL::MinesweeperEngine::_propagateEmpty(int xPos, int yPos)
             }
         }
         if (xPos < this->_gridSize) {
-            // std::cout << "1" << std::endl;
             this->_propagateEmpty(xPos + 1, yPos);
             if (yPos > 0) {
                 this->_propagateEmpty(xPos + 1, yPos - 1);
@@ -91,4 +91,15 @@ void ANAL::MinesweeperEngine::_propagateEmpty(int xPos, int yPos)
             this->_propagateEmpty(xPos, yPos + 1);
         }
     }
+}
+
+void ANAL::MinesweeperEngine::_checkWin()
+{
+    for (size_t i = 0; i < this->_gridSize; i += 1) {
+        for (size_t j = 0; j < this->_gridSize; j += 1) {
+            if (this->_map[i][j] != Case::MINE && this->_hidden[i][j] != ANAL::Visibility::VISIBLE)
+                return;
+        }
+    }
+    this->_hasWin = true;
 }
