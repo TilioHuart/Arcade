@@ -6,9 +6,12 @@
 //
 
 #include "IModule.hpp"
+#include <iostream>
 #include <map>
 
 #include "Events.hpp"
+#include "SDL_error.h"
+#include "SDL_surface.h"
 #include "SDLRenderer.hpp"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_events.h>
@@ -22,23 +25,25 @@
 
 ANAL::SDLRenderer::SDLRenderer()
 {
-    int rendererFlags = SDL_RENDERER_ACCELERATED;
+    std::cout << "Init of SDL" << std::endl;
+    // int rendererFlags = SDL_RENDERER_ACCELERATED;
     int windowFlags = SDL_WINDOW_SHOWN;
     this->_windowHeight = 900;
     this->_windowWidth = 900;
     this->_sdlEvents = {};
 
-    if (SDL_Init(SDL_INIT_VIDEO) < 0)
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) < 0)
         throw Exception();
     this->_window = SDL_CreateWindow(this->_windowTitle.c_str(),
         SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, this->_windowWidth,
         this->_windowHeight, windowFlags);
     if (this->_window == nullptr)
         throw Exception();
-    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
-    this->_renderer = SDL_CreateRenderer(this->_window, -1, rendererFlags);
-    if (this->_renderer == nullptr)
+    // SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
+    this->_renderer = SDL_CreateRenderer(this->_window, -1, 0);
+    if (this->_renderer == nullptr) {
         throw Exception();
+    }
     if (TTF_Init() < 0)
         throw Exception();
     this->font =
@@ -53,28 +58,46 @@ ANAL::SDLRenderer::~SDLRenderer()
         SDL_DestroyRenderer(this->_renderer);
     if (this->_window != nullptr)
         SDL_DestroyWindow(this->_window);
+    TTF_Quit();
     SDL_Quit();
+    std::cout << "Destroy of SDL" << std::endl;
 }
 
 void ANAL::SDLRenderer::drawEntity(const ANAL::IEntity &entity)
 {
     float cellSizeWidth = this->_windowWidth / 32.0F;
     float cellSizeHeight = this->_windowHeight / 32.0F;
-    SDL_Texture *texture;
+    SDL_Texture *texture = nullptr;
+    SDL_Surface *surface = nullptr;
     SDL_Rect dest;
 
-    IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
+    if (IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG) == 0) {
+        std::cout << "Error while loading SDL2" << std::endl;
+        throw Exception();
+    }
     if (entity.getAsset().getTexturePath().empty())
         return;
-    texture = IMG_LoadTexture(
-        this->_renderer, entity.getAsset().getTexturePath().c_str());
-    if (texture == nullptr)
+    surface = IMG_Load(entity.getAsset().getTexturePath().c_str());
+    if (surface == nullptr) {
+        std::cout << "Unable to load surface" << std::endl;
         throw Exception();
+    }
+    if (this->_renderer == nullptr) {
+        std::cerr << "Error renderer:" << SDL_GetError() << std::endl;
+        throw Exception();
+    }
+    texture = SDL_CreateTextureFromSurface(this->_renderer, surface);
+    if (texture == nullptr) {
+        std::cerr << "Error loading texture:" << SDL_GetError() << std::endl;
+        throw Exception();
+    }
     dest.x = static_cast<int>(entity.getPos().x * cellSizeWidth);
     dest.y = static_cast<int>(entity.getPos().y * cellSizeHeight);
     SDL_QueryTexture(texture, nullptr, nullptr, &dest.w, &dest.h);
     SDL_RenderCopy(this->_renderer, texture, nullptr, &dest);
+    SDL_FreeSurface(surface);
     SDL_DestroyTexture(texture);
+    IMG_Quit();
 }
 
 void ANAL::SDLRenderer::drawText(

@@ -102,6 +102,7 @@ void Arcade::Arcade::_reloadRenderer()
 
     if (rendererLib.empty())
         return;
+    this->_runningDisplay.reset();
     void *loadedLib = DlUtils::open(rendererLib);
     auto graphical = DlUtils::loadDisplay(loadedLib);
 
@@ -115,6 +116,7 @@ void Arcade::Arcade::_reloadGame()
 
     if (gameLib.empty())
         return;
+    this->_runningGame.reset();
     void *loadedGame = DlUtils::open(gameLib);
     auto game = DlUtils::loadGame(loadedGame);
 
