@@ -43,13 +43,13 @@ void ANAL::SnakeEngine::processEvents(std::vector<ANAL::Event> &event)
     if (this->gameState != VICTORY::UNDEFINED)
         return;
     for (const auto &elem : event) {
-        if (elem.keyEvent->key == ANAL::Keys::KEY_A)
+        if (elem.keyEvent->key == ANAL::Keys::ARROW_LEFT)
             this->snakeDirection = DIRECTION::LEFT;
-        if (elem.keyEvent->key == ANAL::Keys::KEY_S)
+        if (elem.keyEvent->key == ANAL::Keys::ARROW_DOWN)
             this->snakeDirection = DIRECTION::DOWN;
-        if (elem.keyEvent->key == ANAL::Keys::KEY_W)
+        if (elem.keyEvent->key == ANAL::Keys::ARROW_UP)
             this->snakeDirection = DIRECTION::UP;
-        if (elem.keyEvent->key == ANAL::Keys::KEY_D)
+        if (elem.keyEvent->key == ANAL::Keys::ARROW_RIGHT)
             this->snakeDirection = DIRECTION::RIGHT;
         if (elem.keyEvent->key == ANAL::Keys::KEY_R)
             this->resetGame();
