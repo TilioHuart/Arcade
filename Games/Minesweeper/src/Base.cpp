@@ -32,6 +32,12 @@ void ANAL::MinesweeperEngine::compute()
 
 void ANAL::MinesweeperEngine::_restartGame()
 {
+    this->_hasLose = false;
+    this->_hasWin = false;
+    this->_firstClick = true;
+    this->_mineDisplayed = false;
+    this->_score = 0;
+    this->_nbFlags = 0;
     this->_createMap();
     this->_placeMines();
     this->_setNeighbors();
