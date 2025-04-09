@@ -79,7 +79,7 @@ void ANAL::SnakeEngine::checkWinCondition()
 {
     if (this->gameState != VICTORY::UNDEFINED)
         return;
-    if (this->snake.size() == (this->mapSize * this->mapSize)) {
+    if (this->snake.size() == (this->mapSize * this->mapSize - 1)) {
         this->gameState = VICTORY::YES;
     }
 }
