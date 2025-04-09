@@ -29,13 +29,16 @@ void ANAL::SnakeEngine::compute()
 {
     if (this->gameState != VICTORY::UNDEFINED)
         return;
-    this->setFruit();
+    this->checkWinCondition();
     this->computeSnake();
+    this->setFruit();
     if (this->snake[0].x == this->fruitX && this->snake[0].y == this->fruitY &&
         !this->fruitEaten) {
         this->fruitEaten = true;
+        this->map[this->fruitX][this->fruitY] = STATE::FRUIT;
         score += 1;
         this->snake.push_back({this->previousX, this->previousY});
+        this->map[this->previousX][this->previousY] = STATE::SNAKE;
     }
 }
 
@@ -70,6 +73,15 @@ void ANAL::SnakeEngine::resetGame()
     this->fruitEaten = true;
     this->score = 0;
     this->setFruit();
+}
+
+void ANAL::SnakeEngine::checkWinCondition()
+{
+    if (this->gameState != VICTORY::UNDEFINED)
+        return;
+    if (this->snake.size() == (this->mapSize * this->mapSize)) {
+        this->gameState = VICTORY::YES;
+    }
 }
 
 extern "C" {

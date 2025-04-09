@@ -28,6 +28,10 @@ void ANAL::SnakeEngine::setFruit()
     int y = 0;
     for (auto &it : this->map) {
         for (auto &elt : it) {
+            if (elt != STATE::EMPTY) {
+                i += 1;
+                continue;
+            }
             if (newCounter == newFruit) {
                 elt = STATE::FRUIT;
                 this->fruitX = y;

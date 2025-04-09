@@ -44,8 +44,10 @@ void ANAL::SnakeEngine::renderMap(
     int j = 0;
     for (const auto &it : this->map) {
         for (auto elt : it) {
-            entity->setPos({j, i});
-            renderer.drawEntity(*entity);
+            if (elt == STATE::EMPTY) {
+                entity->setPos({i, j});
+                renderer.drawEntity(*entity);
+            }
             j += 1;
         }
         i += 1;
@@ -79,10 +81,11 @@ void ANAL::SnakeEngine::renderSnake(
     }
 }
 
-void ANAL::SnakeEngine::renderScore(ANAL::IRenderer &renderer, const ANAL::IArcade &arcade)
+void ANAL::SnakeEngine::renderScore(
+    ANAL::IRenderer &renderer, const ANAL::IArcade &arcade)
 {
     std::stringstream scoreStream;
-    std::string scoreString ;
+    std::string scoreString;
     scoreStream << this->score;
     scoreStream >> scoreString;
     renderer.drawText(scoreString.c_str(), {16, 2});

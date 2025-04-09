@@ -14,9 +14,13 @@ void ANAL::SnakeEngine::setSnake()
     this->snake.push_back({this->mapSize / 2, this->mapSize / 2});
     this->previousX = this->mapSize / 2;
     this->previousY = this->mapSize / 2;
+    this->map[this->previousX][this->previousY] = STATE::SNAKE;
     this->snake.push_back({this->previousX -= 1, this->previousY});
+    this->map[this->previousX][this->previousY] = STATE::SNAKE;
     this->snake.push_back({this->previousX -= 1, this->previousY});
+    this->map[this->previousX][this->previousY] = STATE::SNAKE;
     this->snake.push_back({this->previousX -= 1, this->previousY});
+    this->map[this->previousX][this->previousY] = STATE::SNAKE;
 }
 
 void ANAL::SnakeEngine::computeSnake()

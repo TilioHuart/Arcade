@@ -34,7 +34,7 @@ namespace ANAL {
         std::vector<ANAL::Vector2<int>> snake;
         int fruitX;
         int fruitY;
-        int mapSize = 15;
+        int mapSize = 16;
         uint8_t fruitPos = 0;
         bool fruitEaten = true;
         int previousX;
@@ -60,6 +60,7 @@ namespace ANAL {
         void moveUp();
         void moveDown();
         void resetGame();
+        void checkWinCondition();
     };
 
 }  // namespace ANAL
