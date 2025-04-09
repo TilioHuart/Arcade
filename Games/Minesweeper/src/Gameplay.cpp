@@ -39,7 +39,9 @@ void ANAL::MinesweeperEngine::_clickLeft(const Event &event)
     auto mouseKey = event.mouseEvent->key;
 
     if (mouseKey == MouseKeys::LEFT_CLICK) {
-        this->_clickLeftFirst(event);
+        if (this->_firstClick) {
+            this->_clickLeftFirst(event);
+        }
         if (this->_map[xPos][yPos] != ANAL::Case::EMPTY &&
             this->_map[xPos][yPos] != ANAL::Case::MINE) {
             this->_score += 1;
@@ -63,6 +65,8 @@ void ANAL::MinesweeperEngine::_clickLeftFirst(const Event &event)
         this->_restartGame();
         index += 1;
     }
+    this->_endTime = std::chrono::steady_clock::now() +
+                     std::chrono::seconds(this->_nbMine * 10);
     this->_firstClick = false;
 }
 

@@ -44,8 +44,13 @@ void ANAL::MinesweeperEngine::_renderAth(ANAL::IRenderer &renderer)
     std::stringstream timeLeftStream;
     std::string timeLeftStr;
 
-    std::chrono::duration<double> timeLeft = this->_endTime - std::chrono::steady_clock::now();
-    if ( timeLeft.count() <= 0) {
+    if (this->_firstClick) {
+        this->_endTime = std::chrono::steady_clock::now() +
+                         std::chrono::seconds(this->_nbMine * 10);
+    }
+    std::chrono::duration<double> timeLeft =
+        this->_endTime - std::chrono::steady_clock::now();
+    if (timeLeft.count() <= 0) {
         this->_hasLose = true;
     }
 
@@ -60,7 +65,7 @@ void ANAL::MinesweeperEngine::_renderAth(ANAL::IRenderer &renderer)
 
     renderer.drawText("Mines left: " + minesLeftStr, {23, 1});
     renderer.drawText("Score: " + scoreStr, {1, 23});
-    if (!_hasWin)
+    if (!this->_hasWin && !this->_hasLose)
         renderer.drawText("Time: " + timeLeftStr, {23, 23});
 }
 

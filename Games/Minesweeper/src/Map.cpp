@@ -70,7 +70,6 @@ void ANAL::MinesweeperEngine::_createHardMap()
 void ANAL::MinesweeperEngine::_placeMines()
 {
     size_t placedMines = 0;
-    std::srand(std::time(nullptr));
 
     while (placedMines < this->_nbMine) {
         int column = std::rand() % this->_gridSize;
@@ -107,7 +106,7 @@ void ANAL::MinesweeperEngine::_setNeighbors()
                 if (j > 0) {
                     ++this->_map[i][j - 1];
                 }
-                if (i < this->_gridSize - 1) {
+                if (j < this->_gridSize - 1) {
                     ++this->_map[i][j + 1];
                 }
             }

@@ -16,6 +16,7 @@
 ANAL::MinesweeperEngine::MinesweeperEngine()
 {
     this->_restartGame();
+    std::srand(std::time(nullptr));
 }
 
 ANAL::MinesweeperEngine::~MinesweeperEngine() {}
@@ -25,8 +26,10 @@ void ANAL::MinesweeperEngine::compute()
     for (size_t i = 0; i < this->_gridSize; i += 1) {
         for (size_t j = 0; j < this->_gridSize; j += 1) {
             if (this->_hidden[i][j] == Visibility::VISIBLE &&
-                this->_map[i][j] == Case::MINE)
+                this->_map[i][j] == Case::MINE) {
+                // std::cout << "lose: "<< i << " " << j << std::endl;
                 this->_hasLose = true;
+            }
         }
     }
     this->_checkWin();
@@ -34,8 +37,6 @@ void ANAL::MinesweeperEngine::compute()
 
 void ANAL::MinesweeperEngine::_restartGame()
 {
-    this->_endTime =
-        std::chrono::steady_clock::now() + std::chrono::seconds(this->_nbMine * 10);
     this->_added = false;
     this->_hasLose = false;
     this->_hasWin = false;
@@ -47,6 +48,8 @@ void ANAL::MinesweeperEngine::_restartGame()
     this->_placeMines();
     this->_setNeighbors();
     this->_createHidden();
+    this->_endTime = std::chrono::steady_clock::now() +
+                     std::chrono::seconds(this->_nbMine * 10);
 }
 
 extern "C" {
