@@ -44,10 +44,8 @@ void ANAL::SnakeEngine::renderMap(
     int j = 0;
     for (const auto &it : this->map) {
         for (auto elt : it) {
-            if (elt == STATE::EMPTY) {
-                entity->setPos({i, j});
-                renderer.drawEntity(*entity);
-            }
+            entity->setPos({i, j});
+            renderer.drawEntity(*entity);
             j += 1;
         }
         i += 1;
