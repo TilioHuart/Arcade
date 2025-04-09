@@ -9,6 +9,7 @@
 #include "IGame.hpp"
 #include "IModule.hpp"
 #include "MinesweeperEngine.hpp"
+#include <chrono>
 #include <iostream>
 #include <memory.h>
 
@@ -33,6 +34,9 @@ void ANAL::MinesweeperEngine::compute()
 
 void ANAL::MinesweeperEngine::_restartGame()
 {
+    this->_endTime =
+        std::chrono::steady_clock::now() + std::chrono::seconds(this->_nbMine * 10);
+    this->_added = false;
     this->_hasLose = false;
     this->_hasWin = false;
     this->_firstClick = true;

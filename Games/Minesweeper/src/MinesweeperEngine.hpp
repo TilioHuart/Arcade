@@ -10,6 +10,7 @@
 #include "AGame.hpp"
 #include "IArcade.hpp"
 #include "IRenderer.hpp"
+#include <chrono>
 #include <cstdint>
 
 namespace ANAL {
@@ -43,6 +44,7 @@ namespace ANAL {
 
        private:
         Difficulty _difficulty = Difficulty::EASY;
+        std::chrono::time_point<std::chrono::steady_clock> _endTime;
         size_t _score = 0;
         uint16_t _nbMine = 10;
         uint16_t _nbMineLeft = 10;
@@ -52,6 +54,7 @@ namespace ANAL {
         bool _hasWin = false;
         bool _mineDisplayed = false;
         bool _firstClick = true;
+        bool _added = false;
         std::vector<std::vector<ANAL::Case>> _map;
         std::vector<std::vector<ANAL::Visibility>> _hidden;
 
@@ -76,7 +79,7 @@ namespace ANAL {
             ANAL::IRenderer &renderer, const ANAL::IArcade &arcade) const;
         void _renderCases(
             ANAL::IRenderer &renderer, const ANAL::IArcade &arcade) const;
-        void _renderAth(ANAL::IRenderer &renderer) const;
+        void _renderAth(ANAL::IRenderer &renderer);
         void _displayHidden(ANAL::IRenderer &renderer,
             const ANAL::IArcade &arcade, size_t i, size_t j) const;
         void _displayVisible(ANAL::IRenderer &renderer,

@@ -32,7 +32,7 @@ void ANAL::MinesweeperEngine::render(
     renderer.render();
 }
 
-void ANAL::MinesweeperEngine::_renderAth(ANAL::IRenderer &renderer) const
+void ANAL::MinesweeperEngine::_renderAth(ANAL::IRenderer &renderer)
 {
     auto minesLefts = this->_nbMine - this->_nbFlags;
     std::stringstream minesLeftStream;
@@ -41,14 +41,27 @@ void ANAL::MinesweeperEngine::_renderAth(ANAL::IRenderer &renderer) const
     std::stringstream scoreStream;
     std::string scoreStr;
 
+    std::stringstream timeLeftStream;
+    std::string timeLeftStr;
+
+    std::chrono::duration<double> timeLeft = this->_endTime - std::chrono::steady_clock::now();
+    if ( timeLeft.count() <= 0) {
+        this->_hasLose = true;
+    }
+
     minesLeftStream << minesLefts;
     minesLeftStream >> minesLeftStr;
 
     scoreStream << this->_score;
     scoreStream >> scoreStr;
 
-    renderer.drawText("Mines left: " + minesLeftStr , {23, 1});
+    timeLeftStream << (timeLeft.count() < 0 ? 0 : timeLeft.count());
+    timeLeftStream >> timeLeftStr;
+
+    renderer.drawText("Mines left: " + minesLeftStr, {23, 1});
     renderer.drawText("Score: " + scoreStr, {1, 23});
+    if (!_hasWin)
+        renderer.drawText("Time: " + timeLeftStr, {23, 23});
 }
 
 void ANAL::MinesweeperEngine::_displayLose(

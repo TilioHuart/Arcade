@@ -60,7 +60,6 @@ void ANAL::MinesweeperEngine::_clickLeftFirst(const Event &event)
     size_t index = 0;
 
     while (this->_firstClick && this->_map[xPos][yPos] != Case::EMPTY) {
-        std::cout << index << std::endl;
         this->_restartGame();
         index += 1;
     }
@@ -134,5 +133,12 @@ void ANAL::MinesweeperEngine::_checkWin()
                 return;
         }
     }
+    if (!this->_added) {
+        std::chrono::duration<double> timeLeft =
+            this->_endTime - std::chrono::steady_clock::now();
+        this->_score += static_cast<size_t>(timeLeft.count());
+        this->_added = true;
+    }
+
     this->_hasWin = true;
 }
