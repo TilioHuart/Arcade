@@ -10,6 +10,7 @@
 #include "Entity.hpp"
 #include "Events.hpp"
 #include "IGame.hpp"
+#include "IModule.hpp"
 #include "src/DlUtils.hpp"
 #include "src/Menu.hpp"
 #include <chrono>
@@ -22,6 +23,10 @@
 Arcade::Arcade::Arcade(const std::string &renderer)
 {
     this->_loadedGraphicalLib = DlUtils::open(renderer);
+    if (DlUtils::getLibType(this->_loadedGraphicalLib) != ANAL::ModuleType::RENDERER) {
+        DlUtils::close(this->_loadedGraphicalLib);
+        throw DlUtils::DlUtilsError("not a graphical library");
+    }
     auto graphical = DlUtils::loadDisplay(this->_loadedGraphicalLib);
 
     this->setDisplay(graphical);

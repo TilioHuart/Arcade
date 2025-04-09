@@ -14,9 +14,8 @@
 
 int runApp(const char *lib)
 {
-    Arcade::Arcade arcade(lib);
-
     try {
+        Arcade::Arcade arcade(lib);
         std::unique_ptr<ANAL::IGame> menu = std::make_unique<Arcade::MenuEngine>();
         
         arcade.setGame(menu);
