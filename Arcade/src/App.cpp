@@ -19,6 +19,8 @@
 static int checkEnv(char **env)
 {
     size_t envChecker = 0;
+    if (env == nullptr)
+        return FAILURE;
     for (int i = 0; env[i] != nullptr; i += 1)
         if (strncmp(env[i], "DISPLAY=", 8) == 0)
             envChecker += 1;
