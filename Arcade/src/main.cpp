@@ -5,15 +5,12 @@
 // main
 //
 
-#include "DlUtils.hpp"
-#include "IModule.hpp"
-#include "Vector2.hpp"
+#include "App.hpp"
 #include "utils.hpp"
-int runApp(const char *lib);
 
-int main(int argc, char **argv)
+int main(int argc, char **argv, char **env)
 {
     if (argc != 2 || argv == nullptr || argv[1] == nullptr)
         return EPITECH_FAILURE;
-    return runApp(argv[1]);
+    return runApp(argv[1], env);
 }

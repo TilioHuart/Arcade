@@ -7,4 +7,4 @@
 
 #pragma once
 
-int runApp(const char *lib);
+int runApp(const char *lib, char **env);

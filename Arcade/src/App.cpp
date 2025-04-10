@@ -10,10 +10,27 @@
 #include "src/DlUtils.hpp"
 #include "src/Menu.hpp"
 #include "src/utils.hpp"
+#include <cstddef>
+#include <cstring>
+#include <exception>
 #include <iostream>
+#include <ostream>
 
-int runApp(const char *lib)
+static int checkEnv(char **env)
 {
+    size_t envChecker = 0;
+    for (int i = 0; env[i] != nullptr; i += 1)
+        if (strncmp(env[i], "DISPLAY=", 8) == 0)
+            envChecker += 1;
+    if (envChecker < 1)
+        return FAILURE;
+    return SUCCESS;
+}
+
+int runApp(const char *lib, char **env)
+{
+    if (checkEnv(env) == FAILURE)
+        return EPITECH_FAILURE;
     try {
         Arcade::Arcade arcade(lib);
         std::unique_ptr<ANAL::IGame> menu = std::make_unique<Arcade::MenuEngine>();
@@ -25,6 +42,9 @@ int runApp(const char *lib)
         return EPITECH_FAILURE;
     } catch (const Arcade::Arcade::ArcadeError &error) {
         std::cerr << "Arcade error: " << error.what() << std::endl;
+        return EPITECH_FAILURE;
+    } catch (std::exception &e) {
+        std::cerr << "ERROR: " << e.what() << std::endl;
         return EPITECH_FAILURE;
     }
     return EPITECH_SUCCESS;
