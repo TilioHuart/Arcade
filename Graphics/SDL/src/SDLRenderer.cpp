@@ -171,6 +171,19 @@ std::vector<ANAL::Event> &ANAL::SDLRenderer::getEvents()
                         ANAL::Event ev;
                         ev.keyEvent->key = it.first;
                         ev.keyEvent->state = State::PRESSED;
+                        ev.type = ANAL::EventType::KEYBOARD;
+                        this->_sdlEvents.push_back(ev);
+                        break;
+                    }
+                break;
+            }
+            case SDL_KEYUP: {
+                for (auto it : code)
+                    if (sdlEvent.key.keysym.sym == it.second) {
+                        ANAL::Event ev;
+                        ev.keyEvent->key = it.first;
+                        ev.keyEvent->state = State::RELEASED;
+                        ev.type = ANAL::EventType::KEYBOARD;
                         this->_sdlEvents.push_back(ev);
                         break;
                     }
@@ -182,6 +195,7 @@ std::vector<ANAL::Event> &ANAL::SDLRenderer::getEvents()
                         ANAL::Event ev;
                         ev.mouseEvent->key = it.first;
                         ev.mouseEvent->state = State::RELEASED;
+                        ev.type = ANAL::EventType::MOUSE;
                         ev.mouseEvent->coords = {
                             static_cast<int>(sdlEvent.motion.x / cellSize),
                             static_cast<int>(sdlEvent.motion.y / cellSize)};

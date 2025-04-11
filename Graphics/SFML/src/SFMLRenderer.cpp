@@ -149,6 +149,7 @@ std::vector<ANAL::Event> &ANAL::SFMLRenderer::getEvents()
                         ANAL::Event ev;
                         ev.keyEvent->key = it.first;
                         ev.keyEvent->state = State::RELEASED;
+                        ev.type = ANAL::EventType::KEYBOARD;
                         this->_sfmlEvents.push_back(ev);
                         break;
                     }
@@ -160,6 +161,7 @@ std::vector<ANAL::Event> &ANAL::SFMLRenderer::getEvents()
                         ANAL::Event ev;
                         ev.keyEvent->key = it.first;
                         ev.keyEvent->state = State::PRESSED;
+                        ev.type = ANAL::EventType::KEYBOARD;
                         this->_sfmlEvents.push_back(ev);
                         break;
                     }
@@ -177,6 +179,7 @@ std::vector<ANAL::Event> &ANAL::SFMLRenderer::getEvents()
                         ANAL::Event ev;
                         ev.mouseEvent->key = it.first;
                         ev.mouseEvent->state = State::RELEASED;
+                        ev.type = ANAL::EventType::MOUSE;
                         ev.mouseEvent->coords = {
                             static_cast<int>(
                                 sfmlEvent.mouseButton.x / cellSize),
