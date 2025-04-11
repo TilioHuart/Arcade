@@ -149,6 +149,8 @@ std::vector<ANAL::Event> &ANAL::SDLRenderer::getEvents()
         {Keys::KEY_2, SDLK_2}, {Keys::KEY_3, SDLK_3}, {Keys::KEY_4, SDLK_4},
         {Keys::KEY_5, SDLK_5}, {Keys::KEY_6, SDLK_6}, {Keys::KEY_7, SDLK_7},
         {Keys::KEY_8, SDLK_8}, {Keys::KEY_9, SDLK_9},
+        {Keys::SPECIAL_KEY_SPACE, SDLK_SPACE}, {Keys::SPECIAL_KEY_BACKSPACE, SDLK_BACKSPACE},
+        {Keys::SPECIAL_KEY_ENTER, SDLK_RETURN},
         {Keys::ARROW_DOWN, SDLK_DOWN}, {Keys::ARROW_UP, SDLK_UP},
         {Keys::ARROW_LEFT, SDLK_LEFT}, {Keys::ARROW_RIGHT, SDLK_RIGHT}};
 

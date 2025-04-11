@@ -80,6 +80,8 @@ std::vector<ANAL::Event> &ANAL::NcursesRenderer::getEvents()
         {Keys::KEY_Z, 'z'}, {Keys::KEY_0, '0'}, {Keys::KEY_1, '1'},
         {Keys::KEY_2, '2'}, {Keys::KEY_3, '3'}, {Keys::KEY_4, '4'},
         {Keys::KEY_5, '5'}, {Keys::KEY_6, '6'}, {Keys::KEY_7, '7'},
+        {Keys::SPECIAL_KEY_SPACE, ' '}, {Keys::SPECIAL_KEY_BACKSPACE, 127}, 
+        {Keys::SPECIAL_KEY_ENTER, '\n'},
         {Keys::KEY_8, '8'}, {Keys::KEY_9, '9'}, {Keys::ARROW_UP, KEY_UP},
         {Keys::ARROW_DOWN, KEY_DOWN}, {Keys::ARROW_LEFT, KEY_LEFT},
         {Keys::ARROW_RIGHT, KEY_RIGHT}};

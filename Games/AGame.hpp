@@ -11,7 +11,6 @@
 #include "IArcade.hpp"
 #include "IGame.hpp"
 #include "IRenderer.hpp"
-#include "ISprite.hpp"
 #include <vector>
 
 namespace ANAL {
