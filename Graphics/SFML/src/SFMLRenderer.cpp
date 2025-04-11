@@ -170,7 +170,12 @@ std::vector<ANAL::Event> &ANAL::SFMLRenderer::getEvents()
             case sf::Event::Closed: {
                 ANAL::Event ev;
                 ev.keyEvent->key = Keys::KEY_Q;
+                ev.keyEvent->state = State::PRESSED;
+                ev.type = EventType::CLOSE;
                 this->_sfmlEvents.push_back(ev);
+                ANAL::Event close;
+                close.type = EventType::CLOSE;
+                this->_sfmlEvents.push_back(close);
                 break;
             }
             case sf::Event::MouseButtonReleased: {
