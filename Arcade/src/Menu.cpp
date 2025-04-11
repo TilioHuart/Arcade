@@ -63,7 +63,8 @@ void Arcade::MenuEngine::render(
     }
     line += 3;
     renderer.drawText("Displays:", ANAL::Vector2<int>(0, line));
-    renderer.drawText(">", ANAL::Vector2<int>(1, line + 1 + this->_actualRenderer));
+    renderer.drawText(
+        ">", ANAL::Vector2<int>(1, line + 1 + this->_actualRenderer));
     for (int i = 0; i < this->_renderers.size() && i < 10; i++) {
         line += 1;
         renderer.drawText(this->_renderers[i], ANAL::Vector2<int>(2, line));
@@ -77,21 +78,26 @@ void Arcade::MenuEngine::processEvents(std::vector<ANAL::Event> &Event)
 {
     for (const auto &elem : Event) {
         if (elem.keyEvent->key == ANAL::Keys::KEY_H &&
-            this->_actualGame < this->_games.size() - 1) {
+            this->_actualGame < this->_games.size() - 1 &&
+            elem.keyEvent->state == ANAL::State::RELEASED) {
             this->_actualGame += 1;
         }
-        if (elem.keyEvent->key == ANAL::Keys::KEY_J && this->_actualGame > 0) {
+        if (elem.keyEvent->key == ANAL::Keys::KEY_J && this->_actualGame > 0 &&
+            elem.keyEvent->state == ANAL::State::RELEASED) {
             this->_actualGame -= 1;
         }
         if (elem.keyEvent->key == ANAL::Keys::KEY_K &&
-            this->_actualRenderer < this->_renderers.size() - 1) {
+            this->_actualRenderer < this->_renderers.size() - 1 &&
+            elem.keyEvent->state == ANAL::State::RELEASED) {
             this->_actualRenderer += 1;
         }
         if (elem.keyEvent->key == ANAL::Keys::KEY_L &&
-            this->_actualRenderer > 0) {
+            this->_actualRenderer > 0 &&
+            elem.keyEvent->state == ANAL::State::RELEASED) {
             this->_actualRenderer -= 1;
         }
-        if (elem.keyEvent->key == ANAL::Keys::KEY_E)
+        if (elem.keyEvent->key == ANAL::Keys::KEY_E &&
+            elem.keyEvent->state == ANAL::State::RELEASED)
             this->_launchGame = true;
     }
 }

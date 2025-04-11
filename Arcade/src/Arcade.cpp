@@ -20,7 +20,8 @@
 #include <thread>
 #include <vector>
 
-Arcade::Arcade::Arcade(const std::string &renderer): _score(0), _playerName("Moi")
+Arcade::Arcade::Arcade(const std::string &renderer)
+    : _score(0), _playerName("Moi")
 {
     this->_loadedGraphicalLib = DlUtils::open(renderer);
     if (DlUtils::getLibType(this->_loadedGraphicalLib) !=
@@ -110,23 +111,28 @@ bool Arcade::Arcade::_processArcadeEvents(
             this->_isRunning = false;
             return false;
         }
-        if (event.keyEvent->key == ANAL::Keys::KEY_Q) {
+        if (event.keyEvent->key == ANAL::Keys::KEY_Q &&
+            event.keyEvent->state == ANAL::State::PRESSED) {
             this->_isRunning = false;
             return false;
         }
-        if (event.keyEvent->key == ANAL::Keys::KEY_P) {
+        if (event.keyEvent->key == ANAL::Keys::KEY_P &&
+            event.keyEvent->state == ANAL::State::PRESSED) {
             this->_getNextGame();
             this->_reloadGame();
         }
-        if (event.keyEvent->key == ANAL::Keys::KEY_M) {
+        if (event.keyEvent->key == ANAL::Keys::KEY_M &&
+            event.keyEvent->state == ANAL::State::PRESSED) {
             this->_getNextGraphical();
             this->_reloadRenderer();
         }
-        if (event.keyEvent->key == ANAL::Keys::KEY_R) {
+        if (event.keyEvent->key == ANAL::Keys::KEY_R &&
+            event.keyEvent->state == ANAL::State::PRESSED) {
             this->_gameToLaunch = this->_savedGame;
             this->_reloadGame();
         }
-        if (event.keyEvent->key == ANAL::Keys::KEY_N) {
+        if (event.keyEvent->key == ANAL::Keys::KEY_N &&
+            event.keyEvent->state == ANAL::State::PRESSED) {
             std::unique_ptr<ANAL::IGame> menu = std::make_unique<MenuEngine>();
             this->setGame(menu);
             return false;

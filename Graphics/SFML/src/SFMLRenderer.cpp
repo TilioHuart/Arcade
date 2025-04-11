@@ -143,11 +143,23 @@ std::vector<ANAL::Event> &ANAL::SFMLRenderer::getEvents()
 
     while (this->_window->pollEvent(sfmlEvent)) {
         switch (sfmlEvent.type) {
+            case sf::Event::KeyReleased: {
+                for (auto it : code)
+                    if (sfmlEvent.key.code == it.second) {
+                        ANAL::Event ev;
+                        ev.keyEvent->key = it.first;
+                        ev.keyEvent->state = State::RELEASED;
+                        this->_sfmlEvents.push_back(ev);
+                        break;
+                    }
+                break;
+            }
             case sf::Event::KeyPressed: {
                 for (auto it : code)
                     if (sfmlEvent.key.code == it.second) {
                         ANAL::Event ev;
                         ev.keyEvent->key = it.first;
+                        ev.keyEvent->state = State::PRESSED;
                         this->_sfmlEvents.push_back(ev);
                         break;
                     }

@@ -59,7 +59,9 @@ ANAL::SDLRenderer::~SDLRenderer()
         SDL_DestroyRenderer(this->_renderer);
     if (this->_window != nullptr)
         SDL_DestroyWindow(this->_window);
-    TTF_Quit();
+    if (this->font != nullptr) {
+        TTF_CloseFont(this->font);
+    }
     SDL_Quit();
     std::cout << "Destroy of SDL" << std::endl;
 }
@@ -168,6 +170,7 @@ std::vector<ANAL::Event> &ANAL::SDLRenderer::getEvents()
                     if (sdlEvent.key.keysym.sym == it.second) {
                         ANAL::Event ev;
                         ev.keyEvent->key = it.first;
+                        ev.keyEvent->state = State::PRESSED;
                         this->_sdlEvents.push_back(ev);
                         break;
                     }
