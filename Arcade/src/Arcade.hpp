@@ -25,7 +25,7 @@ namespace Arcade {
 
         class ArcadeError : public std::exception {
            public:
-            ArcadeError(std::string msg): _msg(std::move(msg)) {};
+            ArcadeError(std::string msg) : _msg(std::move(msg)) {};
 
             [[nodiscard]] const char *what() const noexcept override
             {
@@ -35,6 +35,11 @@ namespace Arcade {
            private:
             std::string _msg;
         };
+
+        [[nodiscard]] virtual const std::string &getPlayerName() const override;
+        virtual void setPlayerHighscore(int score) override;
+        [[nodiscard]] virtual int getPlayerHighscore(
+            const std::string &playerName) const override;
 
         void setGame(std::unique_ptr<ANAL::IGame> &);
         void setDisplay(std::unique_ptr<ANAL::IRenderer> &);
@@ -51,6 +56,8 @@ namespace Arcade {
 
         void *_loadedGraphicalLib = nullptr;
         void *_loadedGameLib = nullptr;
+        int _score;
+        std::string _playerName;
         std::string _savedGame;
         std::string _savedRenderer;
         std::string _gameToLaunch;

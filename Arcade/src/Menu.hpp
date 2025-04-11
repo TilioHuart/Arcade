@@ -10,8 +10,8 @@
 #include "AGame.hpp"
 #include "Events.hpp"
 #include <string>
+#include "IArcade.hpp"
 #include "IRenderer.hpp"
-#include <string>
 #include <utility>
 #include <vector>
 
@@ -23,7 +23,7 @@ namespace Arcade {
 
         void processEvents(std::vector<ANAL::Event> &Event) override;
 
-        void compute() override;
+        void compute(ANAL::IArcade &arcade) override;
         void render(
             ANAL::IRenderer &renderer, const ANAL::IArcade &arcade) override;
         std::string getGame();

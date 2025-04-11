@@ -71,7 +71,7 @@ void Arcade::MenuEngine::render(
     renderer.render();
 }
 
-void Arcade::MenuEngine::compute() {}
+void Arcade::MenuEngine::compute(ANAL::IArcade &arcade) {}
 
 void Arcade::MenuEngine::processEvents(std::vector<ANAL::Event> &Event)
 {

@@ -20,10 +20,11 @@
 #include <thread>
 #include <vector>
 
-Arcade::Arcade::Arcade(const std::string &renderer)
+Arcade::Arcade::Arcade(const std::string &renderer): _score(0), _playerName("Moi")
 {
     this->_loadedGraphicalLib = DlUtils::open(renderer);
-    if (DlUtils::getLibType(this->_loadedGraphicalLib) != ANAL::ModuleType::RENDERER) {
+    if (DlUtils::getLibType(this->_loadedGraphicalLib) !=
+        ANAL::ModuleType::RENDERER) {
         DlUtils::close(this->_loadedGraphicalLib);
         throw DlUtils::DlUtilsError("not a graphical library");
     }
@@ -97,7 +98,7 @@ void Arcade::Arcade::run()
             std::this_thread::sleep_for(targetFrameDuration - frameDuration);
         }
         this->_runningGame->processEvents(events);
-        this->_runningGame->compute();
+        this->_runningGame->compute(*this);
     }
 }
 
@@ -252,6 +253,21 @@ void Arcade::Arcade::_reloadGame()
     this->setGame(game);
     this->_savedGame = gameLib;
     this->_gameToLaunch.clear();
+}
+
+const std::string &Arcade::Arcade::getPlayerName() const
+{
+    return this->_playerName;
+}
+
+void Arcade::Arcade::setPlayerHighscore(int score)
+{
+    this->_score = score;
+}
+
+int Arcade::Arcade::getPlayerHighscore(const std::string &playerName) const
+{
+    return this->_score;
 }
 
 [[nodiscard]] std::unique_ptr<ANAL::IAsset> Arcade::Arcade::newAsset() const
