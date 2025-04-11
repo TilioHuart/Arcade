@@ -6,6 +6,7 @@
 //
 
 #include "PacmanEngine.hpp"
+#include "IArcade.hpp"
 #include "IRenderer.hpp"
 
 void ANAL::PacmanEngine::processEvents(std::vector<Event> &Event)
@@ -18,7 +19,7 @@ void ANAL::PacmanEngine::render(ANAL::IRenderer &renderer, const ANAL::IArcade &
 
 }
 
-void ANAL::PacmanEngine::compute()
+void ANAL::PacmanEngine::compute(ANAL::IArcade &arcade)
 {
 
 }

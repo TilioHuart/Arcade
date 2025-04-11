@@ -8,6 +8,7 @@
 #pragma once
 
 #include "AGame.hpp"
+#include "IArcade.hpp"
 #include "IRenderer.hpp"
 
 namespace ANAL {
@@ -15,7 +16,7 @@ namespace ANAL {
        public:
         PacmanEngine();
         void processEvents(std::vector<Event> &Event) override;
-        void compute() override;
+        void compute(IArcade &arcade) override;
         void render(ANAL::IRenderer &renderer, const ANAL::IArcade &arcade) override;
 
        private:

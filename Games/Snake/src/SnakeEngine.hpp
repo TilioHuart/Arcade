@@ -9,6 +9,7 @@
 
 #include "AGame.hpp"
 #include "Events.hpp"
+#include "IArcade.hpp"
 #include "Vector2.hpp"
 #include <cstdint>
 #include <vector>
@@ -25,7 +26,7 @@ namespace ANAL {
         SnakeEngine();
         ~SnakeEngine() override;
         void processEvents(std::vector<ANAL::Event> &Event) override;
-        void compute() override;
+        void compute(ANAL::IArcade &arcade) override;
         void render(
             ANAL::IRenderer &renderer, const ANAL::IArcade &arcade) override;
 

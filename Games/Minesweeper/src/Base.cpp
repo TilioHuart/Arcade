@@ -6,6 +6,7 @@
 //
 
 #include "Events.hpp"
+#include "IArcade.hpp"
 #include "IGame.hpp"
 #include "IModule.hpp"
 #include "MinesweeperEngine.hpp"
@@ -21,13 +22,12 @@ ANAL::MinesweeperEngine::MinesweeperEngine()
 
 ANAL::MinesweeperEngine::~MinesweeperEngine() {}
 
-void ANAL::MinesweeperEngine::compute()
+void ANAL::MinesweeperEngine::compute(__attribute__((unused)) ANAL::IArcade &arcade)
 {
     for (size_t i = 0; i < this->_gridSize; i += 1) {
         for (size_t j = 0; j < this->_gridSize; j += 1) {
             if (this->_hidden[i][j] == Visibility::VISIBLE &&
                 this->_map[i][j] == Case::MINE) {
-                // std::cout << "lose: "<< i << " " << j << std::endl;
                 this->_hasLose = true;
             }
         }

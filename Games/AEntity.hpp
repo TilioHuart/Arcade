@@ -5,16 +5,17 @@
 // AEntity.hpp
 //
 
+#include "IAsset.hpp"
 #include "IEntity.hpp"
 
 namespace ANAL {
     class AEntity : public ANAL::IEntity {
        public:
-        void setPos(Vector2<int> pos) override;
+        void setPos(const Vector2<int> &pos) override;
 
         [[nodiscard]] Vector2<int> &getPos() const override;
 
-        void setAsset() override;
+        void setAsset(const IAsset &asset) override;
 
         [[nodiscard]] const IAsset & getAsset() const override;
     };

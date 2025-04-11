@@ -6,6 +6,7 @@
 //
 
 #include "Events.hpp"
+#include "IArcade.hpp"
 #include "IModule.hpp"
 #include "SnakeEngine.hpp"
 #include <iostream>
@@ -25,7 +26,7 @@ ANAL::SnakeEngine::~SnakeEngine()
     std::cout << "Destroy of Snake" << std::endl;
 }
 
-void ANAL::SnakeEngine::compute()
+void ANAL::SnakeEngine::compute(__attribute__((unused)) ANAL::IArcade &arcade)
 {
     if (this->gameState != VICTORY::UNDEFINED)
         return;
