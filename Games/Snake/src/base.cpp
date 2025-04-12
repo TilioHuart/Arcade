@@ -15,7 +15,6 @@
 
 ANAL::SnakeEngine::SnakeEngine()
 {
-    std::cout << "Init of Snake" << std::endl;
     this->createMap();
     this->setSnake();
     this->setFruit();
@@ -23,7 +22,6 @@ ANAL::SnakeEngine::SnakeEngine()
 
 ANAL::SnakeEngine::~SnakeEngine()
 {
-    std::cout << "Destroy of Snake" << std::endl;
 }
 
 void ANAL::SnakeEngine::compute(__attribute__((unused)) ANAL::IArcade &arcade)

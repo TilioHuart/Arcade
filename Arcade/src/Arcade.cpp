@@ -190,12 +190,10 @@ void Arcade::Arcade::_getNextGraphical()
                 case ANAL::ModuleType::RENDERER:
                     current = elem.path().string();
                     if (graphicalToLoad.empty() || isNext) {
-                        std::cout << "ici" << graphicalToLoad << std::endl;
                         graphicalToLoad = current;
                         isNext = false;
                     }
                     if (current == this->_savedRenderer) {
-                        std::cout << "là" << graphicalToLoad << std::endl;
                         isNext = true;
                     }
                     break;

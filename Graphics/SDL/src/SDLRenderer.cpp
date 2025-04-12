@@ -26,7 +26,6 @@
 
 ANAL::SDLRenderer::SDLRenderer()
 {
-    std::cout << "Init of SDL" << std::endl;
     // int rendererFlags = SDL_RENDERER_ACCELERATED;
     int windowFlags = SDL_WINDOW_SHOWN;
     this->_windowHeight = 900;
@@ -63,7 +62,6 @@ ANAL::SDLRenderer::~SDLRenderer()
         TTF_CloseFont(this->font);
     }
     SDL_Quit();
-    std::cout << "Destroy of SDL" << std::endl;
 }
 
 void ANAL::SDLRenderer::drawEntity(const ANAL::IEntity &entity)
@@ -75,14 +73,14 @@ void ANAL::SDLRenderer::drawEntity(const ANAL::IEntity &entity)
     SDL_Rect dest;
 
     if (IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG) == 0) {
-        std::cout << "Error while loading SDL2" << std::endl;
+        std::cerr << "Error while loading SDL2" << std::endl;
         throw Exception();
     }
     if (entity.getAsset().getTexturePath().empty())
         return;
     surface = IMG_Load(entity.getAsset().getTexturePath().c_str());
     if (surface == nullptr) {
-        std::cout << "Unable to load surface" << std::endl;
+        std::cerr << "Unable to load surface" << std::endl;
         throw Exception();
     }
     if (this->_renderer == nullptr) {
