@@ -20,7 +20,6 @@ ANAL::NcursesRenderer::NcursesRenderer()
     noecho();
     raw();
     curs_set(0);
-    setupterm(nullptr, STDOUT_FILENO, nullptr);
     keypad(stdscr, TRUE);
     nodelay(stdscr, TRUE);
     this->_windowSize = ANAL::Vector2<int>(32, 32);
