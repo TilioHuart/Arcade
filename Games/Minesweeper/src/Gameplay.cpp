@@ -29,7 +29,48 @@ void ANAL::MinesweeperEngine::processEvents(std::vector<ANAL::Event> &Event)
             this->_clickLeft(it);
             this->_clickRight(it);
         }
+        if (it.type == ANAL::EventType::KEYBOARD &&
+            it.keyEvent->state == State::RELEASED) {
+            if (it.keyEvent->key == ANAL::Keys::ARROW_RIGHT) {
+                this->_changeDifficultyUp();
+                return;
+            }
+            if (it.keyEvent->key == ANAL::Keys::ARROW_LEFT) {
+                this->_changeDifficultyDown();
+                return;
+            }
+        }
     }
+}
+
+void ANAL::MinesweeperEngine::_changeDifficultyUp()
+{
+    switch (this->_difficulty) {
+        case ANAL::Difficulty::EASY:
+            this->_difficulty = ANAL::Difficulty::NORMAL;
+            break;
+        case ANAL::Difficulty::NORMAL:
+            this->_difficulty = ANAL::Difficulty::HARD;
+            break;
+        default:
+            return;
+    }
+    this->_restartGame();
+}
+
+void ANAL::MinesweeperEngine::_changeDifficultyDown()
+{
+    switch (this->_difficulty) {
+        case ANAL::Difficulty::NORMAL:
+            this->_difficulty = ANAL::Difficulty::EASY;
+            break;
+        case ANAL::Difficulty::HARD:
+            this->_difficulty = ANAL::Difficulty::NORMAL;
+            break;
+        default:
+            return;
+    }
+    this->_restartGame();
 }
 
 void ANAL::MinesweeperEngine::_clickLeft(const Event &event)
@@ -48,6 +89,9 @@ void ANAL::MinesweeperEngine::_clickLeft(const Event &event)
         }
         if (this->_map[xPos][yPos] == ANAL::Case::EMPTY) {
             this->_propagateEmpty(xPos, yPos);
+        }
+        if (this->_hidden[xPos][yPos] == ANAL::Visibility::FLAG) {
+            this->_nbFlags -= 1;
         }
         this->_hidden[xPos][yPos] = ANAL::Visibility::VISIBLE;
     }

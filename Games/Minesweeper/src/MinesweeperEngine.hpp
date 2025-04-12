@@ -64,6 +64,9 @@ namespace ANAL {
         void _propagateEmpty(int xPos, int yPos);
         void _restartGame();
 
+        void _changeDifficultyUp();
+        void _changeDifficultyDown();
+
         void _createMap();
         void _createEasyMap();
         void _createNormalMap();
