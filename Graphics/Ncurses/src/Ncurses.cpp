@@ -8,6 +8,7 @@
 #include "Ncurses.hpp"
 #include "Events.hpp"
 #include "IModule.hpp"
+#include <iostream>
 #include <map>
 #include <ncurses.h>
 #include <term.h>
@@ -16,12 +17,18 @@
 ANAL::NcursesRenderer::NcursesRenderer()
     : _windowSize(32, 32), _upperLeftCornerPos(0, 0)
 {
+    printf("\033[?1003h\n");
     this->_window = initscr();
+    if (this->_window == nullptr) {
+        throw Exception();
+    }
     noecho();
     raw();
     curs_set(0);
-    keypad(stdscr, TRUE);
-    nodelay(stdscr, TRUE);
+    keypad(this->_window, TRUE);
+    mousemask(ALL_MOUSE_EVENTS | REPORT_MOUSE_POSITION, nullptr);
+    mouseinterval(0);
+    nodelay(this->_window, TRUE);
     this->_windowSize = ANAL::Vector2<int>(32, 32);
     this->_upperLeftCornerPos =
         ANAL::Vector2<int>((getmaxx(this->_window) - this->_windowSize.x) / 2,
@@ -31,6 +38,7 @@ ANAL::NcursesRenderer::NcursesRenderer()
 ANAL::NcursesRenderer::~NcursesRenderer()
 {
     endwin();
+    printf("\033[?1003l\n");
 }
 
 void ANAL::NcursesRenderer::drawEntity(const ANAL::IEntity &entity)
@@ -79,54 +87,64 @@ std::vector<ANAL::Event> &ANAL::NcursesRenderer::getEvents()
         {Keys::KEY_Z, 'z'}, {Keys::KEY_0, '0'}, {Keys::KEY_1, '1'},
         {Keys::KEY_2, '2'}, {Keys::KEY_3, '3'}, {Keys::KEY_4, '4'},
         {Keys::KEY_5, '5'}, {Keys::KEY_6, '6'}, {Keys::KEY_7, '7'},
-        {Keys::SPECIAL_KEY_SPACE, ' '}, {Keys::SPECIAL_KEY_BACKSPACE, 127}, 
-        {Keys::SPECIAL_KEY_ENTER, '\n'},
-        {Keys::KEY_8, '8'}, {Keys::KEY_9, '9'}, {Keys::ARROW_UP, KEY_UP},
+        {Keys::SPECIAL_KEY_SPACE, ' '}, {Keys::SPECIAL_KEY_BACKSPACE, 127},
+        {Keys::SPECIAL_KEY_ENTER, '\n'}, {Keys::KEY_8, '8'},
+        {Keys::KEY_9, '9'}, {Keys::ARROW_UP, KEY_UP},
         {Keys::ARROW_DOWN, KEY_DOWN}, {Keys::ARROW_LEFT, KEY_LEFT},
         {Keys::ARROW_RIGHT, KEY_RIGHT}};
     int ch;
     while ((ch = wgetch(this->_window)) != ERR) {
-        mvprintw(12, 5, "bonbini : %i", ch);
-        if (ch == KEY_MOUSE) {
-            mvprintw(5, 5, "guzini");
-            MEVENT mouseEvent;
-            if (getmouse(&mouseEvent) == OK) {
-                ANAL::Event mev;
-                mev.type = EventType::MOUSE;
-                if (mouseEvent.bstate & BUTTON1_PRESSED) {
-                    mev.mouseEvent->key = MouseKeys::LEFT_CLICK;
-                    mev.mouseEvent->state = State::PRESSED;
-                }
-                if (mouseEvent.bstate & BUTTON2_PRESSED) {
-                    mev.mouseEvent->key = MouseKeys::RIGHT_CLICK;
-                    mev.mouseEvent->state = State::PRESSED;
-                }
-                if (mouseEvent.bstate & BUTTON3_PRESSED) {
-                    mev.mouseEvent->key = MouseKeys::MIDDLE_CLICK;
-                    mev.mouseEvent->state = State::PRESSED;
-                }
-                if (mouseEvent.bstate & BUTTON1_RELEASED) {
-                    mev.mouseEvent->key = MouseKeys::LEFT_CLICK;
-                    mev.mouseEvent->state = State::RELEASED;
-                }
-                if (mouseEvent.bstate & BUTTON2_RELEASED) {
-                    mev.mouseEvent->key = MouseKeys::RIGHT_CLICK;
-                    mev.mouseEvent->state = State::RELEASED;
-                }
-                if (mouseEvent.bstate & BUTTON3_RELEASED) {
-                    mev.mouseEvent->key = MouseKeys::MIDDLE_CLICK;
-                    mev.mouseEvent->state = State::RELEASED;
-                }
-                mev.mouseEvent->coords = {mouseEvent.x, mouseEvent.y};
-                this->_ncursesEvents.push_back(mev);
-                break;
+        mvprintw(12, 5, "bonbini");
+        // if (ch == KEY_MOUSE) {
+        //     mvprintw(5, 5, "guzini: %i", ch);
+        MEVENT mouseEvent;
+        if (getmouse(&mouseEvent) == OK) {
+            ANAL::Event mev;
+            mvprintw(5, 5, "guzini: %i, %i, %i", ch,
+                mouseEvent.x,
+                mouseEvent.y);
+            wrefresh(this->_window);
+            sleep(2);
+            mev.type = EventType::MOUSE;
+            if (mouseEvent.bstate & BUTTON1_PRESSED) {
+                mev.mouseEvent->key = MouseKeys::LEFT_CLICK;
+                mev.mouseEvent->state = State::PRESSED;
             }
+            if (mouseEvent.bstate & BUTTON2_PRESSED) {
+                mev.mouseEvent->key = MouseKeys::RIGHT_CLICK;
+                mev.mouseEvent->state = State::PRESSED;
+            }
+            if (mouseEvent.bstate & BUTTON3_PRESSED) {
+                mev.mouseEvent->key = MouseKeys::MIDDLE_CLICK;
+                mev.mouseEvent->state = State::PRESSED;
+            }
+            if (mouseEvent.bstate & BUTTON1_RELEASED) {
+                mev.mouseEvent->key = MouseKeys::LEFT_CLICK;
+                mev.mouseEvent->state = State::RELEASED;
+            }
+            if (mouseEvent.bstate & BUTTON2_RELEASED) {
+                mev.mouseEvent->key = MouseKeys::RIGHT_CLICK;
+                mev.mouseEvent->state = State::RELEASED;
+            }
+            if (mouseEvent.bstate & BUTTON3_RELEASED) {
+                mev.mouseEvent->key = MouseKeys::MIDDLE_CLICK;
+                mev.mouseEvent->state = State::RELEASED;
+            }
+            mev.mouseEvent->coords = {mouseEvent.x, mouseEvent.y};
+            this->_ncursesEvents.push_back(mev);
         }
+        // }
         for (auto it : code)
             if (ch == it.second) {
                 ANAL::Event ev;
                 ev.keyEvent->key = it.first;
+                ev.keyEvent->state = State::RELEASED;
+                ev.type = ANAL::EventType::KEYBOARD;
+                if (it.first == Keys::KEY_Q) {
+                    ev.type = EventType::CLOSE;
+                }
                 this->_ncursesEvents.push_back(ev);
+                mvprintw(4, 4, "Zebi\n");
                 break;
             }
     }

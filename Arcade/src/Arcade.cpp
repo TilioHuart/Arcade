@@ -112,27 +112,27 @@ bool Arcade::Arcade::_processArcadeEvents(
             return false;
         }
         if (event.keyEvent->key == ANAL::Keys::KEY_Q &&
-            event.keyEvent->state == ANAL::State::PRESSED) {
+            event.keyEvent->state == ANAL::State::RELEASED) {
             this->_isRunning = false;
             return false;
         }
         if (event.keyEvent->key == ANAL::Keys::KEY_P &&
-            event.keyEvent->state == ANAL::State::PRESSED) {
+            event.keyEvent->state == ANAL::State::RELEASED) {
             this->_getNextGame();
             this->_reloadGame();
         }
         if (event.keyEvent->key == ANAL::Keys::KEY_M &&
-            event.keyEvent->state == ANAL::State::PRESSED) {
+            event.keyEvent->state == ANAL::State::RELEASED) {
             this->_getNextGraphical();
             this->_reloadRenderer();
         }
         if (event.keyEvent->key == ANAL::Keys::KEY_R &&
-            event.keyEvent->state == ANAL::State::PRESSED) {
+            event.keyEvent->state == ANAL::State::RELEASED) {
             this->_gameToLaunch = this->_savedGame;
             this->_reloadGame();
         }
         if (event.keyEvent->key == ANAL::Keys::KEY_N &&
-            event.keyEvent->state == ANAL::State::PRESSED) {
+            event.keyEvent->state == ANAL::State::RELEASED) {
             std::unique_ptr<ANAL::IGame> menu = std::make_unique<MenuEngine>();
             this->setGame(menu);
             return false;
