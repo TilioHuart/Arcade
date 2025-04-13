@@ -38,7 +38,7 @@ void ANAL::SnakeEngine::renderMap(
     auto assets = arcade.newAsset();
     auto entity = arcade.newEntity();
     assets->setTexturePath("./assets/snake/map.jpg");
-    assets->setAlternateRender(' ');
+    assets->setAlternateRender('_');
     entity->setAsset(*assets);
     int i = 0;
     int j = 0;
