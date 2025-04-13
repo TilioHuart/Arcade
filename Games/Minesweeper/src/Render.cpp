@@ -164,7 +164,7 @@ void ANAL::MinesweeperEngine::_displayVisible(ANAL::IRenderer &renderer,
 
     std::stringstream pathStream;
     std::string path = "./assets/minesweeper/";
-    std::string tmp = "";
+    std::string tmp;
     auto entity = arcade.newEntity();
     auto asset = arcade.newAsset();
 
@@ -200,7 +200,7 @@ void ANAL::MinesweeperEngine::_displayFlag(ANAL::IRenderer &renderer,
     auto asset = arcade.newAsset();
 
     asset->setTexturePath("assets/minesweeper/flag.png");
-    asset->setAlternateRender(' ');
+    asset->setAlternateRender('?');
     entity->setAsset(*asset);
     entity->setPos({static_cast<int>(i), static_cast<int>(j)});
 
