@@ -178,7 +178,7 @@ void ANAL::MinesweeperEngine::_displayVisible(ANAL::IRenderer &renderer,
         pathStream << "empty";
         pathStream >> tmp;
         path += tmp;
-        asset->setAlternateRender(' ');
+        asset->setAlternateRender('0');
     } else if (this->_map[i][j] == Case::MINE) {
         pathStream << "bombe";
         pathStream >> tmp;
