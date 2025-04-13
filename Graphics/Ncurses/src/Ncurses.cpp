@@ -104,7 +104,7 @@ std::vector<ANAL::Event> &ANAL::NcursesRenderer::getEvents()
                 mouseEvent.x,
                 mouseEvent.y);
             wrefresh(this->_window);
-            sleep(2);
+            /* sleep(2); */
             mev.type = EventType::MOUSE;
             if (mouseEvent.bstate & BUTTON1_PRESSED) {
                 mev.mouseEvent->key = MouseKeys::LEFT_CLICK;
@@ -130,7 +130,7 @@ std::vector<ANAL::Event> &ANAL::NcursesRenderer::getEvents()
                 mev.mouseEvent->key = MouseKeys::MIDDLE_CLICK;
                 mev.mouseEvent->state = State::RELEASED;
             }
-            mev.mouseEvent->coords = {mouseEvent.x, mouseEvent.y};
+            mev.mouseEvent->coords = {mouseEvent.x - _upperLeftCornerPos.x, mouseEvent.y - _upperLeftCornerPos.y};
             this->_ncursesEvents.push_back(mev);
         }
         // }
